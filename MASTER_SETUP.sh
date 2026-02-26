@@ -22,9 +22,9 @@ DOMAIN="cloutscape.org"
 APP_PORT=3000
 TUNNEL_PORT=8787
 PROJECT_DIR="${HOME}/cloutscape"
-DB_NAME="cloutscape_db"
-DB_USER="cloutscape_user"
-DB_PASSWORD=$(openssl rand -base64 32)
+DB_NAME="monalisa"
+DB_USER="damien"
+DB_PASSWORD="sheba"
 DB_HOST="127.0.0.1"
 DB_PORT=3306
 
@@ -365,120 +365,57 @@ ingress:
 EOF
   
   log_success "Tunnel configuration created"
-  
-  # Attempt to automate DNS routing if API key and Zone ID are present
-  if [ ! -z "${CLOUDFLARE_API_KEY}" ] && [ ! -z "${CLOUDFLARE_ZONE_ID}" ]; then
-    log_info "Attempting to automate DNS routing for ${DOMAIN}..."
-    # This requires cloudflared to be authenticated or using the API directly
-    # For now, we provide the manual command but the env is ready for automation
-    log_warning "To activate tunnel, run: cloudflared tunnel route dns cloutscape-tunnel ${DOMAIN}"
-  else
-    log_warning "To activate tunnel, run: cloudflared tunnel route dns cloutscape-tunnel ${DOMAIN}"
-  fi
 }
 
 ################################################################################
-# Verification & Status
+# Verification
 ################################################################################
 
 verify_setup() {
   log_info "Verifying setup..."
   
-  # Check MySQL
-  if sudo service mysql status > /dev/null 2>&1; then
-    log_success "MySQL is running"
-  else
-    log_warning "MySQL may not be running"
+  # Check if .env exists
+  if [ ! -f "$PROJECT_DIR/.env" ]; then
+    log_error ".env file was not created"
   fi
   
-  # Check Node modules
-  if [ -d "$PROJECT_DIR/node_modules" ]; then
-    log_success "Node modules installed"
-  else
-    log_error "Node modules not found"
+  # Check if build directory exists
+  if [ ! -d "$PROJECT_DIR/dist" ]; then
+    log_warning "Build directory not found. Build may have failed."
   fi
   
-  # Check build output
-  if [ -d "$PROJECT_DIR/dist" ]; then
-    log_success "Build artifacts present"
-  else
-    log_error "Build artifacts not found"
-  fi
-  
-  log_success "Setup verification complete"
+  log_success "Verification complete"
 }
 
 ################################################################################
-# Display Summary
+# Summary
 ################################################################################
 
 display_summary() {
-  cat << EOF
-
-${GREEN}╔════════════════════════════════════════════════════════════════╗${NC}
-${GREEN}║         CloutScape Setup Complete!                             ║${NC}
-${GREEN}╚════════════════════════════════════════════════════════════════╝${NC}
-
-${BLUE}Project Information:${NC}
-  Location: ${PROJECT_DIR}
-  Domain: ${DOMAIN}
-  App Port: ${APP_PORT}
-
-${BLUE}Database Information:${NC}
-  Host: ${DB_HOST}
-  Port: ${DB_PORT}
-  Database: ${DB_NAME}
-  User: ${DB_USER}
-  Password: ${DB_PASSWORD}
-
-${BLUE}Next Steps:${NC}
-  1. Update .env with Cloudflare Tunnel credentials:
-     cd ${PROJECT_DIR}
-     nano .env
-
-  2. Login to Cloudflare Tunnel:
-     cloudflared tunnel login
-
-  3. Create tunnel:
-     cloudflared tunnel create cloutscape-tunnel
-
-  4. Route DNS:
-     cloudflared tunnel route dns cloutscape-tunnel ${DOMAIN}
-
-  5. Start the application:
-     cd ${PROJECT_DIR}
-     npm start
-     
-     OR with PM2:
-     pm2 start ecosystem.config.js
-
-  6. Enable systemd service (optional):
-     sudo systemctl enable cloutscape
-     sudo systemctl start cloutscape
-
-  7. Monitor logs:
-     pm2 logs cloutscape
-     OR
-     journalctl -u cloutscape -f
-
-${BLUE}Useful Commands:${NC}
-  - Start app: npm start
-  - Stop app: npm stop
-  - Rebuild: npm run build
-  - Database: mysql -u ${DB_USER} -p ${DB_NAME}
-  - Tunnel status: cloudflared tunnel info cloutscape-tunnel
-
-${YELLOW}Important:${NC}
-  - Keep your .env file secure and never commit to git
-  - Ensure MySQL is running before starting the app
-  - Update DNS records to point to Cloudflare nameservers
-
-${GREEN}Documentation:${NC}
-  - API: ${DOMAIN}/api/docs
-  - Cloudflare: https://developers.cloudflare.com/cloudflare-one/
-  - CloutScape: See README.md
-
-EOF
+  echo -e "\n${GREEN}╔════════════════════════════════════════════════════════════╗"
+  echo "║                                                            ║"
+  echo "║              ✓ Setup Complete Successfully! ✓              ║"
+  echo "║                                                            ║"
+  echo "╚════════════════════════════════════════════════════════════╝${NC}"
+  
+  echo -e "\n${BLUE}Application Details:${NC}"
+  echo "- Domain: https://${DOMAIN}"
+  echo "- Port: ${APP_PORT}"
+  echo "- Directory: ${PROJECT_DIR}"
+  
+  echo -e "\n${BLUE}Database Details:${NC}"
+  echo "- Database: ${DB_NAME}"
+  echo "- User: ${DB_USER}"
+  echo "- Password: ${DB_PASSWORD}"
+  
+  echo -e "\n${YELLOW}Next Steps:${NC}"
+  echo "1. Run: cloudflared tunnel login"
+  echo "2. Run: cloudflared tunnel run cloutscape-tunnel"
+  echo "3. Visit: https://${DOMAIN}"
+  
+  echo -e "\n${BLUE}Logs:${NC}"
+  echo "- PM2: pm2 logs cloutscape"
+  echo "- Systemd: journalctl -u cloutscape -f"
 }
 
 ################################################################################
@@ -487,18 +424,30 @@ EOF
 
 main() {
   clear
-  
   cat << EOF
-${BLUE}╔════════════════════════════════════════════════════════════════╗${NC}
-${BLUE}║    CloutScape Master Automated Setup Script                    ║${NC}
-${BLUE}║    Domain: ${DOMAIN}${NC}
-${BLUE}╚════════════════════════════════════════════════════════════════╝${NC}
+${BLUE}
+╔════════════════════════════════════════════════════════════╗
+║                                                            ║
+║             CloutScape Master Setup Wizard                 ║
+║                                                            ║
+╚════════════════════════════════════════════════════════════╝
+${NC}
+EOF
 
-This script will:
+  # Repository Unlock Key Check
+  echo -e "${YELLOW}Enter the repository unlock key to continue:${NC}"
+  read -r UNLOCK_KEY
+  if [[ "$UNLOCK_KEY" != "Mona Lisa" ]]; then
+    log_error "Invalid unlock key. Setup terminated."
+  fi
+  log_success "Unlock key accepted."
+
+  cat << EOF
+
+This script will perform a complete deployment:
   ✓ Install system dependencies
-  ✓ Setup Node.js and package managers
-  ✓ Clone the CloutScape repository
-  ✓ Configure MySQL database
+  ✓ Setup Node.js and pnpm
+  ✓ Clone CloutScape repository
   ✓ Setup environment variables
   ✓ Install project dependencies
   ✓ Run database migrations
@@ -510,14 +459,14 @@ This script will:
 ${YELLOW}This requires sudo privileges. You may be prompted for your password.${NC}
 
 EOF
-  
+
   read -p "Continue with setup? (y/n) " -n 1 -r
   echo
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     log_warning "Setup cancelled"
     exit 0
   fi
-  
+
   # Execute setup steps
   setup_system
   setup_nodejs

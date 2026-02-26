@@ -201,14 +201,15 @@ setup_env_file() {
     read -p "Enter MySQL host (default: localhost): " DB_HOST
     DB_HOST=${DB_HOST:-localhost}
     
-    read -p "Enter MySQL user (default: root): " DB_USER
-    DB_USER=${DB_USER:-root}
+    read -p "Enter MySQL user (default: damien): " DB_USER
+    DB_USER=${DB_USER:-damien}
     
-    read -sp "Enter MySQL password: " DB_PASS
+    read -sp "Enter MySQL password (default: sheba): " DB_PASS
+    DB_PASS=${DB_PASS:-sheba}
     echo
     
-    read -p "Enter MySQL database name (default: cloutscape): " DB_NAME
-    DB_NAME=${DB_NAME:-cloutscape}
+    read -p "Enter MySQL database name (default: monalisa): " DB_NAME
+    DB_NAME=${DB_NAME:-monalisa}
     
     # Construct DATABASE_URL
     DATABASE_URL="mysql://${DB_USER}:${DB_PASS}@${DB_HOST}:3306/${DB_NAME}"
