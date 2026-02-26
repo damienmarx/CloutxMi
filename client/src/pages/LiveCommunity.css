@@ -1,0 +1,409 @@
+/* ============================================================================
+   Live Community Page - Obsidian Theme
+   ============================================================================ */
+
+.live-community-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
+  padding: 40px 20px;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ============================================================================
+   Header
+   ============================================================================ */
+
+.live-community-header {
+  text-align: center;
+  margin-bottom: 40px;
+  animation: fadeInDown 0.6s ease-out;
+}
+
+.page-title {
+  margin: 0 0 12px 0;
+  font-size: 42px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #00ffff 0%, #ff0055 50%, #00ffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 1px;
+}
+
+.page-subtitle {
+  margin: 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.3px;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================================
+   Eligibility Notice
+   ============================================================================ */
+
+.eligibility-notice {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, rgba(255, 0, 85, 0.15) 0%, rgba(0, 255, 255, 0.1) 100%);
+  border: 1.5px solid rgba(255, 0, 85, 0.3);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(255, 0, 85, 0.2);
+  animation: slideIn 0.5s ease-out;
+}
+
+.eligibility-notice svg {
+  flex-shrink: 0;
+  color: #ff0055;
+  filter: drop-shadow(0 0 8px rgba(255, 0, 85, 0.5));
+}
+
+.notice-content {
+  flex: 1;
+}
+
+.notice-content h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ff0055;
+}
+
+.notice-content p {
+  margin: 0 0 12px 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+.progress-info {
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  border-left: 2px solid #00ffff;
+}
+
+.progress-info p {
+  margin: 6px 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.progress-info strong {
+  color: #00ffff;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ============================================================================
+   Main Content Grid
+   ============================================================================ */
+
+.live-community-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.community-section {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.community-section:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.rain-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rain-info {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(255, 0, 85, 0.05) 100%);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 8px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+.rain-info svg {
+  flex-shrink: 0;
+  color: #00ffff;
+  filter: drop-shadow(0 0 6px rgba(0, 255, 255, 0.4));
+}
+
+/* ============================================================================
+   Community Stats
+   ============================================================================ */
+
+.community-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(20, 20, 35, 0.8) 0%, rgba(25, 15, 40, 0.8) 100%);
+  border: 1.5px solid rgba(0, 255, 255, 0.3);
+  border-radius: 10px;
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    inset 0 0 15px rgba(0, 255, 255, 0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  border-color: rgba(0, 255, 255, 0.6);
+  box-shadow: 
+    0 6px 20px rgba(0, 255, 255, 0.3),
+    inset 0 0 15px rgba(0, 255, 255, 0.15);
+  transform: translateY(-4px);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00ffff, #ff0055);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================================
+   Community Rules
+   ============================================================================ */
+
+.community-rules {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(15, 15, 25, 0.8) 0%, rgba(20, 15, 35, 0.8) 100%);
+  border: 1.5px solid rgba(0, 255, 255, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.community-rules h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00ffff, #ff0055);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.community-rules ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 12px;
+}
+
+.community-rules li {
+  padding: 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  border-left: 2px solid rgba(0, 255, 255, 0.3);
+  padding-left: 12px;
+  transition: all 0.3s ease;
+}
+
+.community-rules li:hover {
+  border-left-color: #00ffff;
+  color: rgba(255, 255, 255, 0.9);
+  padding-left: 16px;
+}
+
+/* ============================================================================
+   Loading State
+   ============================================================================ */
+
+.live-community-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 20px;
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(0, 255, 255, 0.2);
+  border-top-color: #00ffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.live-community-loading p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
+@media (max-width: 1024px) {
+  .live-community-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .page-title {
+    font-size: 32px;
+  }
+
+  .community-stats {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .live-community-container {
+    padding: 24px 16px;
+  }
+
+  .page-title {
+    font-size: 28px;
+  }
+
+  .page-subtitle {
+    font-size: 14px;
+  }
+
+  .community-rules ul {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-value {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .live-community-container {
+    padding: 16px 12px;
+  }
+
+  .live-community-header {
+    margin-bottom: 24px;
+  }
+
+  .page-title {
+    font-size: 24px;
+  }
+
+  .page-subtitle {
+    font-size: 12px;
+  }
+
+  .live-community-grid {
+    gap: 16px;
+  }
+
+  .eligibility-notice {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .community-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  .community-rules {
+    padding: 16px;
+  }
+
+  .community-rules h3 {
+    font-size: 16px;
+  }
+
+  .community-rules li {
+    font-size: 12px;
+  }
+}

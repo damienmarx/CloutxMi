@@ -18,6 +18,7 @@ import RouletteGame from "./pages/RouletteGame";
 import DiceGame from "./pages/DiceGame";
 import Visualizers from "./pages/Visualizers";
 import LiveChat from "./pages/LiveChat";
+import LiveCommunity from "./pages/LiveCommunity";
 import RainSystem from "./pages/RainSystem";
 import VIPProgress from "./pages/VIPProgress";
 import UserStatsDashboard from "./pages/UserStatsDashboard";
@@ -41,6 +42,7 @@ function Router() {
       <Route path={"/dice"} component={DiceGame} />
       <Route path={"/visualizers"} component={Visualizers} />
       <Route path={"/live-chat"} component={LiveChat} />
+      <Route path={"/live-community"} component={LiveCommunity} />
       <Route path={"/rain-system"} component={RainSystem} />
       <Route path={"/vip-progress"} component={VIPProgress} />
       <Route path={"/user-stats"} component={UserStatsDashboard} />
