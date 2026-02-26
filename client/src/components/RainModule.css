@@ -1,0 +1,419 @@
+/* ============================================================================
+   Live Rain Module - Cloud-Fill Visualizer with Obsidian Theme
+   ============================================================================ */
+
+.rain-module {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(10, 10, 15, 0.95) 0%, rgba(20, 20, 30, 0.95) 100%);
+  border: 2px solid;
+  border-image: linear-gradient(135deg, #00ffff 0%, #ff0055 50%, #00ffff 100%) 1;
+  border-radius: 12px;
+  box-shadow: 
+    0 0 30px rgba(0, 255, 255, 0.3),
+    inset 0 0 20px rgba(255, 0, 85, 0.1),
+    0 8px 32px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ============================================================================
+   Header
+   ============================================================================ */
+
+.rain-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.rain-title-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rain-icon {
+  color: #00ffff;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.5));
+}
+
+.rain-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00ffff, #ff0055);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.5px;
+}
+
+.rain-participants {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.participants-count {
+  font-size: 18px;
+  font-weight: 700;
+  color: #00ffff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.participants-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* ============================================================================
+   Visualizer Container
+   ============================================================================ */
+
+.rain-visualizer {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  background: linear-gradient(180deg, rgba(15, 15, 25, 0.6) 0%, rgba(10, 10, 20, 0.8) 100%);
+  border: 1.5px solid rgba(0, 255, 255, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 
+    inset 0 0 20px rgba(0, 255, 255, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================================================
+   Clouds Container
+   ============================================================================ */
+
+.clouds-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cloud {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.3);
+  filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.4));
+  transition: all 0.6s ease-out;
+  animation: cloudFloat 8s ease-in-out infinite;
+}
+
+.cloud:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.cloud:nth-child(2) {
+  animation-delay: 2s;
+}
+
+.cloud:nth-child(3) {
+  animation-delay: 4s;
+}
+
+@keyframes cloudFloat {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+/* ============================================================================
+   Water Fill Container
+   ============================================================================ */
+
+.water-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 200, 255, 0.1) 100%);
+}
+
+.water-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(0, 255, 255, 0.3) 0%, rgba(0, 150, 200, 0.5) 100%);
+  transition: height 0.6s ease-out;
+  box-shadow: 
+    inset 0 2px 10px rgba(0, 255, 255, 0.2),
+    0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+/* ============================================================================
+   Wave Animation
+   ============================================================================ */
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 60px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M0,50 Q300,0 600,50 T1200,50 L1200,120 L0,120 Z' fill='rgba(0,255,255,0.2)'/%3E%3C/svg%3E") repeat-x;
+  background-size: 600px 60px;
+  animation: wave 15s linear infinite;
+}
+
+.wave-1 {
+  bottom: 0;
+  animation-delay: 0s;
+  opacity: 0.7;
+}
+
+.wave-2 {
+  bottom: 10px;
+  animation-delay: -7.5s;
+  opacity: 0.5;
+}
+
+@keyframes wave {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-600px);
+  }
+}
+
+/* ============================================================================
+   Raindrops Animation
+   ============================================================================ */
+
+.raindrops-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.raindrop {
+  position: absolute;
+  width: 2px;
+  height: 10px;
+  background: linear-gradient(180deg, rgba(0, 255, 255, 0.8), transparent);
+  border-radius: 1px;
+  animation: fall 1.5s ease-in infinite;
+}
+
+.raindrop-1 {
+  left: 10%;
+  top: -10px;
+  animation-delay: 0s;
+}
+
+.raindrop-2 {
+  left: 30%;
+  top: -10px;
+  animation-delay: 0.3s;
+}
+
+.raindrop-3 {
+  left: 50%;
+  top: -10px;
+  animation-delay: 0.6s;
+}
+
+.raindrop-4 {
+  left: 70%;
+  top: -10px;
+  animation-delay: 0.9s;
+}
+
+.raindrop-5 {
+  left: 90%;
+  top: -10px;
+  animation-delay: 1.2s;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(300px);
+    opacity: 0;
+  }
+}
+
+/* ============================================================================
+   Fill Percentage Display
+   ============================================================================ */
+
+.fill-percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00ffff, #ff0055);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ============================================================================
+   Amount Display
+   ============================================================================ */
+
+.rain-amounts {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 16px;
+  background: linear-gradient(90deg, rgba(15, 15, 25, 0.6) 0%, rgba(25, 15, 35, 0.6) 100%);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 8px;
+  gap: 0;
+}
+
+.amount-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.amount-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.amount-value,
+.amount-value-gp {
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00ffff, #ff0055);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.amount-value-gp {
+  background: linear-gradient(90deg, #ffaa00, #ff6600);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.amount-divider {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(180deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+}
+
+/* ============================================================================
+   Status Message
+   ============================================================================ */
+
+.rain-status {
+  text-align: center;
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px;
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.status-full {
+  color: #00ff00;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.status-high {
+  color: #ffaa00;
+  text-shadow: 0 0 10px rgba(255, 170, 0, 0.5);
+}
+
+.status-low {
+  color: #00ffff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.status-empty {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .rain-module {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .rain-visualizer {
+    height: 250px;
+  }
+
+  .fill-percentage {
+    font-size: 36px;
+  }
+
+  .amount-value,
+  .amount-value-gp {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rain-module {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .rain-visualizer {
+    height: 200px;
+  }
+
+  .rain-title {
+    font-size: 14px;
+  }
+
+  .fill-percentage {
+    font-size: 28px;
+  }
+
+  .rain-amounts {
+    padding: 12px;
+  }
+
+  .amount-value,
+  .amount-value-gp {
+    font-size: 14px;
+  }
+
+  .amount-label {
+    font-size: 10px;
+  }
+}
