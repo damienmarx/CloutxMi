@@ -1,0 +1,329 @@
+/* ============================================================================
+   Holographic Neon Background - Obsidian Overlay with Glowing Effects
+   ============================================================================ */
+
+.holographic-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
+}
+
+/* ============================================================================
+   Holographic Image Layer
+   ============================================================================ */
+
+.holographic-image-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0.15;
+  filter: brightness(1.2) contrast(1.1) saturate(0.8);
+}
+
+.holographic-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ============================================================================
+   Glow Effects Layer
+   ============================================================================ */
+
+.holographic-glow-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.glow-effect {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0;
+  animation: glowPulse 8s ease-in-out infinite;
+}
+
+.glow-pink {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 0, 85, 0.4), transparent);
+  top: 10%;
+  right: 10%;
+  animation-delay: 0s;
+}
+
+.glow-cyan {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.3), transparent);
+  bottom: 15%;
+  left: 5%;
+  animation-delay: 2s;
+}
+
+.glow-purple {
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(200, 0, 255, 0.2), transparent);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: 4s;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+/* ============================================================================
+   Obsidian Semi-Transparent Overlay
+   ============================================================================ */
+
+.holographic-obsidian-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 10, 15, 0.85) 0%,
+    rgba(15, 10, 25, 0.8) 50%,
+    rgba(10, 10, 15, 0.85) 100%
+  );
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+
+/* ============================================================================
+   Neon Grid Lines
+   ============================================================================ */
+
+.holographic-neon-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.05;
+}
+
+.neon-line {
+  position: absolute;
+  background: linear-gradient(90deg, transparent, #00ffff, transparent);
+  animation: neonFlicker 4s ease-in-out infinite;
+}
+
+.neon-horizontal {
+  width: 100%;
+  height: 2px;
+  top: 50%;
+  left: 0;
+  animation-delay: 0s;
+}
+
+.neon-vertical {
+  width: 2px;
+  height: 100%;
+  top: 0;
+  left: 50%;
+  background: linear-gradient(180deg, transparent, #ff0055, transparent);
+  animation-delay: 2s;
+}
+
+@keyframes neonFlicker {
+  0%, 100% {
+    opacity: 0.05;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
+/* ============================================================================
+   Holographic Particles
+   ============================================================================ */
+
+.holographic-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: radial-gradient(circle, #00ffff, transparent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+  animation: particleFloat linear infinite;
+}
+
+@keyframes particleFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(100vh) translateX(0);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100vh) translateX(100px);
+  }
+}
+
+/* ============================================================================
+   Content Layer
+   ============================================================================ */
+
+.holographic-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ============================================================================
+   Intensity Variations
+   ============================================================================ */
+
+.holographic-background.intensity-low {
+  --glow-opacity: 0.2;
+  --overlay-opacity: 0.9;
+}
+
+.holographic-background.intensity-low .glow-effect {
+  opacity: 0.2;
+}
+
+.holographic-background.intensity-low .holographic-image-layer {
+  opacity: 0.08;
+}
+
+.holographic-background.intensity-medium {
+  --glow-opacity: 0.4;
+  --overlay-opacity: 0.85;
+}
+
+.holographic-background.intensity-medium .glow-effect {
+  opacity: 0.4;
+}
+
+.holographic-background.intensity-medium .holographic-image-layer {
+  opacity: 0.15;
+}
+
+.holographic-background.intensity-high {
+  --glow-opacity: 0.6;
+  --overlay-opacity: 0.8;
+}
+
+.holographic-background.intensity-high .glow-effect {
+  opacity: 0.6;
+}
+
+.holographic-background.intensity-high .holographic-image-layer {
+  opacity: 0.25;
+}
+
+.holographic-background.intensity-high .holographic-neon-grid {
+  opacity: 0.1;
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .glow-effect {
+    filter: blur(60px);
+  }
+
+  .glow-pink {
+    width: 400px;
+    height: 400px;
+  }
+
+  .glow-cyan {
+    width: 350px;
+    height: 350px;
+  }
+
+  .glow-purple {
+    width: 380px;
+    height: 380px;
+  }
+}
+
+@media (max-width: 480px) {
+  .glow-effect {
+    filter: blur(40px);
+  }
+
+  .glow-pink {
+    width: 300px;
+    height: 300px;
+  }
+
+  .glow-cyan {
+    width: 250px;
+    height: 250px;
+  }
+
+  .glow-purple {
+    width: 280px;
+    height: 280px;
+  }
+
+  .holographic-particles {
+    display: none;
+  }
+}
+
+/* ============================================================================
+   Accessibility - Reduced Motion
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-effect,
+  .neon-line,
+  .particle {
+    animation: none;
+    opacity: 0.3;
+  }
+
+  .holographic-image-layer {
+    opacity: 0.1;
+  }
+}
