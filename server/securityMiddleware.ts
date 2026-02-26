@@ -110,3 +110,35 @@ export const securityLogger = (req: Request, res: Response, next: NextFunction) 
   console.log(`[${timestamp}] ${req.method} ${req.url} - IP: ${ip}`);
   next();
 };
+
+/**
+ * Developer Authorization Middleware
+ * Ensures only users with a valid GITHUB_TOKEN or designated DEV_TOKEN
+ * can access code implementation or dev status routes.
+ */
+export const devAuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  const authHeader = req.headers["authorization"] || req.headers["x-dev-token"];
+  const devToken = process.env.DEV_TOKEN || process.env.GITHUB_TOKEN;
+
+  // If no token is configured, allow for now but log a warning
+  if (!devToken) {
+    console.warn("[SECURITY] No DEV_TOKEN or GITHUB_TOKEN configured in environment variables.");
+    return next();
+  }
+
+  // Extract token from "Bearer <token>" or direct header
+  const providedToken = typeof authHeader === "string" 
+    ? authHeader.replace("Bearer ", "").trim() 
+    : "";
+
+  if (providedToken === devToken) {
+    return next();
+  }
+
+  console.warn(`[SECURITY] Unauthorized dev access attempt from IP: ${req.ip}`);
+  return res.status(403).json({
+    success: false,
+    error: "Unauthorized: Developer status or token required for this action.",
+    message: "Code writing, file implementation, and dev status are restricted to authorized users."
+  });
+};

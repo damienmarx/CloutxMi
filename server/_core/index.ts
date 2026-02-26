@@ -9,6 +9,15 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { initializeSocket, setGlobalIO } from "./socket";
+import { 
+  globalRateLimiter, 
+  securityHeaders, 
+  corsOptions, 
+  sanitizeInput, 
+  forceHttps, 
+  securityLogger,
+  devAuthMiddleware
+} from "../securityMiddleware";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -37,9 +46,21 @@ async function startServer() {
   const io = initializeSocket(server);
   setGlobalIO(io);
 
+  // Configure security middlewares
+  app.use(securityHeaders);
+  app.use(corsOptions);
+  app.use(globalRateLimiter);
+  app.use(securityLogger);
+  app.use(forceHttps);
+  app.use(sanitizeInput);
+
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
+  // Protect sensitive dev/status routes
+  app.use("/api/dev", devAuthMiddleware);
+  app.use("/api/system", devAuthMiddleware);
 
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
