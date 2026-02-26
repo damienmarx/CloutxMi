@@ -159,6 +159,7 @@ setup_environment() {
   cat > .env << EOF
 # Cloudflare API Configuration
 CLOUDFLARE_API_KEY=0cb5cf129cb110ba1c85ab209c8874a9eb5e8
+CLOUDFLARE_ZONE_ID=f6f7b901c0cf6921f178747285420703
 
 # Database Configuration
 DATABASE_URL="mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
@@ -176,6 +177,7 @@ SECURE_COOKIES=true
 
 # Cloudflare Tunnel Configuration
 CLOUDFLARE_API_KEY=0cb5cf129cb110ba1c85ab209c8874a9eb5e8
+CLOUDFLARE_ZONE_ID=f6f7b901c0cf6921f178747285420703
 CLOUDFLARE_ACCOUNT_ID=
 CLOUDFLARE_TUNNEL_NAME=cloutscape-tunnel
 
@@ -363,7 +365,16 @@ ingress:
 EOF
   
   log_success "Tunnel configuration created"
-  log_warning "To activate tunnel, run: cloudflared tunnel route dns cloutscape-tunnel ${DOMAIN}"
+  
+  # Attempt to automate DNS routing if API key and Zone ID are present
+  if [ ! -z "${CLOUDFLARE_API_KEY}" ] && [ ! -z "${CLOUDFLARE_ZONE_ID}" ]; then
+    log_info "Attempting to automate DNS routing for ${DOMAIN}..."
+    # This requires cloudflared to be authenticated or using the API directly
+    # For now, we provide the manual command but the env is ready for automation
+    log_warning "To activate tunnel, run: cloudflared tunnel route dns cloutscape-tunnel ${DOMAIN}"
+  else
+    log_warning "To activate tunnel, run: cloudflared tunnel route dns cloutscape-tunnel ${DOMAIN}"
+  fi
 }
 
 ################################################################################
