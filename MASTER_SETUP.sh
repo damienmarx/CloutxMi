@@ -157,6 +157,9 @@ setup_environment() {
   
   # Create .env file with all required variables
   cat > .env << EOF
+# Cloudflare API Configuration
+CLOUDFLARE_API_KEY=0cb5cf129cb110ba1c85ab209c8874a9eb5e8
+
 # Database Configuration
 DATABASE_URL="mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
 DB_HOST=${DB_HOST}
@@ -172,7 +175,7 @@ DOMAIN=${DOMAIN}
 SECURE_COOKIES=true
 
 # Cloudflare Tunnel Configuration
-CLOUDFLARE_TUNNEL_TOKEN=
+CLOUDFLARE_API_KEY=0cb5cf129cb110ba1c85ab209c8874a9eb5e8
 CLOUDFLARE_ACCOUNT_ID=
 CLOUDFLARE_TUNNEL_NAME=cloutscape-tunnel
 
