@@ -1,0 +1,409 @@
+/* ============================================================================
+   Obsidian Shell Layout - Chrome Borders & Neon Accents
+   ============================================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+.shell-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ============================================================================
+   Top Navigation Bar
+   ============================================================================ */
+
+.shell-topnav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: linear-gradient(90deg, rgba(10, 10, 15, 0.95) 0%, rgba(20, 15, 30, 0.95) 100%);
+  border-bottom: 2px solid;
+  border-image: linear-gradient(90deg, #ff0055 0%, #00ffff 50%, #ff0055 100%) 1;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topnav-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.topnav-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #00ffff;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.topnav-menu-btn:hover {
+  background: rgba(0, 255, 255, 0.1);
+  color: #ff0055;
+}
+
+.topnav-branding {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.topnav-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #00ffff, #ff0055);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 1px;
+}
+
+.topnav-subtitle {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.topnav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.topnav-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 8px;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ff0055, #00ffff);
+  border-radius: 50%;
+  font-weight: 700;
+  color: white;
+  font-size: 12px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-name {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.user-status {
+  margin: 0;
+  font-size: 11px;
+  color: #00ff00;
+  text-shadow: 0 0 6px rgba(0, 255, 0, 0.5);
+}
+
+.topnav-logout {
+  background: none;
+  border: 1px solid rgba(255, 0, 85, 0.3);
+  color: #ff0055;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.topnav-logout:hover {
+  background: rgba(255, 0, 85, 0.1);
+  border-color: #ff0055;
+  box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
+}
+
+/* ============================================================================
+   Main Layout
+   ============================================================================ */
+
+.shell-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ============================================================================
+   Sidebar Navigation
+   ============================================================================ */
+
+.shell-sidebar {
+  width: 280px;
+  background: linear-gradient(180deg, rgba(15, 15, 25, 0.95) 0%, rgba(10, 10, 20, 0.95) 100%);
+  border-right: 2px solid rgba(0, 255, 255, 0.2);
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+  gap: 20px;
+}
+
+.sidebar-header {
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #00ffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sidebar-nav-item:hover {
+  background: rgba(0, 255, 255, 0.1);
+  color: #00ffff;
+  border-left-color: #00ffff;
+}
+
+.sidebar-nav-item.active {
+  background: linear-gradient(90deg, rgba(0, 255, 255, 0.2) 0%, transparent 100%);
+  color: #00ffff;
+  border-left-color: #ff0055;
+  box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.nav-label {
+  flex: 1;
+}
+
+.nav-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: linear-gradient(135deg, #ff0055, #ff3377);
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  box-shadow: 0 0 8px rgba(255, 0, 85, 0.4);
+}
+
+.sidebar-footer {
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.sidebar-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 255, 0.15);
+  border-radius: 6px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+.stat-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: #00ffff;
+}
+
+/* ============================================================================
+   Main Content Area
+   ============================================================================ */
+
+.shell-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.content-wrapper {
+  padding: 40px;
+  min-height: 100%;
+}
+
+/* ============================================================================
+   Overlay for Mobile
+   ============================================================================ */
+
+.shell-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+}
+
+/* ============================================================================
+   Scrollbar Styling
+   ============================================================================ */
+
+.shell-sidebar::-webkit-scrollbar,
+.shell-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.shell-sidebar::-webkit-scrollbar-track,
+.shell-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.shell-sidebar::-webkit-scrollbar-thumb,
+.shell-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff0055, #00ffff);
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
+}
+
+.shell-sidebar::-webkit-scrollbar-thumb:hover,
+.shell-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff3377, #00ffff);
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
+@media (max-width: 1024px) {
+  .shell-sidebar {
+    width: 240px;
+  }
+
+  .content-wrapper {
+    padding: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .topnav-menu-btn {
+    display: flex;
+  }
+
+  .shell-sidebar {
+    position: fixed;
+    left: 0;
+    top: 60px;
+    height: calc(100vh - 60px);
+    z-index: 99;
+    transform: translateX(-100%);
+  }
+
+  .shell-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .shell-overlay {
+    display: block;
+  }
+
+  .topnav-subtitle {
+    display: none;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .content-wrapper {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topnav-title {
+    font-size: 18px;
+  }
+
+  .topnav-right {
+    gap: 12px;
+  }
+
+  .shell-sidebar {
+    width: 100%;
+  }
+
+  .content-wrapper {
+    padding: 16px;
+  }
+
+  .sidebar-nav-item {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
