@@ -638,4 +638,4 @@ Webhooks are available for real-time notifications of important events:
 
 ## Support
 
-For API support and issues, contact: api-support@cloutscape.dev
+For API support and issues, contact: Support@cloutscape.org / Support@cloutscape.online

@@ -450,7 +450,7 @@ mysql -u cloutscape_user -p cloutscape < backup.sql
 
 ### Community Support
 - GitHub Issues: https://github.com/No6love9/CloutScape/issues
-- Email: support@cloutscape.org
+- Email: Support@cloutscape.org / Support@cloutscape.online
 
 ---
 

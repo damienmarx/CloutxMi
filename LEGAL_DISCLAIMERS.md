@@ -185,16 +185,16 @@ Users from the following regions are **NOT permitted** to use this platform:
 ## 📞 Contact & Support
 
 ### Report Issues
-- **Email**: support@cloutscape.dev
+- **Email**: Support@cloutscape.org / Support@cloutscape.online
 - **Discord**: [Join our Discord]
 - **Twitter**: @DegensDen
 
 ### Report Abuse
-- **Email**: abuse@cloutscape.dev
+- **Email**: Support@cloutscape.org / Support@cloutscape.online
 - **Report Form**: [In-game report system]
 
 ### Legal Inquiries
-- **Email**: legal@cloutscape.dev
+- **Email**: Support@cloutscape.org / Support@cloutscape.online
 
 ---
 

@@ -578,7 +578,7 @@ pm2 start ecosystem.config.js
 
 ### Emergency Contact
 
-- **Email**: worker@cloutscape.org
+- **Email**: Support@cloutscape.org / Support@cloutscape.online
 - **GitHub Issues**: https://github.com/No6love9/CloutScape/issues
 
 ---

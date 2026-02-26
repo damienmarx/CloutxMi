@@ -2,7 +2,7 @@
 
 **CloutScape** is a professional, feature-rich online casino platform built with modern web technologies. The gaming experience is branded as **Degens♧Den** with an obsidian/gold/black sinister aesthetic.
 
-**Status**: Production Ready | **Version**: 2026.1.0 | **License**: All Rights Reserved © CloutScape Development Team
+**Status**: Production Ready | **Version**: 2026.1.0 | **License**: All Rights Reserved © CloutScape Development Team | **Lead Developer**: CloutScape Agent
 
 ---
 
@@ -513,7 +513,7 @@ pnpm run db:generate
 For issues, feature requests, or contributions:
 
 - **GitHub Issues**: https://github.com/No6love9/CloutScape/issues
-- **Email**: support@cloutscape.org
+- **Email**: Support@cloutscape.org / Support@cloutscape.online
 - **Documentation**: See `/docs` directory
 
 ---

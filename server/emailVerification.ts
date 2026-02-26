@@ -198,7 +198,7 @@ export async function sendVerificationEmail(
     const verificationLink = `${process.env.APP_URL}/verify-email?token=${verificationToken}`;
 
     const mailOptions = {
-      from: process.env.SMTP_FROM || "noreply@cloutscape.com",
+      from: process.env.SMTP_FROM || "Support@cloutscape.org",
       to: email,
       subject: "Verify your CloutScape email",
       html: `
