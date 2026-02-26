@@ -42,8 +42,9 @@ export function useAuth(options?: UseAuthOptions) {
   }, [logoutMutation, utils]);
 
   const state = useMemo(() => {
+    // Store user info in localStorage for persistence
     localStorage.setItem(
-      "manus-runtime-user-info",
+      "cloutscape-user-info",
       JSON.stringify(meQuery.data)
     );
     return {
@@ -67,7 +68,7 @@ export function useAuth(options?: UseAuthOptions) {
     if (typeof window === "undefined") return;
     if (window.location.pathname === redirectPath) return;
 
-    window.location.href = redirectPath
+    window.location.href = redirectPath;
   }, [
     redirectOnUnauthenticated,
     redirectPath,
