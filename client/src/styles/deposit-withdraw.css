@@ -1,0 +1,341 @@
+/* Deposit & Withdraw Page Styling - Degens Den Theme */
+
+.deposit-withdraw-container {
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
+  color: #f5f5f5;
+  min-height: 100vh;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.deposit-withdraw-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(107, 33, 168, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dw-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(26, 31, 58, 0.8) 0%, rgba(42, 47, 74, 0.6) 100%);
+  border: 2px solid #d4af37;
+  border-radius: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.dw-header h1 {
+  font-size: 2rem;
+  color: #d4af37;
+  text-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+  margin: 0;
+}
+
+.balance-display {
+  font-size: 1.25rem;
+  color: #27ae60;
+  font-weight: bold;
+  background: rgba(39, 174, 96, 0.1);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(39, 174, 96, 0.3);
+}
+
+/* Tabs */
+.dw-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.dw-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, rgba(26, 31, 58, 0.8) 0%, rgba(42, 47, 74, 0.6) 100%);
+  border: 2px solid #6b21a8;
+  border-radius: 8px;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.dw-tab:hover {
+  background: linear-gradient(135deg, rgba(42, 47, 74, 0.9) 0%, rgba(52, 57, 84, 0.7) 100%);
+  border-color: #d4af37;
+  color: #d4af37;
+}
+
+.dw-tab.active {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%);
+  border-color: #d4af37;
+  color: #d4af37;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.dw-tab .icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Content */
+.dw-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.dw-card {
+  background: linear-gradient(135deg, rgba(26, 31, 58, 0.8) 0%, rgba(42, 47, 74, 0.6) 100%) !important;
+  border: 2px solid #d4af37 !important;
+  border-radius: 12px !important;
+  padding: 2rem !important;
+  box-shadow: 0 8px 32px rgba(212, 175, 55, 0.1) !important;
+}
+
+.dw-card h2 {
+  color: #d4af37;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
+/* Method Selector */
+.dw-method-selector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.method-btn {
+  flex: 1;
+  padding: 0.75rem;
+  background: rgba(42, 47, 74, 0.5);
+  border: 2px solid #6b21a8;
+  border-radius: 6px;
+  color: #a0a0a0;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.method-btn:hover {
+  border-color: #d4af37;
+  color: #d4af37;
+}
+
+.method-btn.active {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%);
+  border-color: #d4af37;
+  color: #d4af37;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+/* Form */
+.dw-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: #d4af37;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.75rem;
+  background: rgba(10, 14, 39, 0.5);
+  border: 2px solid #6b21a8;
+  border-radius: 6px;
+  color: #f5f5f5;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
+}
+
+.form-group small {
+  color: #9ca3af;
+  font-size: 0.75rem;
+}
+
+/* Conversion Display */
+.conversion-display {
+  background: rgba(42, 47, 74, 0.5);
+  border-left: 4px solid #d4af37;
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.conversion-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.conversion-item .label {
+  color: #a0a0a0;
+  font-size: 0.875rem;
+}
+
+.conversion-item .value {
+  color: #d4af37;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Instructions */
+.dw-instructions {
+  background: rgba(107, 33, 168, 0.1);
+  border: 1px solid #6b21a8;
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.dw-instructions .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #d4af37;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.dw-instructions h4 {
+  color: #d4af37;
+  margin: 0 0 0.5rem 0;
+  font-size: 0.875rem;
+}
+
+.dw-instructions p {
+  color: #a0a0a0;
+  font-size: 0.75rem;
+  margin: 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+/* Submit Button */
+.dw-submit-btn {
+  padding: 0.75rem 1.5rem;
+  background: #d4af37;
+  color: #0a0e27;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.dw-submit-btn:hover:not(:disabled) {
+  background: #e6c547;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.dw-submit-btn:disabled {
+  background: #6b6b6b;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+/* Security Notice */
+.security-notice {
+  background: linear-gradient(135deg, rgba(26, 31, 58, 0.8) 0%, rgba(42, 47, 74, 0.6) 100%);
+  border: 2px solid #c41e3a;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.security-notice .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #c41e3a;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.security-notice h4 {
+  color: #c41e3a;
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+}
+
+.security-notice p {
+  color: #a0a0a0;
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .deposit-withdraw-container {
+    padding: 1rem;
+  }
+
+  .dw-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .dw-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .dw-content {
+    grid-template-columns: 1fr;
+  }
+
+  .dw-method-selector {
+    flex-direction: column;
+  }
+
+  .method-btn {
+    width: 100%;
+  }
+}

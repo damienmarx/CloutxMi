@@ -1,0 +1,66 @@
+## Cloudflare Tunnel Configuration for CloutScape
+## This configuration enables secure tunnel access to your application
+## Reference: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/
+
+tunnel: cloutscape
+credentials-file: /root/.cloudflare-warp/cloutscape-credentials.json
+
+# Ingress rules define how traffic is routed
+ingress:
+  # Main application on port 8080
+  - hostname: cloutscape.org
+    service: http://localhost:8080
+    originRequest:
+      httpHostHeader: cloutscape.org
+      noTLSVerify: false
+
+  # WWW subdomain
+  - hostname: www.cloutscape.org
+    service: http://localhost:8080
+    originRequest:
+      httpHostHeader: www.cloutscape.org
+      noTLSVerify: false
+
+  # API endpoints
+  - hostname: api.cloutscape.org
+    service: http://localhost:8080
+    path: /api/*
+    originRequest:
+      httpHostHeader: api.cloutscape.org
+      noTLSVerify: false
+
+  # WebSocket support for real-time features
+  - hostname: ws.cloutscape.org
+    service: http://localhost:8080
+    originRequest:
+      httpHostHeader: ws.cloutscape.org
+      noTLSVerify: false
+
+  # Catch-all for any other traffic
+  - service: http_status:404
+
+# Logging configuration
+logLevel: info
+logDirectory: /var/log/cloudflare-tunnel
+
+# Advanced options
+warp-routing:
+  enabled: false
+
+# Health check configuration
+originRequest:
+  # Connection timeout
+  connectTimeout: 30s
+  # TLS timeout
+  tlsTimeout: 10s
+  # TCP keep-alive
+  tcpKeepAlive: 30s
+  # No keep-alive if set to 0
+  keepAliveTimeout: 90s
+  # HTTP/2 support
+  http2Origin: true
+  # Custom headers for origin requests
+  headers:
+    X-Forwarded-For: true
+    X-Forwarded-Proto: https
+    X-Forwarded-Host: true

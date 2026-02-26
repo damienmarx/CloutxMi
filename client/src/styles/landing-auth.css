@@ -1,0 +1,470 @@
+/* ============================================
+   CloutScape Landing Page - Authentication Forms
+   ============================================ */
+
+/* ============================================
+   1. AUTHENTICATION CONTAINER
+   ============================================ */
+
+.auth-container {
+  width: 100%;
+  max-width: 450px;
+  margin: var(--spacing-3xl) auto 0;
+  animation: slideUp 0.6s ease-out 0.3s backwards;
+}
+
+/* ============================================
+   2. TAB NAVIGATION
+   ============================================ */
+
+.auth-tabs {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-2xl);
+  border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+  background: rgba(45, 45, 45, 0.3);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: var(--spacing-md);
+}
+
+.auth-tab {
+  flex: 1;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  position: relative;
+  border-radius: var(--radius-md);
+}
+
+.auth-tab:hover {
+  color: var(--color-primary);
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.auth-tab.active {
+  color: var(--color-primary);
+  background: rgba(212, 175, 55, 0.1);
+  border-bottom: 3px solid var(--color-primary);
+}
+
+/* ============================================
+   3. AUTHENTICATION FORM
+   ============================================ */
+
+.auth-form {
+  background: linear-gradient(135deg, rgba(45, 45, 45, 0.6) 0%, rgba(30, 30, 30, 0.4) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  padding: var(--spacing-2xl);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-lg);
+}
+
+.auth-form .form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.auth-form .form-label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.auth-form .form-input {
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-base);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: var(--radius-lg);
+  background: rgba(15, 15, 15, 0.6);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  transition: all var(--transition-base);
+}
+
+.auth-form .form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background: rgba(15, 15, 15, 0.9);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.auth-form .form-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.auth-form .form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   4. PASSWORD INPUT WRAPPER
+   ============================================ */
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper .form-input {
+  padding-right: var(--spacing-3xl);
+}
+
+.password-toggle {
+  position: absolute;
+  right: var(--spacing-lg);
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+  padding: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle:hover:not(:disabled) {
+  color: var(--color-primary);
+}
+
+.password-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   5. CHECKBOX STYLES
+   ============================================ */
+
+.form-group.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-group.checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+  border-radius: var(--radius-sm);
+}
+
+.checkbox-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.checkbox-label .form-link {
+  color: var(--color-primary);
+  text-decoration: underline;
+  transition: color var(--transition-fast);
+}
+
+.checkbox-label .form-link:hover {
+  color: var(--color-primary-light);
+}
+
+/* ============================================
+   6. FORM ERRORS & VALIDATION
+   ============================================ */
+
+.form-error {
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  animation: slideDown 0.3s ease-out;
+}
+
+.form-error::before {
+  content: "⚠";
+  font-size: var(--font-size-base);
+}
+
+.form-success {
+  color: var(--color-success);
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  animation: slideDown 0.3s ease-out;
+}
+
+.form-success::before {
+  content: "✓";
+  font-size: var(--font-size-base);
+}
+
+/* ============================================
+   7. FORM FOOTER
+   ============================================ */
+
+.form-footer {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid rgba(212, 175, 55, 0.1);
+  text-align: center;
+}
+
+.form-link {
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.form-link:hover {
+  color: var(--color-primary-light);
+  text-decoration: underline;
+}
+
+/* ============================================
+   8. BUTTON STYLES FOR FORMS
+   ============================================ */
+
+.auth-form .btn {
+  width: 100%;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.auth-form .btn-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: var(--color-secondary);
+  box-shadow: var(--shadow-gold);
+}
+
+.auth-form .btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2xl), var(--shadow-gold);
+}
+
+.auth-form .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============================================
+   9. FOOTER STYLES
+   ============================================ */
+
+.landing-footer {
+  background: linear-gradient(180deg, rgba(15, 15, 15, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  padding: var(--spacing-4xl) var(--spacing-lg);
+  margin-top: var(--spacing-4xl);
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-3xl);
+  margin-bottom: var(--spacing-3xl);
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer-section {
+  animation: slideUp 0.6s ease-out;
+}
+
+.footer-title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-lg);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-text {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: var(--spacing-md);
+}
+
+.footer-links a {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.footer-links a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: var(--spacing-2xl);
+  border-top: 1px solid rgba(212, 175, 55, 0.1);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.footer-bottom p {
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text-muted);
+}
+
+.footer-bottom p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   10. RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+  .auth-container {
+    max-width: 100%;
+    margin: var(--spacing-2xl) auto 0;
+  }
+
+  .auth-form {
+    padding: var(--spacing-xl);
+  }
+
+  .auth-tabs {
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+  }
+
+  .auth-tab {
+    padding: var(--spacing-md);
+    font-size: var(--font-size-sm);
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2xl);
+  }
+
+  .footer-title {
+    font-size: var(--font-size-base);
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-form {
+    padding: var(--spacing-lg);
+  }
+
+  .auth-form .form-label {
+    font-size: var(--font-size-xs);
+  }
+
+  .auth-form .form-input {
+    padding: var(--spacing-md);
+    font-size: var(--font-size-sm);
+  }
+
+  .password-toggle {
+    right: var(--spacing-md);
+  }
+
+  .auth-form .btn {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-sm);
+  }
+
+  .footer-content {
+    gap: var(--spacing-xl);
+  }
+
+  .footer-title {
+    font-size: var(--font-size-sm);
+  }
+
+  .footer-text,
+  .footer-links a {
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* ============================================
+   11. ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-container,
+  .footer-section,
+  .form-error,
+  .form-success,
+  .auth-form .btn-primary:hover {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* ============================================
+   12. DARK MODE SUPPORT
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  .auth-form {
+    background: linear-gradient(135deg, rgba(30, 30, 30, 0.7) 0%, rgba(20, 20, 20, 0.5) 100%);
+  }
+
+  .auth-form .form-input {
+    background: rgba(10, 10, 10, 0.8);
+  }
+
+  .auth-form .form-input:focus {
+    background: rgba(10, 10, 10, 1);
+  }
+}
+
+/* ============================================
+   13. PRINT STYLES
+   ============================================ */
+
+@media print {
+  .auth-container,
+  .landing-footer {
+    display: none;
+  }
+}

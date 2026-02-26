@@ -1,0 +1,495 @@
+/* ============================================
+   CloutScape Error Handling Styles
+   ============================================ */
+
+/* ============================================
+   1. ERROR BOUNDARY CONTAINER
+   ============================================ */
+
+.error-boundary-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+}
+
+.error-boundary-content {
+  max-width: 500px;
+  width: 100%;
+  background: linear-gradient(135deg, rgba(45, 45, 45, 0.6) 0%, rgba(30, 30, 30, 0.4) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  animation: slideUp 0.6s ease-out;
+}
+
+/* ============================================
+   2. ERROR ICON
+   ============================================ */
+
+.error-icon {
+  margin-bottom: 1.5rem;
+  color: #e74c3c;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ============================================
+   3. ERROR TITLE & MESSAGE
+   ============================================ */
+
+.error-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #d4af37 0%, #e74c3c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.error-message {
+  font-size: 1rem;
+  color: #e0e0e0;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* ============================================
+   4. ERROR ID DISPLAY
+   ============================================ */
+
+.error-id {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.error-id-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #a0a0a0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.error-id-value {
+  display: block;
+  font-family: "Courier New", monospace;
+  font-size: 0.875rem;
+  color: #d4af37;
+  word-break: break-all;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.error-id-hint {
+  font-size: 0.75rem;
+  color: #a0a0a0;
+  margin: 0;
+}
+
+/* ============================================
+   5. ERROR DETAILS (DEVELOPMENT)
+   ============================================ */
+
+.error-details {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.error-details summary {
+  color: #e74c3c;
+  font-weight: 600;
+  font-size: 0.875rem;
+  user-select: none;
+  padding: 0.5rem;
+  margin: -0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.error-details summary:hover {
+  background-color: rgba(231, 76, 60, 0.1);
+}
+
+.error-details[open] summary {
+  margin-bottom: 1rem;
+}
+
+.error-stack {
+  font-family: "Courier New", monospace;
+  font-size: 0.75rem;
+  color: #e74c3c;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  border-radius: 4px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* ============================================
+   6. ERROR ACTIONS
+   ============================================ */
+
+.error-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.error-button {
+  flex: 1;
+  min-width: 150px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.error-button-primary {
+  background: linear-gradient(135deg, #d4af37 0%, #b8960e 100%);
+  color: #1a1a1a;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.error-button-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+}
+
+.error-button-primary:active {
+  transform: translateY(0);
+}
+
+.error-button-secondary {
+  background: transparent;
+  color: #d4af37;
+  border: 2px solid #d4af37;
+}
+
+.error-button-secondary:hover {
+  background: rgba(212, 175, 55, 0.1);
+  transform: translateY(-2px);
+}
+
+.error-button-secondary:active {
+  transform: translateY(0);
+}
+
+.error-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============================================
+   7. ERROR SUPPORT
+   ============================================ */
+
+.error-support {
+  font-size: 0.875rem;
+  color: #a0a0a0;
+  margin: 0;
+}
+
+.error-support a {
+  color: #d4af37;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.error-support a:hover {
+  color: #e8c547;
+  text-decoration: underline;
+}
+
+/* ============================================
+   8. TOAST NOTIFICATIONS
+   ============================================ */
+
+.toast-container {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+}
+
+.toast {
+  background: linear-gradient(135deg, rgba(45, 45, 45, 0.95) 0%, rgba(30, 30, 30, 0.85) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  animation: slideInRight 0.3s ease-out;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.toast.error {
+  border-color: rgba(231, 76, 60, 0.3);
+}
+
+.toast.success {
+  border-color: rgba(39, 174, 96, 0.3);
+}
+
+.toast.warning {
+  border-color: rgba(243, 156, 18, 0.3);
+}
+
+.toast.info {
+  border-color: rgba(52, 152, 219, 0.3);
+}
+
+.toast-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast.error .toast-icon {
+  color: #e74c3c;
+}
+
+.toast.success .toast-icon {
+  color: #27ae60;
+}
+
+.toast.warning .toast-icon {
+  color: #f39c12;
+}
+
+.toast.info .toast-icon {
+  color: #3498db;
+}
+
+.toast-content {
+  flex: 1;
+}
+
+.toast-title {
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.toast-message {
+  font-size: 0.8125rem;
+  color: #e0e0e0;
+  line-height: 1.4;
+}
+
+.toast-close {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: #a0a0a0;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.toast-close:hover {
+  color: #ffffff;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+.toast.removing {
+  animation: slideOutRight 0.3s ease-out;
+}
+
+/* ============================================
+   9. FALLBACK STYLES
+   ============================================ */
+
+.fallback-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  padding: 2rem;
+}
+
+.fallback-content {
+  text-align: center;
+  color: #ffffff;
+}
+
+.fallback-spinner {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 2rem;
+  border: 4px solid rgba(212, 175, 55, 0.2);
+  border-top-color: #d4af37;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fallback-text {
+  font-size: 1.125rem;
+  color: #e0e0e0;
+  margin-bottom: 1rem;
+}
+
+/* ============================================
+   10. RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+  .error-boundary-content {
+    padding: 2rem 1.5rem;
+  }
+
+  .error-title {
+    font-size: 1.5rem;
+  }
+
+  .error-actions {
+    flex-direction: column;
+  }
+
+  .error-button {
+    min-width: auto;
+  }
+
+  .toast-container {
+    top: 1rem;
+    right: 1rem;
+    left: 1rem;
+    max-width: none;
+  }
+
+  .toast {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .error-boundary-container {
+    padding: 1rem;
+  }
+
+  .error-boundary-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .error-title {
+    font-size: 1.25rem;
+  }
+
+  .error-message {
+    font-size: 0.875rem;
+  }
+
+  .error-button {
+    padding: 0.625rem 1rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* ============================================
+   11. ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .error-icon,
+  .error-boundary-content,
+  .toast,
+  .fallback-spinner {
+    animation: none;
+  }
+}
+
+/* ============================================
+   12. DARK MODE
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  .error-boundary-container {
+    background: linear-gradient(135deg, #000000 0%, #0a0a0a 100%);
+  }
+}

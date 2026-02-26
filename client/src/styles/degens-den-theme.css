@@ -1,0 +1,327 @@
+/* Degens Den - Sinister Casino Theme */
+/* Obsidian (Black) + Gold + Deep Purple Accents */
+
+:root {
+  /* Degens Den Color Palette */
+  --degens-obsidian: #0a0e27;
+  --degens-obsidian-light: #1a1f3a;
+  --degens-obsidian-lighter: #2a2f4a;
+  --degens-gold: #d4af37;
+  --degens-gold-dark: #aa8c2c;
+  --degens-gold-light: #e6c547;
+  --degens-purple: #6b21a8;
+  --degens-purple-dark: #4c1084;
+  --degens-purple-light: #9333ea;
+  --degens-red: #dc2626;
+  --degens-red-dark: #991b1b;
+  --degens-cyan: #06b6d4;
+  --degens-white: #f5f5f5;
+  --degens-gray: #9ca3af;
+}
+
+/* Degens Den Game Container */
+.degens-container {
+  background: linear-gradient(135deg, var(--degens-obsidian) 0%, var(--degens-obsidian-light) 50%, var(--degens-obsidian) 100%);
+  color: var(--degens-white);
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.degens-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(107, 33, 168, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Degens Den Card Styling */
+.degens-card {
+  background: linear-gradient(135deg, rgba(26, 31, 58, 0.8) 0%, rgba(42, 47, 74, 0.6) 100%);
+  border: 2px solid var(--degens-gold);
+  border-radius: 12px;
+  box-shadow: 
+    0 0 30px rgba(212, 175, 55, 0.2),
+    inset 0 0 20px rgba(212, 175, 55, 0.05),
+    0 8px 32px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.degens-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Degens Den Button */
+.degens-btn {
+  background: linear-gradient(135deg, var(--degens-gold) 0%, var(--degens-gold-dark) 100%);
+  color: var(--degens-obsidian);
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.degens-btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.degens-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.degens-btn:hover {
+  background: linear-gradient(135deg, var(--degens-gold-light) 0%, var(--degens-gold) 100%);
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.6);
+  transform: translateY(-2px);
+}
+
+.degens-btn:active {
+  transform: translateY(0);
+}
+
+/* Degens Den Primary Button (Red) */
+.degens-btn-primary {
+  background: linear-gradient(135deg, var(--degens-red) 0%, var(--degens-red-dark) 100%);
+  color: white;
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+}
+
+.degens-btn-primary:hover {
+  background: linear-gradient(135deg, #ef4444 0%, var(--degens-red) 100%);
+  box-shadow: 0 0 40px rgba(220, 38, 38, 0.6);
+}
+
+/* Degens Den Secondary Button (Purple) */
+.degens-btn-secondary {
+  background: linear-gradient(135deg, var(--degens-purple-light) 0%, var(--degens-purple) 100%);
+  color: white;
+  box-shadow: 0 0 20px rgba(107, 33, 168, 0.3);
+}
+
+.degens-btn-secondary:hover {
+  background: linear-gradient(135deg, #a855f7 0%, var(--degens-purple-light) 100%);
+  box-shadow: 0 0 40px rgba(107, 33, 168, 0.6);
+}
+
+/* Degens Den Title */
+.degens-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--degens-gold) 0%, var(--degens-gold-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+  letter-spacing: 2px;
+}
+
+/* Degens Den Subtitle */
+.degens-subtitle {
+  color: var(--degens-cyan);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Degens Den Badge */
+.degens-badge {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%);
+  border: 1px solid var(--degens-gold);
+  color: var(--degens-gold);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* Degens Den Input */
+.degens-input {
+  background: linear-gradient(135deg, rgba(26, 31, 58, 0.6) 0%, rgba(42, 47, 74, 0.4) 100%);
+  border: 2px solid var(--degens-gold);
+  color: var(--degens-white);
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.degens-input:focus {
+  outline: none;
+  border-color: var(--degens-gold-light);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  background: linear-gradient(135deg, rgba(26, 31, 58, 0.8) 0%, rgba(42, 47, 74, 0.6) 100%);
+}
+
+.degens-input::placeholder {
+  color: var(--degens-gray);
+}
+
+/* Degens Den Stat Box */
+.degens-stat-box {
+  background: linear-gradient(135deg, rgba(26, 31, 58, 0.8) 0%, rgba(42, 47, 74, 0.6) 100%);
+  border: 1px solid var(--degens-gold);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.degens-stat-label {
+  color: var(--degens-gray);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.degens-stat-value {
+  color: var(--degens-gold);
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+/* Degens Den Glow Effect */
+.degens-glow {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  animation: degens-pulse 2s ease-in-out infinite;
+}
+
+@keyframes degens-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.6);
+  }
+}
+
+/* Degens Den Shine Effect */
+.degens-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.degens-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: degens-shine 3s infinite;
+}
+
+@keyframes degens-shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Degens Den Table */
+.degens-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: linear-gradient(135deg, rgba(26, 31, 58, 0.8) 0%, rgba(42, 47, 74, 0.6) 100%);
+  border: 1px solid var(--degens-gold);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.degens-table thead {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%);
+  border-bottom: 2px solid var(--degens-gold);
+}
+
+.degens-table th {
+  color: var(--degens-gold);
+  padding: 12px;
+  text-align: left;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}
+
+.degens-table td {
+  color: var(--degens-white);
+  padding: 12px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.degens-table tbody tr:hover {
+  background: rgba(212, 175, 55, 0.05);
+}
+
+/* Degens Den Divider */
+.degens-divider {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--degens-gold), transparent);
+  margin: 20px 0;
+}
+
+/* Degens Den Alert */
+.degens-alert {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(153, 27, 27, 0.1) 100%);
+  border: 2px solid var(--degens-red);
+  border-radius: 8px;
+  padding: 16px;
+  color: #fca5a5;
+}
+
+.degens-alert-success {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(21, 128, 61, 0.1) 100%);
+  border-color: #22c55e;
+  color: #86efac;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .degens-title {
+    font-size: 1.8rem;
+  }
+
+  .degens-card {
+    border-radius: 8px;
+  }
+
+  .degens-btn {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+}
