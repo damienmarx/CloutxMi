@@ -13,6 +13,7 @@ import { trustWalletRouter } from "./trustWalletRouter";
 import { liveRouter } from "./liveRouter";
 import { mfaRouter } from "./mfaRouter";
 import { z } from "zod";
+import * as s from "../../shared/validation";
 import { getUserByUsername, getUserById, getWalletByUserId, createWallet, getTransactionHistory } from "./db";
 import { hashPassword, verifyPassword, validateUsername, validatePasswordStrength, validateEmail } from "./auth";
 import { upsertUser } from "./db";
@@ -49,14 +50,7 @@ export const createAppRouter = (pluginRouters: any[]) => {
     }),
 
     register: publicProcedure
-      .input(
-        z.object({
-          username: z.string().min(3).max(64),
-          email: z.string().email(),
-          password: z.string().min(8),
-          confirmPassword: z.string().min(8),
-        })
-      )
+      .input(s.RegisterSchema)
       .mutation(async ({ input }) => {
         // Validate inputs
         const usernameValidation = validateUsername(input.username);
@@ -137,12 +131,7 @@ export const createAppRouter = (pluginRouters: any[]) => {
       }),
 
     login: publicProcedure
-      .input(
-        z.object({
-          username: z.string(),
-          password: z.string(),
-        })
-      )
+      .input(s.LoginSchema)
       .mutation(async ({ input, ctx }) => {
         const user = await getUserByUsername(input.username);
 
@@ -183,20 +172,14 @@ export const createAppRouter = (pluginRouters: any[]) => {
       }),
 
     forgotPassword: publicProcedure
-      .input(z.object({ email: z.string().email() }))
+      .input(s.ForgotPasswordSchema)
       .mutation(async ({ input }) => {
         const { createPasswordResetRequest } = await import("./passwordReset");
         return await createPasswordResetRequest(input.email);
       }),
 
     resetPassword: publicProcedure
-      .input(
-        z.object({
-          token: z.string(),
-          newPassword: z.string().min(8),
-          confirmPassword: z.string().min(8),
-        })
-      )
+      .input(s.ResetPasswordSchema)
       .mutation(async ({ input }) => {
         const { resetPasswordWithToken } = await import("./passwordReset");
         return await resetPasswordWithToken(input.token, input.newPassword, input.confirmPassword);
@@ -214,7 +197,7 @@ export const createAppRouter = (pluginRouters: any[]) => {
       }),
 
     linkDiscord: protectedProcedure
-      .input(z.object({ discordId: z.string() }))
+      .input(s.LinkDiscordSchema)
       .mutation(async ({ input, ctx }) => {
         await upsertUser({
           id: ctx.user.id,
@@ -225,7 +208,7 @@ export const createAppRouter = (pluginRouters: any[]) => {
       }),
 
     linkTelegram: protectedProcedure
-      .input(z.object({ telegramId: z.string() }))
+      .input(s.LinkTelegramSchema)
       .mutation(async ({ input, ctx }) => {
         await upsertUser({
           id: ctx.user.id,
@@ -247,24 +230,19 @@ export const createAppRouter = (pluginRouters: any[]) => {
     }),
 
     deposit: protectedProcedure
-      .input(z.object({ amount: z.number().positive() }))
+      .input(s.DepositSchema)
       .mutation(async ({ input, ctx }) => {
         return await depositFunds(ctx.user.id, input.amount, "Deposit to casino wallet");
       }),
 
     withdraw: protectedProcedure
-      .input(z.object({ amount: z.number().positive() }))
+      .input(s.WithdrawSchema)
       .mutation(async ({ input, ctx }) => {
         return await withdrawFunds(ctx.user.id, input.amount, "Withdrawal from casino wallet");
       }),
 
     tip: protectedProcedure
-      .input(
-        z.object({
-          toUsername: z.string(),
-          amount: z.number().positive(),
-        })
-      )
+      .input(s.TipSchema)
       .mutation(async ({ input, ctx }) => {
         const recipient = await getUserByUsername(input.toUsername);
         if (!recipient) {
@@ -278,7 +256,7 @@ export const createAppRouter = (pluginRouters: any[]) => {
       }),
 
     getTransactionHistory: protectedProcedure
-      .input(z.object({ limit: z.number().int().positive().max(100).optional() }))
+      .input(s.GetTransactionHistorySchema)
       .query(async ({ input, ctx }) => {
         return await getTransactionHistory(ctx.user.id, input.limit || 50);
       }),
@@ -288,13 +266,7 @@ export const createAppRouter = (pluginRouters: any[]) => {
     ...Object.assign({}, ...pluginRouters),
 
     playKeno: protectedProcedure
-      .input(
-        z.object({
-          selectedNumbers: z.array(z.number().int().min(1).max(80)).min(1).max(10),
-          betAmount: z.number().positive(),
-          turboMode: z.boolean().optional(),
-        })
-      )
+      .input(s.PlayKenoSchema)
       .mutation(async ({ input, ctx }) => {
         try {
           // Verify sufficient balance
@@ -317,17 +289,13 @@ export const createAppRouter = (pluginRouters: any[]) => {
             ctx.user.id,
             "keno",
             nanoid(),
-            isWin ? gameResult.winAmount : input.betAmount,
+            gameResult.winAmount,
             isWin
           );
 
-          if (!balanceResult.success) {
-            return { success: false, error: balanceResult.error };
-          }
-
           return {
             success: true,
-            winAmount: gameResult.winAmount,
+            ...gameResult,
             newBalance: balanceResult.balance,
           };
         } catch (error) {
@@ -337,12 +305,7 @@ export const createAppRouter = (pluginRouters: any[]) => {
       }),
 
     playSlots: protectedProcedure
-      .input(
-        z.object({
-          betAmount: z.number().positive(),
-          paylines: z.number().int().min(1).max(5),
-        })
-      )
+      .input(s.PlaySlotsSchema)
       .mutation(async ({ input, ctx }) => {
         try {
           const wallet = await getUserWallet(ctx.user.id);
@@ -350,25 +313,20 @@ export const createAppRouter = (pluginRouters: any[]) => {
             return { success: false, error: "Insufficient balance" };
           }
 
-          const gameResult = playSlots(input.betAmount, input.paylines);
-
+          const gameResult = playSlots(input.betAmount, input.lines);
           const isWin = gameResult.winAmount > 0;
 
           const balanceResult = await recordGameResult(
             ctx.user.id,
             "slots",
             nanoid(),
-            isWin ? gameResult.winAmount : input.betAmount,
+            gameResult.winAmount,
             isWin
           );
 
-          if (!balanceResult.success) {
-            return { success: false, error: balanceResult.error };
-          }
-
           return {
             success: true,
-            winAmount: gameResult.winAmount,
+            ...gameResult,
             newBalance: balanceResult.balance,
           };
         } catch (error) {
@@ -378,14 +336,7 @@ export const createAppRouter = (pluginRouters: any[]) => {
       }),
 
     playBlackjack: protectedProcedure
-      .input(
-        z.object({
-          betAmount: z.number().positive(),
-          playerHand: z.array(z.string()),
-          dealerHand: z.array(z.string()),
-          result: z.enum(["win", "lose", "push"]),
-        })
-      )
+      .input(s.PlayBlackjackSchema)
       .mutation(async ({ input, ctx }) => {
         try {
           const wallet = await getUserWallet(ctx.user.id);
@@ -393,11 +344,10 @@ export const createAppRouter = (pluginRouters: any[]) => {
             return { success: false, error: "Insufficient balance" };
           }
 
+          // This is a simplified example. A real implementation would have more complex state management.
           let winAmount = 0;
           if (input.result === "win") {
-            winAmount = input.betAmount * 2; // Assuming 2x payout for blackjack win
-          } else if (input.result === "push") {
-            winAmount = input.betAmount; // Return bet on push
+            winAmount = input.betAmount * 2;
           }
 
           const balanceResult = await recordGameResult(
@@ -420,14 +370,7 @@ export const createAppRouter = (pluginRouters: any[]) => {
       }),
 
     playRoulette: protectedProcedure
-      .input(
-        z.object({
-          betAmount: z.number().positive(),
-          prediction: z.string(), // e.g., "red", "black", "0", "1-12"
-          targetNumber: z.number().int().min(0).max(36).optional(),
-          won: z.boolean(),
-        })
-      )
+      .input(s.PlayRouletteSchema)
       .mutation(async ({ input, ctx }) => {
         try {
           const wallet = await getUserWallet(ctx.user.id);
@@ -467,15 +410,7 @@ export const createAppRouter = (pluginRouters: any[]) => {
       }),
 
     playDice: protectedProcedure
-      .input(
-        z.object({
-          betAmount: z.number().positive(),
-          prediction: z.enum(["over", "under", "exact"]),
-          targetNumber: z.number().min(1).max(100),
-          diceRoll: z.number().min(1).max(100),
-          won: z.boolean(),
-        })
-      )
+      .input(s.PlayDiceSchema)
       .mutation(async ({ input, ctx }) => {
         try {
           const wallet = await getUserWallet(ctx.user.id);

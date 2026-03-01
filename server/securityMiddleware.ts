@@ -142,3 +142,14 @@ export const devAuthMiddleware = (req: Request, res: Response, next: NextFunctio
     message: "Code writing, file implementation, and dev status are restricted to authorized users."
   });
 };
+
+export const gameRateLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 20, // Limit each IP to 20 game actions per minute
+  message: {
+    success: false,
+    error: "Too many game requests, please try again after a minute",
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
