@@ -12,6 +12,7 @@ import { cryptoWalletRouter } from "./cryptoWalletRouter";
 import { trustWalletRouter } from "./trustWalletRouter";
 import { liveRouter } from "./liveRouter";
 import { mfaRouter } from "./mfaRouter";
+import { walletRouter, gamesRouter } from "./walletGameRouter";
 import { z } from "zod";
 import * as s from "../../shared/validation";
 import { getUserByUsername, getUserById, getWalletByUserId, createWallet, getTransactionHistory } from "./db";
@@ -37,6 +38,8 @@ export const createAppRouter = (pluginRouters: any[]) => {
   trustWallet: trustWalletRouter,
   live: liveRouter,
   mfa: mfaRouter,
+  wallet: walletRouter,
+  games: gamesRouter,
 
   auth: router({
     me: publicProcedure.query((opts) => opts.ctx.user),
@@ -272,43 +275,8 @@ export const createAppRouter = (pluginRouters: any[]) => {
       }),
   }),
 
-  wallet: router({
-    getBalance: protectedProcedure.query(async ({ ctx }) => {
-      const wallet = await getUserWallet(ctx.user.id);
-      return {
-        balance: wallet?.balance || "0.00",
-        totalDeposited: wallet?.totalDeposited || "0.00",
-        totalWithdrawn: wallet?.totalWithdrawn || "0.00",
-      };
-    }),
-
-    deposit: protectedProcedure
-      .input(s.DepositSchema)
-      .mutation(async ({ input, ctx }) => {
-        return await depositFunds(ctx.user.id, input.amount, "Deposit to casino wallet");
-      }),
-
-    withdraw: protectedProcedure
-      .input(s.WithdrawSchema)
-      .mutation(async ({ input, ctx }) => {
-        return await withdrawFunds(ctx.user.id, input.amount, "Withdrawal from casino wallet");
-      }),
-
-    tip: protectedProcedure
-      .input(s.TipSchema)
-      .mutation(async ({ input, ctx }) => {
-        const recipient = await getUserByUsername(input.toUsername);
-        if (!recipient) {
-          return {
-            success: false,
-            message: "Recipient not found",
-          };
-        }
-
-        return await tipPlayer(ctx.user.id, recipient.id, input.amount);
-      }),
-
-    getTransactionHistory: protectedProcedure
+  // Removed old wallet router in favor of the new one
+    // getTransactionHistory: protectedProcedure
       .input(s.GetTransactionHistorySchema)
       .query(async ({ input, ctx }) => {
         return await getTransactionHistory(ctx.user.id, input.limit || 50);

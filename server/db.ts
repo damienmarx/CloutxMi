@@ -3,14 +3,15 @@ import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, users, wallets, transactions, kenoGames, slotsGames } from "../drizzle/schema";
 import { ENV } from './_core/env';
+import * as schema from "../drizzle/schema";
 
-let _db: ReturnType<typeof drizzle> | null = null;
+let _db: ReturnType<typeof drizzle<typeof schema>> | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      _db = drizzle(process.env.DATABASE_URL, { schema, mode: 'default' });
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
@@ -18,6 +19,9 @@ export async function getDb() {
   }
   return _db;
 }
+
+// Export a proxy or a way to access db directly for scripts that expect 'db'
+export const db = await getDb();
 
 export async function upsertUser(user: Partial<InsertUser>): Promise<void> {
   if (!user.openId && !user.username) {

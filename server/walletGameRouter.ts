@@ -3,7 +3,7 @@
  * Provides API endpoints for wallet operations and game play
  */
 
-import { router, publicProcedure, protectedProcedure } from "./trpc";
+import { router, publicProcedure, protectedProcedure } from "./_core/trpc";
 import { z } from "zod";
 import WalletService from "./walletSystem";
 import {
@@ -48,7 +48,7 @@ export const walletRouter = router({
         currency: z.enum(["USD", "EUR", "GBP"]).default("USD"),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }: { ctx: any, input: any }) => {
       try {
         const transactionId = await WalletService.processDeposit({
           userId: ctx.user.id,
@@ -81,7 +81,7 @@ export const walletRouter = router({
         destination: z.string().min(1),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }: { ctx: any, input: any }) => {
       try {
         const transactionId = await WalletService.processWithdrawal({
           userId: ctx.user.id,
@@ -108,8 +108,8 @@ export const walletRouter = router({
    * Get transaction history
    */
   getTransactionHistory: protectedProcedure
-    .input(z.object({ limit: z.number().default(50).max(100) }))
-    .query(async ({ ctx, input }) => {
+    .input(z.object({ limit: z.number().max(100).default(50) }))
+    .query(async ({ ctx, input }: { ctx: any, input: any }) => {
       try {
         const transactions = await WalletService.getTransactionHistory(
           ctx.user.id,
@@ -140,7 +140,7 @@ export const gamesRouter = router({
         clientSeed: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }: { ctx: any, input: any }) => {
       try {
         // Check balance
         const wallet = await WalletService.getBalance(ctx.user.id);
@@ -200,7 +200,7 @@ export const gamesRouter = router({
         clientSeed: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }: { ctx: any, input: any }) => {
       try {
         const wallet = await WalletService.getBalance(ctx.user.id);
         if (parseFloat(wallet.balance) < input.betAmount) {
@@ -257,7 +257,7 @@ export const gamesRouter = router({
         clientSeed: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }: { ctx: any, input: any }) => {
       try {
         const wallet = await WalletService.getBalance(ctx.user.id);
         if (parseFloat(wallet.balance) < input.betAmount) {
@@ -308,7 +308,7 @@ export const gamesRouter = router({
         clientSeed: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }: { ctx: any, input: any }) => {
       try {
         const wallet = await WalletService.getBalance(ctx.user.id);
         if (parseFloat(wallet.balance) < input.betAmount) {
@@ -364,7 +364,7 @@ export const gamesRouter = router({
         clientSeed: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }: { ctx: any, input: any }) => {
       try {
         const wallet = await WalletService.getBalance(ctx.user.id);
         if (parseFloat(wallet.balance) < input.betAmount) {
@@ -421,7 +421,7 @@ export const gamesRouter = router({
         max: z.number(),
       })
     )
-    .query(({ input }) => {
+    .query(({ input }: { input: any }) => {
       const isValid = ProvablyFairRNG.verifyFairness(
         input.seed,
         input.clientSeed,

@@ -50,6 +50,7 @@ export class WalletService {
    * Get user's wallet balance
    */
   static async getBalance(userId: number): Promise<WalletBalance> {
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
     const wallet = await db.query.wallets.findFirst({
       where: eq(wallets.userId, userId),
     });
@@ -73,6 +74,7 @@ export class WalletService {
    * Create wallet for new user
    */
   static async createWallet(userId: number): Promise<void> {
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
     await db.insert(wallets).values({
       userId,
       balance: "0.00",
@@ -103,9 +105,9 @@ export class WalletService {
     const transactionId = crypto.randomUUID();
 
     try {
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
       // Create transaction record
       await db.insert(transactions).values({
-        id: undefined,
         userId: request.userId,
         type: "deposit",
         amount: request.amount.toString(),
@@ -131,10 +133,12 @@ export class WalletService {
       return transactionId;
     } catch (error) {
       // Mark transaction as failed
-      await db
-        .update(transactions)
-        .set({ status: "failed" })
-        .where(eq(transactions.id, parseInt(transactionId)));
+      if (db) {
+        await db
+          .update(transactions)
+          .set({ status: "failed" })
+          .where(eq(transactions.id, parseInt(transactionId)));
+      }
 
       throw error;
     }
@@ -144,6 +148,7 @@ export class WalletService {
    * Process withdrawal
    */
   static async processWithdrawal(request: WithdrawRequest): Promise<string> {
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
     // Validate amount
     if (request.amount <= 0) {
       throw new TRPCError({
@@ -175,6 +180,7 @@ export class WalletService {
     const transactionId = crypto.randomUUID();
 
     try {
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
       // Deduct from balance
       const newBalance = currentBalance - request.amount;
       await db
@@ -189,7 +195,6 @@ export class WalletService {
 
       // Create transaction record
       await db.insert(transactions).values({
-        id: undefined,
         userId: request.userId,
         type: "withdrawal",
         amount: request.amount.toString(),
@@ -226,6 +231,7 @@ export class WalletService {
     amount: number,
     reason: string
   ): Promise<void> {
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
     if (amount <= 0) {
       throw new TRPCError({
         code: "BAD_REQUEST",
@@ -253,7 +259,6 @@ export class WalletService {
 
     // Log transaction
     await db.insert(transactions).values({
-      id: undefined,
       userId,
       type: "game_win",
       amount: amount.toString(),
@@ -272,6 +277,7 @@ export class WalletService {
     amount: number,
     reason: string
   ): Promise<void> {
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
     if (amount <= 0) {
       throw new TRPCError({
         code: "BAD_REQUEST",
@@ -307,7 +313,6 @@ export class WalletService {
 
     // Log transaction
     await db.insert(transactions).values({
-      id: undefined,
       userId,
       type: "game_loss",
       amount: amount.toString(),
@@ -325,6 +330,7 @@ export class WalletService {
     userId: number,
     limit: number = 50
   ): Promise<TransactionRecord[]> {
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
     const txns = await db.query.transactions.findMany({
       where: eq(transactions.userId, userId),
       limit,
@@ -342,6 +348,7 @@ export class WalletService {
     request: DepositRequest,
     transactionId: string
   ): Promise<void> {
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
     // TODO: Integrate with Stripe API
     // For now, simulate successful deposit
     const wallet = await db.query.wallets.findFirst({
