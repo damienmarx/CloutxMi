@@ -3,6 +3,8 @@
 # Developed by your Personal CloutScape Agent
 
 source "$(dirname "${BASH_SOURCE[0]}")/lib/utils.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/modular_config_loader.sh"
+load_config "prod" # Assuming auto_git.sh is primarily for production updates
 
 ACTION="${1:-update}"
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"

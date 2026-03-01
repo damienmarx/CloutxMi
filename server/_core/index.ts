@@ -5,8 +5,10 @@ import { createServer } from "http";
 import net from "net";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
-import { appRouter } from "../routers";
+import { createAppRouter } from "../routers";
 import { createContext } from "./context";
+import { PluginManager } from "../pluginManager";
+import * as path from 'path';
 import { serveStatic, setupVite } from "./vite";
 import { initializeSocket, setGlobalIO } from "./socket";
 import { 
@@ -39,6 +41,9 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 }
 
 async function startServer() {
+  const pluginManager = new PluginManager(path.join(__dirname, "../../plugins"));
+  await pluginManager.loadPlugins();
+
   const app = express();
   const server = createServer(app);
 
@@ -69,7 +74,7 @@ async function startServer() {
   app.use(
     "/api/trpc",
     createExpressMiddleware({
-      router: appRouter,
+      router: createAppRouter(pluginManager.getPluginRouters()),
       createContext,
     })
   );
@@ -91,6 +96,23 @@ async function startServer() {
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
     console.log(`Socket.IO server initialized on http://localhost:${port}`);
+    // Optionally, handle graceful shutdown
+    process.on("SIGTERM", async () => {
+      console.log("SIGTERM signal received: closing HTTP server and shutting down plugins");
+      await pluginManager.shutdownPlugins();
+      server.close(() => {
+        console.log("HTTP server closed");
+        process.exit(0);
+      });
+    });
+    process.on("SIGINT", async () => {
+      console.log("SIGINT signal received: closing HTTP server and shutting down plugins");
+      await pluginManager.shutdownPlugins();
+      server.close(() => {
+        console.log("HTTP server closed");
+        process.exit(0);
+      });
+    });
   });
 }
 

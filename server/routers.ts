@@ -1,4 +1,3 @@
-
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
@@ -23,7 +22,8 @@ import { kenoGames, slotsGames } from "../drizzle/schema";
 import { nanoid } from "nanoid";
 import { getDb } from "./db";
 
-export const appRouter = router({
+export const createAppRouter = (pluginRouters: any[]) => {
+  const baseRouter = router({
   system: systemRouter,
   admin: adminRouter,
   leaderboard: leaderboardRouter,
@@ -283,6 +283,8 @@ export const appRouter = router({
   }),
 
   games: router({
+    ...Object.assign({}, ...pluginRouters),
+
     playKeno: protectedProcedure
       .input(
         z.object({
@@ -318,23 +320,17 @@ export const appRouter = router({
           );
 
           if (!balanceResult.success) {
-            return {
-              success: false,
-              error: balanceResult.message,
-            };
+            return { success: false, error: balanceResult.error };
           }
 
           return {
             success: true,
-            result: gameResult,
+            winAmount: gameResult.winAmount,
             newBalance: balanceResult.balance,
           };
         } catch (error) {
           console.error("[Games] Keno error:", error);
-          return {
-            success: false,
-            error: "Game failed. Please try again.",
-          };
+          return { success: false, error: "Game failed" };
         }
       }),
 
@@ -342,27 +338,20 @@ export const appRouter = router({
       .input(
         z.object({
           betAmount: z.number().positive(),
-          paylines: z.number().int().min(1).max(5).optional(),
+          paylines: z.number().int().min(1).max(5),
         })
       )
       .mutation(async ({ input, ctx }) => {
         try {
-          // Verify sufficient balance
           const wallet = await getUserWallet(ctx.user.id);
           if (!wallet || parseFloat(wallet.balance) < input.betAmount) {
-            return {
-              success: false,
-              error: "Insufficient balance",
-            };
+            return { success: false, error: "Insufficient balance" };
           }
 
-          // Play Slots
-          const gameResult = playSlots(input.betAmount, input.paylines || 1);
+          const gameResult = playSlots(input.betAmount, input.paylines);
 
-          // Determine if player won
           const isWin = gameResult.winAmount > 0;
 
-          // Record game result and update balance
           const balanceResult = await recordGameResult(
             ctx.user.id,
             "slots",
@@ -372,68 +361,27 @@ export const appRouter = router({
           );
 
           if (!balanceResult.success) {
-            return {
-              success: false,
-              error: balanceResult.message,
-            };
+            return { success: false, error: balanceResult.error };
           }
 
           return {
             success: true,
-            result: gameResult,
+            winAmount: gameResult.winAmount,
             newBalance: balanceResult.balance,
           };
         } catch (error) {
           console.error("[Games] Slots error:", error);
-          return {
-            success: false,
-            error: "Game failed. Please try again.",
-          };
-        }
-      }),
-
-    playCrash: protectedProcedure
-      .input(
-        z.object({
-          betAmount: z.number().positive(),
-          multiplier: z.number().positive(),
-          cashoutMultiplier: z.number().positive(),
-          won: z.boolean(),
-        })
-      )
-      .mutation(async ({ input, ctx }) => {
-        try {
-          const wallet = await getUserWallet(ctx.user.id);
-          if (!wallet || parseFloat(wallet.balance) < input.betAmount) {
-            return { success: false, error: "Insufficient balance" };
-          }
-
-          const payout = input.won ? input.betAmount * input.cashoutMultiplier : 0;
-          const balanceResult = await recordGameResult(
-            ctx.user.id,
-            "crash",
-            nanoid(),
-            payout,
-            input.won
-          );
-
-          return {
-            success: true,
-            payout,
-            newBalance: balanceResult.balance,
-          };
-        } catch (error) {
-          console.error("[Games] Crash error:", error);
           return { success: false, error: "Game failed" };
         }
       }),
+
     playBlackjack: protectedProcedure
       .input(
         z.object({
           betAmount: z.number().positive(),
-          playerHand: z.string(),
-          dealerHand: z.string(),
-          result: z.enum(["win", "loss", "push"]),
+          playerHand: z.array(z.string()),
+          dealerHand: z.array(z.string()),
+          result: z.enum(["win", "lose", "push"]),
         })
       )
       .mutation(async ({ input, ctx }) => {
@@ -442,22 +390,25 @@ export const appRouter = router({
           if (!wallet || parseFloat(wallet.balance) < input.betAmount) {
             return { success: false, error: "Insufficient balance" };
           }
-          const payout =
-            input.result === "win"
-              ? input.betAmount * 2
-              : input.result === "push"
-                ? input.betAmount
-                : 0;
+
+          let winAmount = 0;
+          if (input.result === "win") {
+            winAmount = input.betAmount * 2; // Assuming 2x payout for blackjack win
+          } else if (input.result === "push") {
+            winAmount = input.betAmount; // Return bet on push
+          }
+
           const balanceResult = await recordGameResult(
             ctx.user.id,
             "blackjack",
             nanoid(),
-            payout,
-            input.result !== "loss"
+            winAmount,
+            input.result === "win"
           );
+
           return {
             success: true,
-            payout,
+            winAmount,
             newBalance: balanceResult.balance,
           };
         } catch (error) {
@@ -465,12 +416,13 @@ export const appRouter = router({
           return { success: false, error: "Game failed" };
         }
       }),
+
     playRoulette: protectedProcedure
       .input(
         z.object({
           betAmount: z.number().positive(),
-          betType: z.string(),
-          winningNumber: z.number().min(0).max(36),
+          prediction: z.string(), // e.g., "red", "black", "0", "1-12"
+          targetNumber: z.number().int().min(0).max(36).optional(),
           won: z.boolean(),
         })
       )
@@ -480,18 +432,30 @@ export const appRouter = router({
           if (!wallet || parseFloat(wallet.balance) < input.betAmount) {
             return { success: false, error: "Insufficient balance" };
           }
-          const multiplier = input.betType.startsWith("number_") ? 36 : 2;
-          const payout = input.won ? input.betAmount * multiplier : 0;
+
+          let winAmount = 0;
+          if (input.won) {
+            // Simplified payout logic for example
+            if (input.prediction === "red" || input.prediction === "black") {
+              winAmount = input.betAmount * 2;
+            } else if (input.targetNumber !== undefined) {
+              winAmount = input.betAmount * 36;
+            } else {
+              winAmount = input.betAmount * 3; // Example for dozens/columns
+            }
+          }
+
           const balanceResult = await recordGameResult(
             ctx.user.id,
             "roulette",
             nanoid(),
-            payout,
+            winAmount,
             input.won
           );
+
           return {
             success: true,
-            payout,
+            winAmount,
             newBalance: balanceResult.balance,
           };
         } catch (error) {
@@ -499,6 +463,7 @@ export const appRouter = router({
           return { success: false, error: "Game failed" };
         }
       }),
+
     playDice: protectedProcedure
       .input(
         z.object({
@@ -537,4 +502,7 @@ export const appRouter = router({
   }),
 });
 
-export type AppRouter = typeof appRouter;
+export type AppRouter = ReturnType<typeof createAppRouter>;
+
+  return baseRouter;
+};

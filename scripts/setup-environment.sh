@@ -17,6 +17,9 @@ NC='\033[0m' # No Color
 
 # Configuration
 ENVIRONMENT=${1:-dev}
+
+source "$(dirname "${BASH_SOURCE[0]}")/modular_config_loader.sh"
+load_config "$ENVIRONMENT"
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 LOG_FILE="${PROJECT_ROOT}/logs/setup_${TIMESTAMP}.log"
@@ -141,6 +144,9 @@ setup_directories() {
 ################################################################################
 
 setup_env_files() {
+    log_info "Skipping .env file creation as modular config loader handles it."
+    return 0
+
     log_info "Setting up environment files..."
 
     local env_file=""
@@ -187,7 +193,7 @@ setup_dependencies() {
     # Install root dependencies
     if [[ -f "package.json" ]]; then
         log_info "Installing root dependencies..."
-        npm install
+        $NPM_CMD install
         log_success "Root dependencies installed"
     fi
 
@@ -195,7 +201,7 @@ setup_dependencies() {
     if [[ -f "client/package.json" ]]; then
         log_info "Installing client dependencies..."
         cd client
-        npm install
+        $NPM_CMD install
         cd ..
         log_success "Client dependencies installed"
     fi
@@ -204,7 +210,7 @@ setup_dependencies() {
     if [[ -f "server/package.json" ]]; then
         log_info "Installing server dependencies..."
         cd server
-        npm install
+        $NPM_CMD install
         cd ..
         log_success "Server dependencies installed"
     fi
@@ -225,7 +231,7 @@ setup_database() {
         prod|staging)
             log_warning "Production/Staging database setup requires manual configuration"
             log_info "Ensure DATABASE_URL is set in your environment file"
-            log_info "Run database migrations with: npm run db:migrate"
+            log_info "Run database migrations with: $NPM_CMD run db:migrate"
             ;;
     esac
 }
@@ -284,6 +290,14 @@ setup_docker() {
 setup_build() {
     log_info "Setting up build configuration..."
 
+    # Use pnpm for consistency with the project's package manager
+    if command -v pnpm &> /dev/null; then
+        NPM_CMD="pnpm"
+    else
+        NPM_CMD="npm"
+    fi
+
+
     cd "$PROJECT_ROOT"
 
     case $ENVIRONMENT in
@@ -295,7 +309,7 @@ setup_build() {
             if [[ -f "client/package.json" ]]; then
                 log_info "Building client application..."
                 cd client
-                npm run build
+                $NPM_CMD run build
                 cd ..
                 log_success "Client build completed"
             fi
@@ -401,7 +415,7 @@ print_summary() {
     echo -e "${YELLOW}Next Steps:${NC}"
     echo "1. Review and update .env.$ENVIRONMENT with your configuration"
     echo "2. Start the development server: npm run dev"
-    echo "3. For production: npm run build && npm run start"
+    echo "3. For production: $NPM_CMD run build && npm run start"
     echo ""
     echo -e "${YELLOW}Documentation:${NC}"
     echo "- Setup Guide: $PROJECT_ROOT/SETUP_GUIDE.md"
