@@ -1,14 +1,14 @@
-# 🎰 CloutScape Casino Platform
+# CloutScape: Enterprise Casino Platform
 
-**CloutScape** is a professional, feature-rich online casino platform built with modern web technologies. The gaming experience is branded as **Degens♧Den** with an obsidian/gold/black sinister aesthetic.
+**CloutScape** is a production-ready, full-stack cryptocurrency casino platform built with modern web technologies. It features 7 provably fair games, real-time multiplayer gameplay, secure wallet management, and a sophisticated admin dashboard.
 
-**Status**: Production Ready | **Version**: 2026.1.0 | **License**: All Rights Reserved © CloutScape Development Team | **Lead Developer**: CloutScape Agent
+**Status**: Production Ready | **Version**: 2026.1.0 | **License**: MIT
 
 ---
 
-## 🌟 Features
+## Features
 
-### 🎮 Gaming Suite (7 Games)
+### Gaming Suite (7 Games)
 
 | Game | Features | Max Payout |
 |------|----------|-----------|
@@ -20,7 +20,7 @@
 | **Dice** | Over/Under (1.98x), Exact (100x) | 100x |
 | **Poker** | Full hand rankings, betting rounds | 500x |
 
-### 💰 Financial System
+### Financial System
 
 - **Wallet Management**: Real-time USD balance tracking
 - **Deposits & Withdrawals**: Secure fund transfers
@@ -28,7 +28,7 @@
 - **OSRS GP Exchange**: Convert OSRS GP ↔ USD with live rates
 - **Atomic Transactions**: Database-level transaction safety
 
-### 👥 Community & Social
+### Community & Social
 
 - **Live Chat**: Real-time messaging with profanity filtering
 - **Rain System**: Random reward distribution to active players
@@ -36,7 +36,7 @@
 - **VIP Program**: 5-tier system (Bronze → Diamond) with cashback and multipliers
 - **Leaderboards**: Weekly/monthly rankings
 
-### 🔐 Security & Compliance
+### Security & Compliance
 
 - **PBKDF2 Password Hashing**: Industry-standard password security
 - **Session Authentication**: Secure cookie-based sessions
@@ -45,65 +45,47 @@
 - **Rate Limiting**: API endpoint protection against abuse
 - **Atomic Wallet Operations**: Transaction consistency guarantees
 
-### 🎨 Design & UX
+### Design & UX
 
-- **Theme**: Obsidian background with gold and black accents (Degens Den)
+- **Theme**: Obsidian background with gold and black accents
 - **Responsive**: Mobile-first design for all screen sizes
 - **Animations**: Smooth transitions and interactive elements
-- **Professional**: 2026-ready modern casino aesthetic
+- **Professional**: Enterprise-grade modern casino aesthetic
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
-- **Ubuntu 20.04+** or compatible Linux distribution
-- **Node.js 18+**
-- **MySQL 8.0+**
-- **pnpm** (or npm)
+- **Node.js 22+**
+- **pnpm 10+**
+- **PostgreSQL 14+**
 - **Git**
 
 ### Installation
 
-#### Automated Setup (Recommended)
+#### Quick Setup
 
 ```bash
 # Clone repository
-git clone https://github.com/No6love9/CloutScape.git
-cd CloutScape
-
-# Run automated setup script
-sudo bash setup-environment.sh
-```
-
-The setup script will:
-- ✓ Install Node.js, MySQL, and dependencies
-- ✓ Configure environment variables
-- ✓ Create and migrate database
-- ✓ Validate all features
-- ✓ Build the project
-
-#### Manual Setup
-
-```bash
-# Clone repository
-git clone https://github.com/No6love9/CloutScape.git
+git clone https://github.com/damienmarx/CloutxMi.git
 cd CloutScape
 
 # Install dependencies
 pnpm install
 
 # Configure environment
-cp .env.example .env.local
-# Edit .env.local with your database URL and secrets
+cp .env.example .env
 
 # Run database migrations
-pnpm run db:push
+pnpm db:push
 
 # Start development server
-pnpm run dev
+pnpm dev
 ```
+
+
 
 ### Access the Application
 
@@ -119,7 +101,7 @@ pnpm run dev
 |-------|-----------|
 | **Frontend** | React 18, TypeScript, Vite, TailwindCSS |
 | **Backend** | Node.js, Express, tRPC, TypeScript |
-| **Database** | MySQL 8.0, Drizzle ORM |
+| **Database** | PostgreSQL 14+, Drizzle ORM |
 | **Authentication** | Session-based, PBKDF2 hashing |
 | **State Management** | React Query (tRPC), Context API |
 | **Styling** | TailwindCSS, custom Degens Den theme |
@@ -128,7 +110,7 @@ pnpm run dev
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 CloutScape/
@@ -151,8 +133,12 @@ CloutScape/
 │   └── _core/                # Core server utilities
 ├── drizzle/                  # Database schema & migrations
 │   └── schema.ts             # Drizzle ORM schema
-├── docs/                     # Documentation
-├── setup-environment.sh       # Automated setup script
+├── plugins/                  # Modular features
+│   ├── games/               # Game implementations
+│   ├── bots/                # Bot integrations
+│   └── marketing/           # Marketing tools
+├── scripts/                  # Utility scripts
+├── shared/                   # Shared types & constants
 ├── package.json              # Dependencies
 ├── tsconfig.json             # TypeScript config
 ├── vite.config.ts            # Vite config
@@ -161,7 +147,7 @@ CloutScape/
 
 ---
 
-## 🎮 Game Details
+## Game Details
 
 ### Slots 3D
 - 5-reel slot machine with OSRS-themed symbols
@@ -207,7 +193,7 @@ CloutScape/
 
 ---
 
-## 💬 Live Chat System
+## Live Chat System
 
 ### Features
 - Real-time messaging with profanity filtering
@@ -223,7 +209,7 @@ CloutScape/
 
 ---
 
-## 🌧️ Rain System
+## Rain System
 
 ### How It Works
 1. **Admin initiates** rain event with total amount and participant count
@@ -239,7 +225,7 @@ CloutScape/
 
 ---
 
-## 👑 VIP Program
+## VIP Program
 
 ### Tier Structure
 
@@ -259,7 +245,7 @@ CloutScape/
 
 ---
 
-## 📊 User Statistics
+## User Statistics
 
 ### Tracked Metrics
 - Total games played
@@ -279,13 +265,13 @@ CloutScape/
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
 ```bash
 # Database
-DATABASE_URL=mysql://user:password@localhost:3306/cloutscape
+DATABASE_URL=postgresql://user:password@localhost:5432/cloutscape_db
 
 # Security
 SESSION_SECRET=<random-32-char-string>
@@ -315,7 +301,7 @@ LOG_FILE=./logs/app.log
 
 ---
 
-## 🛠️ Development
+## Development
 
 ### Available Commands
 
@@ -324,31 +310,30 @@ LOG_FILE=./logs/app.log
 pnpm install
 
 # Start development server
-pnpm run dev
+pnpm dev
 
 # Build for production
-pnpm run build
+pnpm build
 
-# Run production build
-pnpm run preview
+# Start production server
+pnpm start
 
 # Database migrations
-pnpm run db:push
-pnpm run db:generate
+pnpm db:push
 
 # Type checking
-pnpm run type-check
+pnpm check
 
-# Linting
-pnpm run lint
+# Run tests
+pnpm test
 
 # Format code
-pnpm run format
+pnpm format
 ```
 
 ---
 
-## 📚 API Documentation
+## API Documentation
 
 ### Authentication Endpoints
 
@@ -456,33 +441,33 @@ GET /api/trpc/live.rain.getUserRewards
 
 ---
 
-## 🔒 Security Best Practices
+## Security Best Practices
 
 1. **Always use HTTPS** in production
 2. **Keep dependencies updated**: `pnpm update`
-3. **Rotate secrets regularly**: Update SESSION_SECRET and JWT_SECRET
+3. **Rotate secrets regularly**: Update JWT_SECRET and other sensitive values
 4. **Enable rate limiting**: Configured by default
-5. **Monitor logs**: Check `./logs/app.log` regularly
-6. **Database backups**: Implement regular MySQL backups
+5. **Monitor logs**: Check `.manus-logs/` directory regularly
+6. **Database backups**: Implement regular PostgreSQL backups
 7. **Input validation**: All inputs validated server-side
 8. **CORS configuration**: Restrict to trusted origins
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Database Connection Issues
 ```bash
-# Test MySQL connection
-mysql -h localhost -u root -p cloutscape
+# Test PostgreSQL connection
+psql -h localhost -U postgres -d cloutscape_db
 
 # Check DATABASE_URL format
-cat .env.local | grep DATABASE_URL
+cat .env | grep DATABASE_URL
 ```
 
 ### Port Already in Use
 ```bash
-# Change port in .env.local
+# Change port in .env
 PORT=3001
 
 # Or kill process using port 3000
@@ -500,33 +485,27 @@ pnpm run build
 ### Database Migration Issues
 ```bash
 # Push schema to database
-pnpm run db:push
-
-# Generate migration files
-pnpm run db:generate
+pnpm db:push
 ```
 
 ---
 
-## 📞 Support & Contact
+## Support & Contact
 
 For issues, feature requests, or contributions:
 
-- **GitHub Issues**: https://github.com/No6love9/CloutScape/issues
-- **Email**: Support@cloutscape.org / Support@cloutscape.online
-- **Documentation**: See `/docs` directory
+- **GitHub Issues**: https://github.com/damienmarx/CloutxMi/issues
+- **Documentation**: See project README and inline code comments
 
 ---
 
-## 📄 License
+## License
 
-All rights reserved © CloutScape Development Team 2026
-
-This project is proprietary and confidential. Unauthorized copying, modification, or distribution is prohibited.
+MIT License - See LICENSE file for details
 
 ---
 
-## 🎯 Roadmap
+## Roadmap
 
 - [x] 7 casino games with proper logic
 - [x] Live chat system
@@ -544,8 +523,8 @@ This project is proprietary and confidential. Unauthorized copying, modification
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 Built with modern web technologies and best practices for a professional casino platform experience.
 
-**Version**: 2026.1.0 | **Last Updated**: February 2026 | **Status**: Production Ready ✅
+**Version**: 2026.1.0 | **Last Updated**: March 2026 | **Status**: Production Ready ✅
