@@ -164,3 +164,17 @@ export async function getTransactionHistory(userId: number, limit: number = 50) 
 }
 
 // TODO: add feature queries here as your schema grows.
+
+export async function updateUserPassword(userId: number, passwordHash: string): Promise<void> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot update user password: database not available");
+    return;
+  }
+  try {
+    await db.update(users).set({ passwordHash }).where(eq(users.id, userId));
+  } catch (error) {
+    console.error("[Database] Failed to update user password:", error);
+    throw error;
+  }
+}

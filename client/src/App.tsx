@@ -25,6 +25,7 @@ import VIPProgress from "./pages/VIPProgress";
 import UserStatsDashboard from "./pages/UserStatsDashboard";
 import OsrsDeposit from "./pages/OsrsDeposit";
 import OsrsWithdraw from "./pages/OsrsWithdraw";
+import MfaManagement from "./pages/MfaManagement";
 
 function Router() {
   return (
@@ -49,6 +50,7 @@ function Router() {
       <Route path={"/user-stats"} component={UserStatsDashboard} />
       <Route path={"/osrs-deposit"} component={OsrsDeposit} />
       <Route path={"/osrs-withdraw"} component={OsrsWithdraw} />
+      <Route path={"/mfa"} component={MfaManagement} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

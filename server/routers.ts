@@ -11,6 +11,7 @@ import { degensDenRouter } from "./degensdenRouter";
 import { cryptoWalletRouter } from "./cryptoWalletRouter";
 import { trustWalletRouter } from "./trustWalletRouter";
 import { liveRouter } from "./liveRouter";
+import { mfaRouter } from "./mfaRouter";
 import { z } from "zod";
 import { getUserByUsername, getUserById, getWalletByUserId, createWallet, getTransactionHistory } from "./db";
 import { hashPassword, verifyPassword, validateUsername, validatePasswordStrength, validateEmail } from "./auth";
@@ -34,6 +35,7 @@ export const createAppRouter = (pluginRouters: any[]) => {
   cryptoWallet: cryptoWalletRouter,
   trustWallet: trustWalletRouter,
   live: liveRouter,
+  mfa: mfaRouter,
 
   auth: router({
     me: publicProcedure.query((opts) => opts.ctx.user),
@@ -97,7 +99,7 @@ export const createAppRouter = (pluginRouters: any[]) => {
         }
 
         // Hash password and create user
-        const passwordHash = hashPassword(input.password);
+        const passwordHash = await hashPassword(input.password);
 
         try {
           await upsertUser({
@@ -151,7 +153,7 @@ export const createAppRouter = (pluginRouters: any[]) => {
           };
         }
 
-        if (!verifyPassword(input.password, user.passwordHash)) {
+        if (!(await verifyPassword(input.password, user.passwordHash, user.id))) {
           return {
             success: false,
             error: "Invalid username or password",
