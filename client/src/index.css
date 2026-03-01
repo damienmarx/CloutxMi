@@ -177,3 +177,126 @@
     }
   }
 }
+
+/* ============================================================
+   CloutScape Extended Design System
+   ============================================================ */
+
+@layer base {
+  :root {
+    /* Casino-specific neon accent tokens */
+    --neon-red: oklch(0.55 0.32 15);
+    --neon-gold: oklch(0.82 0.18 85);
+    --neon-green: oklch(0.65 0.25 145);
+    --neon-blue: oklch(0.55 0.22 250);
+    --neon-purple: oklch(0.50 0.28 305);
+
+    /* Glass effect tokens */
+    --glass-bg: oklch(0.12 0.015 280 / 0.6);
+    --glass-border: oklch(0.35 0.05 280 / 0.4);
+    --glass-blur: 12px;
+
+    /* Animation speeds */
+    --speed-fast: 150ms;
+    --speed-normal: 300ms;
+    --speed-slow: 600ms;
+
+    /* Glow intensities */
+    --glow-sm: 0 0 8px;
+    --glow-md: 0 0 16px;
+    --glow-lg: 0 0 32px;
+  }
+}
+
+@layer components {
+  /* ---- GlassCard ---- */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 32px oklch(0 0 0 / 0.4);
+    transition: box-shadow var(--speed-normal) ease, border-color var(--speed-normal) ease;
+  }
+  .glass-card:hover {
+    border-color: oklch(0.5 0.3 0 / 0.5);
+    box-shadow: 0 4px 48px oklch(0 0 0 / 0.6), var(--glow-sm) var(--neon-red);
+  }
+
+  /* ---- Neon text utilities ---- */
+  .text-neon-red   { color: var(--neon-red);    text-shadow: var(--glow-sm) var(--neon-red); }
+  .text-neon-gold  { color: var(--neon-gold);   text-shadow: var(--glow-sm) var(--neon-gold); }
+  .text-neon-green { color: var(--neon-green);  text-shadow: var(--glow-sm) var(--neon-green); }
+  .text-neon-blue  { color: var(--neon-blue);   text-shadow: var(--glow-sm) var(--neon-blue); }
+
+  /* ---- Neon border utilities ---- */
+  .border-neon-red   { border-color: var(--neon-red);   box-shadow: var(--glow-sm) var(--neon-red); }
+  .border-neon-gold  { border-color: var(--neon-gold);  box-shadow: var(--glow-sm) var(--neon-gold); }
+  .border-neon-green { border-color: var(--neon-green); box-shadow: var(--glow-sm) var(--neon-green); }
+
+  /* ---- Win / Loss badge ---- */
+  .badge-win  { @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold bg-green-900/40 text-neon-green border border-neon-green; }
+  .badge-loss { @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold bg-red-900/40 text-neon-red border border-neon-red; }
+
+  /* ---- Chip button (bet selector) ---- */
+  .chip-btn {
+    @apply inline-flex items-center justify-center rounded-full border-2 font-bold text-sm transition-all duration-150 select-none cursor-pointer;
+    min-width: 3rem;
+    min-height: 3rem;
+    border-color: var(--neon-gold);
+    color: var(--neon-gold);
+    background: oklch(0.12 0.015 280 / 0.8);
+  }
+  .chip-btn:hover, .chip-btn.active {
+    background: var(--neon-gold);
+    color: oklch(0.08 0.01 280);
+    box-shadow: var(--glow-md) var(--neon-gold);
+  }
+
+  /* ---- Stat card ---- */
+  .stat-card {
+    @apply glass-card flex flex-col gap-1 p-4;
+  }
+  .stat-card .stat-label {
+    @apply text-xs font-medium uppercase tracking-widest text-muted-foreground;
+  }
+  .stat-card .stat-value {
+    @apply text-2xl font-bold text-neon-gold;
+  }
+
+  /* ---- Scrollbar ---- */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: oklch(0.10 0.01 280); }
+  ::-webkit-scrollbar-thumb { background: oklch(0.25 0.03 280); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: oklch(0.35 0.05 280); }
+}
+
+@layer utilities {
+  /* Gradient text */
+  .gradient-text-gold {
+    background: linear-gradient(135deg, var(--neon-gold), oklch(0.92 0.12 85));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gradient-text-red {
+    background: linear-gradient(135deg, var(--neon-red), oklch(0.70 0.28 15));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Pulse glow animation */
+  .glow-pulse-red   { animation: glowPulseRed 2s ease-in-out infinite; }
+  .glow-pulse-gold  { animation: glowPulseGold 2s ease-in-out infinite; }
+
+  @keyframes glowPulseRed {
+    0%, 100% { box-shadow: 0 0 8px var(--neon-red); }
+    50%       { box-shadow: 0 0 24px var(--neon-red), 0 0 48px var(--neon-red); }
+  }
+  @keyframes glowPulseGold {
+    0%, 100% { box-shadow: 0 0 8px var(--neon-gold); }
+    50%       { box-shadow: 0 0 24px var(--neon-gold), 0 0 48px var(--neon-gold); }
+  }
+}
