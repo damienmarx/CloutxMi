@@ -217,6 +217,59 @@ export const createAppRouter = (pluginRouters: any[]) => {
         });
         return { success: true };
       }),
+
+    verifyAge: protectedProcedure
+      .input(s.AgeVerificationSchema)
+      .mutation(async ({ input, ctx }) => {
+        const eighteenYearsAgo = new Date();
+        eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
+        const dob = new Date(input.dateOfBirth);
+
+        if (dob > eighteenYearsAgo) {
+          return { success: false, error: "You must be at least 18 years old." };
+        }
+
+        await upsertUser({
+          id: ctx.user.id,
+          dateOfBirth: input.dateOfBirth,
+          isAgeVerified: true,
+        });
+        return { success: true, message: "Age verified successfully." };
+      }),
+
+    selfExclude: protectedProcedure
+      .input(s.SelfExclusionSchema)
+      .mutation(async ({ input, ctx }) => {
+        let selfExclusionUntil: Date | null = null;
+        const now = new Date();
+
+        switch (input.duration) {
+          case "1_month":
+            selfExclusionUntil = new Date(now.setMonth(now.getMonth() + 1));
+            break;
+          case "3_months":
+            selfExclusionUntil = new Date(now.setMonth(now.getMonth() + 3));
+            break;
+          case "6_months":
+            selfExclusionUntil = new Date(now.setMonth(now.getMonth() + 6));
+            break;
+          case "1_year":
+            selfExclusionUntil = new Date(now.setFullYear(now.getFullYear() + 1));
+            break;
+          case "5_years":
+            selfExclusionUntil = new Date(now.setFullYear(now.getFullYear() + 5));
+            break;
+          case "permanent":
+            selfExclusionUntil = new Date("9999-12-31T23:59:59.999Z"); // Effectively permanent
+            break;
+        }
+
+        await upsertUser({
+          id: ctx.user.id,
+          selfExclusionUntil: selfExclusionUntil,
+        });
+        return { success: true, message: "Self-exclusion period set." };
+      }),
   }),
 
   wallet: router({

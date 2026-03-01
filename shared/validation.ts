@@ -72,3 +72,11 @@ export const PlayDiceSchema = z.object({
   diceRoll: z.number().min(1).max(100),
   won: z.boolean(),
 });
+
+export const AgeVerificationSchema = z.object({
+  dateOfBirth: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format (YYYY-MM-DD)"),
+});
+
+export const SelfExclusionSchema = z.object({
+  duration: z.enum(["1_month", "3_months", "6_months", "1_year", "5_years", "permanent"]),
+});

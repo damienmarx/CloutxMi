@@ -14,6 +14,8 @@ export const users = mysqlTable("users", {
   name: text("name"),
   loginMethod: varchar("loginMethod", { length: 64 }).default("username"),
   role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  dateOfBirth: varchar("date_of_birth", { length: 10 }), // Stored as YYYY-MM-DD
+  isAgeVerified: boolean("is_age_verified").default(false).notNull(),
   discordId: varchar("discordId", { length: 64 }),
   telegramId: varchar("telegramId", { length: 64 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -22,6 +24,7 @@ export const users = mysqlTable("users", {
   mfaSecret: varchar("mfaSecret", { length: 255 }),
   mfaEnabled: boolean("mfaEnabled").default(false).notNull(),
   mfaRecoveryCodes: text("mfaRecoveryCodes"),
+  selfExclusionUntil: timestamp("self_exclusion_until"), // Date until user is self-excluded
 });
 
 export type User = typeof users.$inferSelect;
