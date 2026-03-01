@@ -1,10 +1,12 @@
+
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { GlassCard } from "@/components/ui/GlassCard";
 import { trpc } from "@/lib/trpc";
-import { Sparkles, AlertCircle, CheckCircle, Mail } from "lucide-react";
+import { AlertCircle, CheckCircle, Mail, Zap } from "lucide-react";
 
 export default function ForgotPassword() {
   const [, setLocation] = useLocation();
@@ -28,84 +30,80 @@ export default function ForgotPassword() {
       } else {
         setError(result.error || "Failed to process request");
       }
-    } catch (err) {
-      setError("An error occurred. Please try again.");
+    } catch {
+      setError("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-900 to-slate-950 flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
+      {/* Logo */}
       <div className="mb-8 text-center">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <Sparkles className="w-8 h-8 text-yellow-400" />
-          <span className="text-3xl font-bold text-yellow-400">CloutScape</span>
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <Zap className="w-8 h-8 text-neon-gold" />
+          <span className="text-3xl font-extrabold gradient-text-gold tracking-tight">CloutScape</span>
         </div>
-        <p className="text-gray-400">Reset your password</p>
+        <p className="text-muted-foreground text-sm">Password recovery</p>
       </div>
 
-      <Card className="w-full max-w-md bg-gradient-to-br from-purple-900/50 to-black border-yellow-400/30 p-8">
-        <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">Forgot Password</h2>
+      <GlassCard accent="gold" className="w-full max-w-md p-8">
+        <h2 className="text-2xl font-bold text-center mb-2">Forgot Password</h2>
+        <p className="text-muted-foreground text-sm text-center mb-6">
+          Enter your registered email and we will send you a reset link.
+        </p>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-900/30 border border-red-500/50 rounded-lg flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+          <div className="mb-5 p-3 rounded-lg bg-red-900/30 border border-red-500/40 flex items-start gap-2">
+            <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
             <p className="text-red-300 text-sm">{error}</p>
           </div>
         )}
 
-        {success && (
-          <div className="mb-6 p-4 bg-green-900/30 border border-green-500/50 rounded-lg flex items-start gap-3">
-            <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-            <p className="text-green-300 text-sm">{success}</p>
+        {success ? (
+          <div className="space-y-4">
+            <div className="p-4 rounded-lg bg-green-900/30 border border-green-500/40 flex items-start gap-2">
+              <CheckCircle className="w-4 h-4 text-neon-green flex-shrink-0 mt-0.5" />
+              <p className="text-green-300 text-sm">{success}</p>
+            </div>
+            <Button onClick={() => setLocation("/login")} className="w-full">
+              Back to Sign In
+            </Button>
           </div>
-        )}
-
-        {!success ? (
+        ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+            <div className="space-y-1">
+              <Label htmlFor="email">Email Address</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
+                  id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your registered email"
+                  placeholder="you@example.com"
                   disabled={isLoading}
-                  className="pl-10 bg-black/50 border-yellow-400/30 text-white placeholder:text-gray-500"
+                  className="pl-10"
                   required
+                  autoComplete="email"
                 />
               </div>
             </div>
 
-            <Button
-              type="submit"
-              disabled={isLoading || !email}
-              className="w-full bg-yellow-400 text-black hover:bg-yellow-300 disabled:opacity-50"
-            >
-              {isLoading ? "Sending..." : "Send Reset Link"}
+            <Button type="submit" disabled={isLoading || !email} className="w-full">
+              {isLoading ? "Sending…" : "Send Reset Link"}
             </Button>
           </form>
-        ) : (
-          <Button
-            onClick={() => setLocation("/login")}
-            className="w-full bg-yellow-400 text-black hover:bg-yellow-300"
-          >
-            Back to Login
-          </Button>
         )}
 
-        <div className="mt-6 text-center">
-          <button
-            onClick={() => setLocation("/login")}
-            className="text-gray-400 hover:text-gray-300 text-sm"
-          >
-            Remembered your password? Login
+        <div className="mt-6 text-center text-sm text-muted-foreground">
+          Remembered your password?{" "}
+          <button onClick={() => setLocation("/login")} className="text-neon-gold hover:underline font-semibold">
+            Sign in
           </button>
         </div>
-      </Card>
+      </GlassCard>
     </div>
   );
 }
