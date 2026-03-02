@@ -3,7 +3,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme inline {
+@theme {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -40,10 +40,14 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-neon-red: oklch(0.55 0.32 15);
+  --color-neon-gold: oklch(0.82 0.18 85);
+  --color-neon-green: oklch(0.65 0.25 145);
+  --color-neon-blue: oklch(0.55 0.22 250);
+  --color-neon-purple: oklch(0.50 0.28 305);
 }
 
 :root {
-  /* Obsidian & Neon Red Theme */
   --primary: oklch(0.5 0.3 0);
   --primary-foreground: oklch(1 0 0);
   --sidebar-primary: oklch(0.5 0.3 0);
@@ -77,226 +81,78 @@
   --sidebar-accent-foreground: oklch(1 0 0);
   --sidebar-border: oklch(0.2 0.02 280);
   --sidebar-ring: oklch(0.5 0.3 0);
+  
+  --neon-red: oklch(0.55 0.32 15);
+  --neon-gold: oklch(0.82 0.18 85);
+  --neon-green: oklch(0.65 0.25 145);
+  --neon-blue: oklch(0.55 0.22 250);
+  --neon-purple: oklch(0.50 0.28 305);
+  --glass-bg: oklch(0.12 0.015 280 / 0.6);
+  --glass-border: oklch(0.35 0.05 280 / 0.4);
+  --glass-blur: 12px;
+  --glow-sm: 0 0 8px;
+  --glow-md: 0 0 16px;
+  --glow-lg: 0 0 32px;
 }
 
 .dark {
-  /* Obsidian & Neon Red Theme - Dark Mode */
-  --primary: oklch(0.5 0.3 0);
-  --primary-foreground: oklch(1 0 0);
-  --sidebar-primary: oklch(0.5 0.3 0);
-  --sidebar-primary-foreground: oklch(1 0 0);
   --background: oklch(0.08 0.01 280);
   --foreground: oklch(0.95 0.01 0);
-  --card: oklch(0.12 0.015 280);
-  --card-foreground: oklch(0.95 0.01 0);
-  --popover: oklch(0.12 0.015 280);
-  --popover-foreground: oklch(0.95 0.01 0);
-  --secondary: oklch(0.15 0.02 280);
-  --secondary-foreground: oklch(0.9 0.01 0);
-  --muted: oklch(0.4 0.05 280);
-  --muted-foreground: oklch(0.7 0.01 0);
-  --accent: oklch(0.5 0.3 0);
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.5 0.3 0);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.2 0.02 280);
-  --input: oklch(0.15 0.015 280);
-  --ring: oklch(0.5 0.3 0);
-  --chart-1: oklch(0.5 0.3 0);
-  --chart-2: oklch(0.4 0.25 0);
-  --chart-3: oklch(0.45 0.28 0);
-  --chart-4: oklch(0.35 0.22 0);
-  --chart-5: oklch(0.3 0.2 0);
-  --sidebar: oklch(0.1 0.01 280);
-  --sidebar-foreground: oklch(0.95 0.01 0);
-  --sidebar-accent: oklch(0.5 0.3 0);
-  --sidebar-accent-foreground: oklch(1 0 0);
-  --sidebar-border: oklch(0.2 0.02 280);
-  --sidebar-ring: oklch(0.5 0.3 0);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border);
   }
   body {
-    @apply bg-background text-foreground;
-  }
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
+    background-color: var(--background);
+    color: var(--foreground);
   }
 }
 
 @layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
   .container {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
+    padding-left: 1rem;
     padding-right: 1rem;
   }
-
-  .flex {
-    min-height: 0;
-    min-width: 0;
-  }
-
   @media (min-width: 640px) {
     .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
+      padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
   }
-
   @media (min-width: 1024px) {
     .container {
-      padding-left: 2rem; /* 32px - desktop padding */
+      padding-left: 2rem;
       padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
+      max-width: 1280px;
     }
   }
-}
 
-/* ============================================================
-   CloutScape Extended Design System
-   ============================================================ */
-
-@layer base {
-  :root {
-    /* Casino-specific neon accent tokens */
-    --neon-red: oklch(0.55 0.32 15);
-    --neon-gold: oklch(0.82 0.18 85);
-    --neon-green: oklch(0.65 0.25 145);
-    --neon-blue: oklch(0.55 0.22 250);
-    --neon-purple: oklch(0.50 0.28 305);
-
-    /* Glass effect tokens */
-    --glass-bg: oklch(0.12 0.015 280 / 0.6);
-    --glass-border: oklch(0.35 0.05 280 / 0.4);
-    --glass-blur: 12px;
-
-    /* Animation speeds */
-    --speed-fast: 150ms;
-    --speed-normal: 300ms;
-    --speed-slow: 600ms;
-
-    /* Glow intensities */
-    --glow-sm: 0 0 8px;
-    --glow-md: 0 0 16px;
-    --glow-lg: 0 0 32px;
-  }
-}
-
-@layer components {
-  /* ---- GlassCard ---- */
   .glass-card {
     background: var(--glass-bg);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
-    box-shadow: 0 4px 32px oklch(0 0 0 / 0.4);
-    transition: box-shadow var(--speed-normal) ease, border-color var(--speed-normal) ease;
-  }
-  .glass-card:hover {
-    border-color: oklch(0.5 0.3 0 / 0.5);
-    box-shadow: 0 4px 48px oklch(0 0 0 / 0.6), var(--glow-sm) var(--neon-red);
   }
 
-  /* ---- Neon text utilities ---- */
   .text-neon-red   { color: var(--neon-red);    text-shadow: var(--glow-sm) var(--neon-red); }
   .text-neon-gold  { color: var(--neon-gold);   text-shadow: var(--glow-sm) var(--neon-gold); }
   .text-neon-green { color: var(--neon-green);  text-shadow: var(--glow-sm) var(--neon-green); }
   .text-neon-blue  { color: var(--neon-blue);   text-shadow: var(--glow-sm) var(--neon-blue); }
-
-  /* ---- Neon border utilities ---- */
-  .border-neon-red   { border-color: var(--neon-red);   box-shadow: var(--glow-sm) var(--neon-red); }
-  .border-neon-gold  { border-color: var(--neon-gold);  box-shadow: var(--glow-sm) var(--neon-gold); }
-  .border-neon-green { border-color: var(--neon-green); box-shadow: var(--glow-sm) var(--neon-green); }
-
-  /* ---- Win / Loss badge ---- */
-  .badge-win  { @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold bg-green-900/40 text-neon-green border border-neon-green; }
-  .badge-loss { @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold bg-red-900/40 text-neon-red border border-neon-red; }
-
-  /* ---- Chip button (bet selector) ---- */
-  .chip-btn {
-    @apply inline-flex items-center justify-center rounded-full border-2 font-bold text-sm transition-all duration-150 select-none cursor-pointer;
-    min-width: 3rem;
-    min-height: 3rem;
-    border-color: var(--neon-gold);
-    color: var(--neon-gold);
-    background: oklch(0.12 0.015 280 / 0.8);
-  }
-  .chip-btn:hover, .chip-btn.active {
-    background: var(--neon-gold);
-    color: oklch(0.08 0.01 280);
-    box-shadow: var(--glow-md) var(--neon-gold);
-  }
-
-  /* ---- Stat card ---- */
+  
   .stat-card {
-    @apply glass-card flex flex-col gap-1 p-4;
-  }
-  .stat-card .stat-label {
-    @apply text-xs font-medium uppercase tracking-widest text-muted-foreground;
-  }
-  .stat-card .stat-value {
-    @apply text-2xl font-bold text-neon-gold;
-  }
-
-  /* ---- Scrollbar ---- */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: oklch(0.10 0.01 280); }
-  ::-webkit-scrollbar-thumb { background: oklch(0.25 0.03 280); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: oklch(0.35 0.05 280); }
-}
-
-@layer utilities {
-  /* Gradient text */
-  .gradient-text-gold {
-    background: linear-gradient(135deg, var(--neon-gold), oklch(0.92 0.12 85));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .gradient-text-red {
-    background: linear-gradient(135deg, var(--neon-red), oklch(0.70 0.28 15));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Pulse glow animation */
-  .glow-pulse-red   { animation: glowPulseRed 2s ease-in-out infinite; }
-  .glow-pulse-gold  { animation: glowPulseGold 2s ease-in-out infinite; }
-
-  @keyframes glowPulseRed {
-    0%, 100% { box-shadow: 0 0 8px var(--neon-red); }
-    50%       { box-shadow: 0 0 24px var(--neon-red), 0 0 48px var(--neon-red); }
-  }
-  @keyframes glowPulseGold {
-    0%, 100% { box-shadow: 0 0 8px var(--neon-gold); }
-    50%       { box-shadow: 0 0 24px var(--neon-gold), 0 0 48px var(--neon-gold); }
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
   }
 }

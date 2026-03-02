@@ -59,3 +59,37 @@ export async function verifyPassword(
   }
 }
 
+/**
+ * Validate a username for length and characters.
+ */
+export function validateUsername(username: string): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  if (username.length < 3) errors.push("Username must be at least 3 characters long");
+  if (username.length > 64) errors.push("Username must be at most 64 characters long");
+  if (!/^[a-zA-Z0-9_]+$/.test(username)) errors.push("Username can only contain letters, numbers, and underscores");
+  
+  return {
+    valid: errors.length === 0,
+    errors
+  };
+}
+
+/**
+ * Validate password strength.
+ */
+export function validatePasswordStrength(password: string): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  if (password.length < 8) errors.push("Password must be at least 8 characters long");
+  
+  return {
+    valid: errors.length === 0,
+    errors
+  };
+}
+
+/**
+ * Simple email validation.
+ */
+export function validateEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
