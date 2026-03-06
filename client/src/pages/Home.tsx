@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { getLoginUrl } from "@/const";
 import { useState, useEffect } from "react";
-import { Sparkles, Zap, Flame, Crown } from "lucide-react";
+import { Sparkles, Zap, Flame, Crown, Gem, Trophy, Shield, TrendingUp, Users, Star, Dice1, Heart, Coins } from "lucide-react";
 
 interface Game {
   id: string;
@@ -83,22 +83,45 @@ const GAMES: Game[] = [
   },
 ];
 
+const FEATURES = [
+  {
+    icon: Shield,
+    title: "Provably Fair",
+    description: "100% transparent and verifiable game outcomes"
+  },
+  {
+    icon: Zap,
+    title: "Instant Payouts",
+    description: "Withdraw your winnings in seconds"
+  },
+  {
+    icon: Crown,
+    title: "VIP Rewards",
+    description: "Exclusive benefits for loyal players"
+  },
+  {
+    icon: Users,
+    title: "Live Community",
+    description: "Chat, compete, and win together"
+  }
+];
+
+const STATS = [
+  { label: "Total Wagered", value: "$12.5M+", icon: TrendingUp },
+  { label: "Players", value: "10K+", icon: Users },
+  { label: "Games Played", value: "500K+", icon: Dice1 },
+  { label: "Win Rate", value: "96.8%", icon: Trophy },
+];
+
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
   const [displayedGames, setDisplayedGames] = useState<Game[]>(GAMES);
   const [selectedFilter, setSelectedFilter] = useState<"all" | "new" | "high-rtp">("all");
 
-  // Simulate API call to fetch games dynamically
   useEffect(() => {
     const fetchGames = async () => {
-      // This is the API stub - in production, this would call your backend
       try {
-        // const response = await fetch('/api/games');
-        // const data = await response.json();
-        // setDisplayedGames(data);
-        
-        // For now, filter locally
         let filtered = GAMES;
         if (selectedFilter === "new") {
           filtered = GAMES.filter(g => g.badge === "NEW");
@@ -115,31 +138,25 @@ export default function Home() {
   }, [selectedFilter]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-hidden">
-      {/* Animated background elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-red-600/5 rounded-full blur-3xl animate-pulse delay-700"></div>
-      </div>
-
+    <div className="min-h-screen relative overflow-hidden">
       {/* Navigation */}
-      <nav className="border-b border-red-500/30 bg-black/50 backdrop-blur-sm sticky top-0 z-50">
+      <nav className="glass-card border-0 border-b border-[var(--glass-border)] sticky top-0 z-50 rounded-none">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-lg flex items-center justify-center shadow-[0_0_20px_rgba(220,38,38,0.5)]">
-              <Crown className="text-white w-6 h-6" />
+            <div className="w-12 h-12 bg-gradient-to-br from-[var(--neon-gold)] to-[var(--gold-dark)] rounded-xl flex items-center justify-center shadow-[0_0_30px_var(--neon-gold)] pulse-glow">
+              <Crown className="text-[var(--obsidian-black)] w-7 h-7" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">
-              ♧ Degens Den
+            <span className="text-3xl font-display font-bold text-gold-gradient tracking-wider">
+              CloutScape
             </span>
           </div>
           <div className="flex items-center gap-4">
             {isAuthenticated ? (
               <>
-                <span className="text-sm text-gray-300">Welcome, {user?.name || user?.email}</span>
+                <span className="text-sm text-[var(--foreground)] font-medium">Welcome, {user?.username || user?.name}</span>
                 <Button
                   onClick={() => setLocation("/dashboard")}
-                  className="bg-red-600 hover:bg-red-700 text-white"
+                  className="btn-luxury"
                 >
                   Dashboard
                 </Button>
@@ -148,14 +165,13 @@ export default function Home() {
               <>
                 <Button
                   onClick={() => (window.location.href = getLoginUrl())}
-                  className="bg-red-600 hover:bg-red-700 text-white"
+                  className="btn-luxury"
                 >
                   Login
                 </Button>
                 <Button
                   onClick={() => setLocation("/register")}
-                  variant="outline"
-                  className="border-red-500 text-red-500 hover:bg-red-500/10"
+                  className="glass-card border-2 border-[var(--neon-gold)] text-[var(--neon-gold)] hover:bg-[var(--neon-gold)]/10 font-semibold px-6 py-2 transition-all duration-300"
                 >
                   Register
                 </Button>
@@ -167,130 +183,62 @@ export default function Home() {
 
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="container mx-auto px-4 py-20 text-center">
-          <div className="mb-12">
-            <h1 className="text-7xl md:text-8xl font-black mb-6 tracking-tighter">
-              <span className="bg-gradient-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent drop-shadow-lg">
-                DEGENS ♧ DEN
+        <section className="container mx-auto px-4 py-24 text-center">
+          <div className="mb-16">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 glass-card px-6 py-3 mb-8 shimmer">
+              <Gem className="w-5 h-5 text-neon-gold" />
+              <span className="text-[var(--neon-gold)] font-semibold">2026 Luxury Edition</span>
+            </div>
+            
+            <h1 className="text-8xl md:text-9xl font-display font-black mb-8 tracking-tighter leading-none">
+              <span className="text-gold-gradient drop-shadow-[0_0_40px_var(--neon-gold)]">
+                CLOUT
+              </span>
+              <br />
+              <span className="text-neon-gold drop-shadow-[0_0_40px_var(--neon-gold)]">
+                SCAPE
               </span>
             </h1>
-            <p className="text-2xl text-gray-300 mb-2">Where Legends Are Made</p>
-            <p className="text-gray-400">High-stakes OSRS-themed crypto casino for the fearless</p>
+            
+            <p className="text-3xl font-luxury text-[var(--foreground)] mb-4 font-semibold">
+              Where Fortune Favors the Bold
+            </p>
+            <p className="text-xl text-[var(--muted-foreground)] max-w-2xl mx-auto">
+              Experience the pinnacle of crypto gaming. Provably fair, instantly rewarding, eternally luxurious.
+            </p>
           </div>
 
           {/* CTA Buttons */}
           {!isAuthenticated && (
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
               <Button
                 onClick={() => (window.location.href = getLoginUrl())}
-                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-6 text-lg font-bold rounded-lg shadow-lg shadow-red-500/50 h-auto"
+                className="btn-luxury text-xl px-12 py-8 h-auto"
               >
-                <Zap className="w-5 h-5 mr-2" />
-                Enter the Den
+                <Zap className="w-6 h-6 mr-3" />
+                Enter CloutScape
               </Button>
               <Button
                 onClick={() => setLocation("/register")}
-                variant="outline"
-                className="border-2 border-red-500 text-red-500 hover:bg-red-500/10 px-8 py-6 text-lg font-bold rounded-lg h-auto"
+                className="glass-card border-2 border-[var(--neon-gold)] text-[var(--neon-gold)] hover:bg-[var(--neon-gold)]/10 text-xl px-12 py-8 h-auto font-display font-bold tracking-wide transition-all duration-300"
               >
-                Create Account
+                <Crown className="w-6 h-6 mr-3" />
+                Join the Elite
               </Button>
             </div>
           )}
-        </section>
 
-        {/* Game Filter */}
-        {isAuthenticated && (
-          <section className="container mx-auto px-4 mb-12">
-            <div className="flex justify-center gap-4 flex-wrap">
-              <Button
-                onClick={() => setSelectedFilter("all")}
-                variant={selectedFilter === "all" ? "default" : "outline"}
-                className={selectedFilter === "all" ? "bg-red-600 hover:bg-red-700" : "border-red-500 text-red-500"}
-              >
-                All Games
-              </Button>
-              <Button
-                onClick={() => setSelectedFilter("new")}
-                variant={selectedFilter === "new" ? "default" : "outline"}
-                className={selectedFilter === "new" ? "bg-red-600 hover:bg-red-700" : "border-red-500 text-red-500"}
-              >
-                <Sparkles className="w-4 h-4 mr-2" />
-                New
-              </Button>
-              <Button
-                onClick={() => setSelectedFilter("high-rtp")}
-                variant={selectedFilter === "high-rtp" ? "default" : "outline"}
-                className={selectedFilter === "high-rtp" ? "bg-red-600 hover:bg-red-700" : "border-red-500 text-red-500"}
-              >
-                High RTP
-              </Button>
-            </div>
-          </section>
-        )}
-
-        {/* Games Grid */}
-        <section className="container mx-auto px-4 mb-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {displayedGames.map((game) => (
-              <div
-                key={game.id}
-                className="group bg-gradient-to-br from-slate-800 to-slate-900 border border-red-500/30 rounded-lg p-6 hover:border-red-500 transition-all hover:shadow-[0_0_30px_rgba(220,38,38,0.3)] relative overflow-hidden"
-              >
-                {/* Animated background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-red-600/0 to-red-600/0 group-hover:from-red-600/5 group-hover:to-red-600/10 transition-all"></div>
-
-                <div className="relative z-10">
-                  {game.badge && (
-                    <div className="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-black px-3 py-1 uppercase tracking-tighter">
-                      {game.badge}
-                    </div>
-                  )}
-
-                  <div className="text-6xl mb-4 group-hover:scale-110 transition-transform">
-                    {game.icon}
-                  </div>
-
-                  <h3 className="text-xl font-bold text-red-500 mb-2 italic">
-                    {game.name}
-                  </h3>
-
-                  <p className="text-gray-300 text-sm mb-4">{game.description}</p>
-
-                  {/* Game Stats */}
-                  <div className="grid grid-cols-2 gap-2 mb-4 text-xs">
-                    <div className="bg-slate-700/50 rounded p-2">
-                      <p className="text-gray-400">RTP</p>
-                      <p className="text-green-400 font-bold">{game.rtp}</p>
-                    </div>
-                    <div className="bg-slate-700/50 rounded p-2">
-                      <p className="text-gray-400">Volatility</p>
-                      <p className={`font-bold ${
-                        game.volatility === "EXTREME" ? "text-red-500" :
-                        game.volatility === "HIGH" ? "text-orange-500" :
-                        game.volatility === "MEDIUM" ? "text-yellow-500" :
-                        "text-green-500"
-                      }`}>
-                        {game.volatility}
-                      </p>
-                    </div>
-                  </div>
-
-                  {isAuthenticated ? (
-                    <Button
-                      onClick={() => setLocation(game.path)}
-                      className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-2 rounded transition-all group-hover:shadow-[0_0_15px_rgba(220,38,38,0.4)]"
-                    >
-                      PLAY NOW
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={() => (window.location.href = getLoginUrl())}
-                      className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-2 rounded"
-                    >
-                      PLAY NOW
-                    </Button>
-                  )}
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-20">
+            {STATS.map((stat, index) => (
+              <div key={index} className="stat-card float" style={{ animationDelay: `${index * 0.2}s` }}>
+                <stat.icon className="w-8 h-8 text-neon-gold mb-3 mx-auto" />
+                <div className="text-4xl font-display font-bold text-gold-gradient mb-2">
+                  {stat.value}
+                </div>
+                <div className="text-sm text-[var(--muted-foreground)] font-medium">
+                  {stat.label}
                 </div>
               </div>
             ))}
@@ -298,77 +246,181 @@ export default function Home() {
         </section>
 
         {/* Features Section */}
-        <section className="bg-black/30 py-16 border-y border-red-500/20 mb-20">
-          <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center mb-12">
-              <span className="bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">
-                Why Degens Den?
-              </span>
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { icon: "🔐", title: "Secure", desc: "Military-grade encryption & provably fair games" },
-                { icon: "⚡", title: "Instant", desc: "Real-time payouts to your wallet" },
-                { icon: "🎯", title: "Fair", desc: "Provably fair RNG verified on-chain" },
-                { icon: "💎", title: "Premium", desc: "Exclusive VIP rewards & bonuses" },
-              ].map((feature, i) => (
-                <div
-                  key={i}
-                  className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-red-500/20 rounded-lg p-6 hover:border-red-500/50 transition"
-                >
-                  <div className="text-4xl mb-3">{feature.icon}</div>
-                  <h3 className="font-bold text-white mb-2 text-lg">{feature.title}</h3>
-                  <p className="text-gray-400 text-sm">{feature.desc}</p>
+        <section className="container mx-auto px-4 mb-24">
+          <h2 className="text-5xl font-display font-bold text-center text-gold-gradient mb-16">
+            Why CloutScape?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {FEATURES.map((feature, index) => (
+              <div key={index} className="glass-card tilted-card p-8 text-center">
+                <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-[var(--neon-gold)] to-[var(--gold-dark)] rounded-2xl flex items-center justify-center pulse-glow">
+                  <feature.icon className="w-8 h-8 text-[var(--obsidian-black)]" />
                 </div>
-              ))}
-            </div>
+                <h3 className="text-2xl font-display font-bold text-[var(--foreground)] mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-[var(--muted-foreground)]">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* CTA Section for Authenticated Users */}
-        {isAuthenticated && (
-          <section className="container mx-auto px-4 py-16 text-center mb-20">
-            <h2 className="text-4xl font-bold mb-8">
-              <span className="bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">
-                Ready to Play?
-              </span>
-            </h2>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                onClick={() => setLocation("/slots-3d")}
-                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-6 text-lg font-bold rounded-lg shadow-[0_0_20px_rgba(220,38,38,0.5)] h-auto"
+        {/* Game Filter */}
+        <section className="container mx-auto px-4 mb-12">
+          <div className="flex justify-center gap-4 flex-wrap">
+            <Button
+              onClick={() => setSelectedFilter("all")}
+              className={selectedFilter === "all" ? "btn-luxury" : "glass-card border-2 border-[var(--gold-primary)] text-[var(--gold-primary)] hover:bg-[var(--gold-primary)]/10"}
+            >
+              All Games
+            </Button>
+            <Button
+              onClick={() => setSelectedFilter("new")}
+              className={selectedFilter === "new" ? "btn-luxury" : "glass-card border-2 border-[var(--gold-primary)] text-[var(--gold-primary)] hover:bg-[var(--gold-primary)]/10"}
+            >
+              <Sparkles className="w-4 h-4 mr-2" />
+              New
+            </Button>
+            <Button
+              onClick={() => setSelectedFilter("high-rtp")}
+              className={selectedFilter === "high-rtp" ? "btn-luxury" : "glass-card border-2 border-[var(--gold-primary)] text-[var(--gold-primary)] hover:bg-[var(--gold-primary)]/10"}
+            >
+              <Trophy className="w-4 h-4 mr-2" />
+              High RTP
+            </Button>
+          </div>
+        </section>
+
+        {/* Games Grid */}
+        <section className="container mx-auto px-4 mb-24">
+          <h2 className="text-5xl font-display font-bold text-center text-gold-gradient mb-12">
+            Featured Games
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {displayedGames.map((game, index) => (
+              <div
+                key={game.id}
+                className="game-card cursor-pointer"
+                onClick={() => isAuthenticated ? setLocation(game.path) : window.location.href = getLoginUrl()}
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <Flame className="w-5 h-5 mr-2" />
-                Play 3D Slots
-              </Button>
+                {game.badge && (
+                  <div className="absolute top-4 right-4 bg-gradient-to-r from-[var(--neon-red)] to-[var(--neon-gold)] text-white text-xs font-black px-4 py-2 rounded-full uppercase tracking-wider shadow-lg">
+                    {game.badge}
+                  </div>
+                )}
+
+                <div className="relative z-10 text-center">
+                  <div className="text-7xl mb-6 inline-block transform transition-transform duration-300 hover:scale-110 hover:rotate-12">
+                    {game.icon}
+                  </div>
+
+                  <h3 className="text-2xl font-display font-bold text-gold-gradient mb-3 tracking-wide">
+                    {game.name}
+                  </h3>
+
+                  <p className="text-[var(--muted-foreground)] mb-6">
+                    {game.description}
+                  </p>
+
+                  <div className="flex justify-center gap-4 mb-6">
+                    <div className="glass-card px-4 py-2 border border-[var(--gold-primary)]">
+                      <div className="text-xs text-[var(--muted-foreground)] uppercase tracking-wider mb-1">RTP</div>
+                      <div className="text-lg font-bold text-neon-gold">{game.rtp}</div>
+                    </div>
+                    <div className="glass-card px-4 py-2 border border-[var(--gold-primary)]">
+                      <div className="text-xs text-[var(--muted-foreground)] uppercase tracking-wider mb-1">Risk</div>
+                      <div className="text-lg font-bold text-neon-gold">{game.volatility}</div>
+                    </div>
+                  </div>
+
+                  <Button className="btn-luxury w-full">
+                    <Zap className="w-4 h-4 mr-2" />
+                    Play Now
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        {!isAuthenticated && (
+          <section className="container mx-auto px-4 mb-24">
+            <div className="glass-card p-16 text-center tilted-card max-w-4xl mx-auto border-2 border-[var(--gold-primary)]">
+              <Star className="w-16 h-16 text-neon-gold mx-auto mb-6 pulse-glow" />
+              <h2 className="text-5xl font-display font-bold text-gold-gradient mb-6">
+                Ready to Win Big?
+              </h2>
+              <p className="text-xl text-[var(--foreground)] mb-8 max-w-2xl mx-auto">
+                Join thousands of players already winning at CloutScape. Your fortune awaits.
+              </p>
               <Button
-                onClick={() => setLocation("/keno")}
-                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-6 text-lg font-bold rounded-lg h-auto"
+                onClick={() => setLocation("/register")}
+                className="btn-luxury text-2xl px-16 py-8 h-auto"
               >
-                Play Keno
-              </Button>
-              <Button
-                onClick={() => setLocation("/dashboard")}
-                variant="outline"
-                className="border-2 border-red-500 text-red-500 hover:bg-red-500/10 px-8 py-6 text-lg font-bold rounded-lg h-auto"
-              >
-                View Wallet
+                <Crown className="w-6 h-6 mr-3" />
+                Start Playing Now
               </Button>
             </div>
           </section>
         )}
 
         {/* Footer */}
-        <footer className="border-t border-red-500/20 bg-black/50 py-8 mt-16">
-          <div className="container mx-auto px-4 text-center text-gray-400">
-            <p className="mb-2">© 2026 Degens ♧ Den. All rights reserved.</p>
-            <p className="text-sm">Play responsibly. Must be 18+</p>
-            <p className="text-xs mt-4 text-gray-500">
-              Powered by Manus AI | OSRS-Themed Crypto Casino Platform
-            </p>
+        <footer className="glass-card border-0 border-t border-[var(--glass-border)] rounded-none py-12">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-8">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <Crown className="w-8 h-8 text-neon-gold" />
+                  <span className="text-2xl font-display font-bold text-gold-gradient">CloutScape</span>
+                </div>
+                <p className="text-[var(--muted-foreground)]">
+                  The world's most luxurious crypto casino. Est. 2026.
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="font-display font-bold text-[var(--foreground)] mb-4 text-lg">Games</h4>
+                <ul className="space-y-2 text-[var(--muted-foreground)]">
+                  <li><a href="#" className="hover:text-neon-gold transition-colors">Slots</a></li>
+                  <li><a href="#" className="hover:text-neon-gold transition-colors">Blackjack</a></li>
+                  <li><a href="#" className="hover:text-neon-gold transition-colors">Roulette</a></li>
+                  <li><a href="#" className="hover:text-neon-gold transition-colors">Crash</a></li>
+                </ul>
+              </div>
+              
+              <div>
+                <h4 className="font-display font-bold text-[var(--foreground)] mb-4 text-lg">Community</h4>
+                <ul className="space-y-2 text-[var(--muted-foreground)]">
+                  <li><a href="#" className="hover:text-neon-gold transition-colors">Live Chat</a></li>
+                  <li><a href="#" className="hover:text-neon-gold transition-colors">Leaderboards</a></li>
+                  <li><a href="#" className="hover:text-neon-gold transition-colors">VIP Program</a></li>
+                  <li><a href="#" className="hover:text-neon-gold transition-colors">Rain System</a></li>
+                </ul>
+              </div>
+              
+              <div>
+                <h4 className="font-display font-bold text-[var(--foreground)] mb-4 text-lg">Support</h4>
+                <ul className="space-y-2 text-[var(--muted-foreground)]">
+                  <li><a href="#" className="hover:text-neon-gold transition-colors">Help Center</a></li>
+                  <li><a href="#" className="hover:text-neon-gold transition-colors">Provably Fair</a></li>
+                  <li><a href="#" className="hover:text-neon-gold transition-colors">Terms of Service</a></li>
+                  <li><a href="#" className="hover:text-neon-gold transition-colors">Privacy Policy</a></li>
+                </ul>
+              </div>
+            </div>
+            
+            <div className="border-t border-[var(--glass-border)] pt-8 text-center text-[var(--muted-foreground)]">
+              <p>&copy; 2026 CloutScape. All rights reserved. Play responsibly.</p>
+            </div>
           </div>
         </footer>
       </div>
     </div>
   );
 }
+
+export default Home;
