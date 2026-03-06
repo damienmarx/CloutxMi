@@ -1,0 +1,28 @@
+# Cloudflared Tunnel Configuration for CloutScape
+tunnel: cloutscape-prod
+credentials-file: /root/.cloudflared/cloutscape-tunnel.json
+
+# Ingress rules
+ingress:
+  # Main application
+  - hostname: cloutscape.org
+    service: http://localhost:3000
+  
+  # WWW subdomain
+  - hostname: www.cloutscape.org
+    service: http://localhost:3000
+  
+  # API subdomain (if needed)
+  - hostname: api.cloutscape.org
+    service: http://localhost:3000
+  
+  # Catch-all rule (required)
+  - service: http_status:404
+
+# Connection settings
+originRequest:
+  connectTimeout: 30s
+  noTLSVerify: false
+  
+# Logging
+loglevel: info

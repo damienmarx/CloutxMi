@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Import luxury fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cinzel:wght@400;500;600;700;800;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
@@ -40,6 +43,15 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  
+  /* Luxury Obsidian Theme Colors */
+  --color-obsidian-black: oklch(0.05 0.01 280);
+  --color-obsidian-dark: oklch(0.08 0.01 280);
+  --color-obsidian-medium: oklch(0.12 0.015 280);
+  --color-gold-primary: oklch(0.75 0.15 85);
+  --color-gold-light: oklch(0.85 0.12 85);
+  --color-gold-dark: oklch(0.55 0.18 85);
+  --color-amber-glow: oklch(0.65 0.20 65);
   --color-neon-red: oklch(0.55 0.32 15);
   --color-neon-gold: oklch(0.82 0.18 85);
   --color-neon-green: oklch(0.65 0.25 145);
@@ -48,65 +60,140 @@
 }
 
 :root {
-  --primary: oklch(0.5 0.3 0);
-  --primary-foreground: oklch(1 0 0);
-  --sidebar-primary: oklch(0.5 0.3 0);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --chart-1: oklch(0.5 0.3 0);
-  --chart-2: oklch(0.4 0.25 0);
-  --chart-3: oklch(0.45 0.28 0);
-  --chart-4: oklch(0.35 0.22 0);
-  --chart-5: oklch(0.3 0.2 0);
-  --radius: 0.65rem;
-  --background: oklch(0.08 0.01 280);
-  --foreground: oklch(0.95 0.01 0);
-  --card: oklch(0.12 0.015 280);
-  --card-foreground: oklch(0.95 0.01 0);
-  --popover: oklch(0.12 0.015 280);
-  --popover-foreground: oklch(0.95 0.01 0);
-  --secondary: oklch(0.15 0.02 280);
-  --secondary-foreground: oklch(0.9 0.01 0);
-  --muted: oklch(0.4 0.05 280);
-  --muted-foreground: oklch(0.7 0.01 0);
-  --accent: oklch(0.5 0.3 0);
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.5 0.3 0);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.2 0.02 280);
-  --input: oklch(0.15 0.015 280);
-  --ring: oklch(0.5 0.3 0);
-  --sidebar: oklch(0.1 0.01 280);
-  --sidebar-foreground: oklch(0.95 0.01 0);
-  --sidebar-accent: oklch(0.5 0.3 0);
-  --sidebar-accent-foreground: oklch(1 0 0);
-  --sidebar-border: oklch(0.2 0.02 280);
-  --sidebar-ring: oklch(0.5 0.3 0);
+  /* Luxury Obsidian Base Theme */
+  --background: oklch(0.05 0.01 280);
+  --foreground: oklch(0.98 0.01 85);
   
+  /* Cards with glassmorphism */
+  --card: oklch(0.08 0.015 280 / 0.8);
+  --card-foreground: oklch(0.98 0.01 85);
+  --popover: oklch(0.08 0.015 280 / 0.95);
+  --popover-foreground: oklch(0.98 0.01 85);
+  
+  /* Gold primary colors */
+  --primary: oklch(0.75 0.15 85);
+  --primary-foreground: oklch(0.05 0.01 280);
+  
+  /* Subtle secondary */
+  --secondary: oklch(0.12 0.02 280);
+  --secondary-foreground: oklch(0.95 0.01 85);
+  
+  /* Muted elements */
+  --muted: oklch(0.15 0.02 280);
+  --muted-foreground: oklch(0.65 0.01 85);
+  
+  /* Accent gold */
+  --accent: oklch(0.75 0.15 85);
+  --accent-foreground: oklch(0.05 0.01 280);
+  
+  /* Destructive red with glow */
+  --destructive: oklch(0.55 0.32 15);
+  --destructive-foreground: oklch(1 0 0);
+  
+  /* Borders and inputs */
+  --border: oklch(0.20 0.02 280 / 0.3);
+  --input: oklch(0.12 0.015 280 / 0.6);
+  --ring: oklch(0.75 0.15 85);
+  
+  /* Sidebar */
+  --sidebar: oklch(0.06 0.01 280);
+  --sidebar-foreground: oklch(0.98 0.01 85);
+  --sidebar-primary: oklch(0.75 0.15 85);
+  --sidebar-primary-foreground: oklch(0.05 0.01 280);
+  --sidebar-accent: oklch(0.75 0.15 85);
+  --sidebar-accent-foreground: oklch(0.05 0.01 280);
+  --sidebar-border: oklch(0.20 0.02 280 / 0.3);
+  --sidebar-ring: oklch(0.75 0.15 85);
+  
+  /* Charts */
+  --chart-1: oklch(0.75 0.15 85);
+  --chart-2: oklch(0.65 0.20 65);
+  --chart-3: oklch(0.55 0.32 15);
+  --chart-4: oklch(0.65 0.25 145);
+  --chart-5: oklch(0.55 0.22 250);
+  
+  --radius: 0.75rem;
+  
+  /* Neon colors */
   --neon-red: oklch(0.55 0.32 15);
   --neon-gold: oklch(0.82 0.18 85);
   --neon-green: oklch(0.65 0.25 145);
   --neon-blue: oklch(0.55 0.22 250);
   --neon-purple: oklch(0.50 0.28 305);
-  --glass-bg: oklch(0.12 0.015 280 / 0.6);
-  --glass-border: oklch(0.35 0.05 280 / 0.4);
-  --glass-blur: 12px;
-  --glow-sm: 0 0 8px;
-  --glow-md: 0 0 16px;
-  --glow-lg: 0 0 32px;
+  
+  /* Glassmorphism */
+  --glass-bg: oklch(0.08 0.015 280 / 0.4);
+  --glass-border: oklch(0.30 0.05 280 / 0.3);
+  --glass-blur: 20px;
+  
+  /* Glows */
+  --glow-sm: 0 0 12px;
+  --glow-md: 0 0 24px;
+  --glow-lg: 0 0 48px;
+  --glow-xl: 0 0 72px;
+  
+  /* Gold gradients */
+  --gold-gradient: linear-gradient(135deg, oklch(0.85 0.12 85), oklch(0.75 0.15 85), oklch(0.65 0.20 65));
+  --gold-shimmer: linear-gradient(90deg, transparent, oklch(0.95 0.08 85 / 0.3), transparent);
+  
+  /* Obsidian texture */
+  --obsidian-texture: radial-gradient(circle at 20% 50%, oklch(0.08 0.02 280) 0%, oklch(0.05 0.01 280) 100%);
 }
 
 .dark {
-  --background: oklch(0.08 0.01 280);
-  --foreground: oklch(0.95 0.01 0);
+  --background: oklch(0.05 0.01 280);
+  --foreground: oklch(0.98 0.01 85);
 }
 
 @layer base {
   * {
     border-color: var(--border);
+    scroll-behavior: smooth;
   }
+  
   body {
-    background-color: var(--background);
+    background: var(--obsidian-texture), var(--background);
+    background-attachment: fixed;
     color: var(--foreground);
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+  }
+  
+  /* Luxury font classes */
+  .font-luxury {
+    font-family: 'Playfair Display', serif;
+  }
+  
+  .font-display {
+    font-family: 'Cinzel', serif;
+  }
+  
+  /* Animated background particles */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(2px 2px at 20% 30%, oklch(0.75 0.15 85 / 0.15), transparent),
+      radial-gradient(2px 2px at 60% 70%, oklch(0.65 0.20 65 / 0.12), transparent),
+      radial-gradient(1px 1px at 50% 50%, oklch(0.98 0.01 85 / 0.08), transparent),
+      radial-gradient(1px 1px at 80% 10%, oklch(0.75 0.15 85 / 0.1), transparent);
+    background-size: 200% 200%;
+    animation: particleFloat 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  @keyframes particleFloat {
+    0%, 100% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
   }
 }
 
@@ -117,13 +204,17 @@
     margin-right: auto;
     padding-left: 1rem;
     padding-right: 1rem;
+    position: relative;
+    z-index: 1;
   }
+  
   @media (min-width: 640px) {
     .container {
       padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
   }
+  
   @media (min-width: 1024px) {
     .container {
       padding-left: 2rem;
@@ -132,27 +223,342 @@
     }
   }
 
+  /* Premium Glass Card */
   .glass-card {
     background: var(--glass-bg);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gold-shimmer);
+    transition: left 0.6s ease;
+  }
+  
+  .glass-card:hover::before {
+    left: 100%;
+  }
+  
+  .glass-card:hover {
+    border-color: oklch(0.75 0.15 85 / 0.5);
+    box-shadow: 
+      0 0 30px oklch(0.75 0.15 85 / 0.15),
+      inset 0 0 30px oklch(0.75 0.15 85 / 0.05);
+    transform: translateY(-4px);
+  }
+  
+  /* Tilted Modular Card */
+  .tilted-card {
+    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .tilted-card:hover {
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.02);
+  }
+  
+  /* Luxury Button */
+  .btn-luxury {
+    background: var(--gold-gradient);
+    color: oklch(0.05 0.01 280);
+    font-weight: 600;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: var(--radius-lg);
+    padding: 1rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 20px oklch(0.75 0.15 85 / 0.3);
+  }
+  
+  .btn-luxury::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: oklch(0.95 0.08 85 / 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+  }
+  
+  .btn-luxury:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .btn-luxury:hover {
+    box-shadow: 0 8px 40px oklch(0.75 0.15 85 / 0.5);
+    transform: translateY(-2px);
   }
 
-  .text-neon-red   { color: var(--neon-red);    text-shadow: var(--glow-sm) var(--neon-red); }
-  .text-neon-gold  { color: var(--neon-gold);   text-shadow: var(--glow-sm) var(--neon-gold); }
-  .text-neon-green { color: var(--neon-green);  text-shadow: var(--glow-sm) var(--neon-green); }
-  .text-neon-blue  { color: var(--neon-blue);   text-shadow: var(--glow-sm) var(--neon-blue); }
+  /* Neon Text Effects */
+  .text-neon-red   { 
+    color: var(--neon-red);    
+    text-shadow: 
+      var(--glow-sm) var(--neon-red),
+      0 0 20px var(--neon-red);
+  }
   
+  .text-neon-gold  { 
+    color: var(--neon-gold);   
+    text-shadow: 
+      var(--glow-sm) var(--neon-gold),
+      0 0 20px var(--neon-gold);
+  }
+  
+  .text-neon-green { 
+    color: var(--neon-green);  
+    text-shadow: 
+      var(--glow-sm) var(--neon-green),
+      0 0 20px var(--neon-green);
+  }
+  
+  .text-neon-blue  { 
+    color: var(--neon-blue);   
+    text-shadow: 
+      var(--glow-sm) var(--neon-blue),
+      0 0 20px var(--neon-blue);
+  }
+  
+  .text-neon-purple {
+    color: var(--neon-purple);
+    text-shadow:
+      var(--glow-sm) var(--neon-purple),
+      0 0 20px var(--neon-purple);
+  }
+  
+  /* Gold gradient text */
+  .text-gold-gradient {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+  }
+  
+  /* Stat Card with 3D effect */
   .stat-card {
     background: var(--glass-bg);
     backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
-    padding: 1rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.5rem;
+    position: relative;
+    transform: perspective(1000px) rotateX(1deg);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gold-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: perspective(1000px) rotateX(0deg) translateY(-4px);
+    border-color: oklch(0.75 0.15 85 / 0.4);
+    box-shadow: 0 8px 40px oklch(0.75 0.15 85 / 0.15);
+  }
+  
+  .stat-card:hover::after {
+    opacity: 1;
+  }
+  
+  /* Game Card */
+  .game-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transform: perspective(1200px) rotateX(2deg) rotateY(-3deg);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .game-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+      from 0deg at 50% 50%,
+      transparent 0deg,
+      oklch(0.75 0.15 85 / 0.1) 90deg,
+      transparent 180deg,
+      oklch(0.65 0.20 65 / 0.1) 270deg,
+      transparent 360deg
+    );
+    animation: gameCardRotate 8s linear infinite;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  
+  .game-card:hover::before {
+    opacity: 1;
+  }
+  
+  .game-card:hover {
+    transform: perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1.03);
+    border-color: oklch(0.75 0.15 85 / 0.6);
+    box-shadow: 
+      0 20px 60px oklch(0.75 0.15 85 / 0.2),
+      inset 0 0 60px oklch(0.75 0.15 85 / 0.08);
+  }
+  
+  @keyframes gameCardRotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Pulsing glow animation */
+  .pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 0 20px oklch(0.75 0.15 85 / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px oklch(0.75 0.15 85 / 0.6);
+    }
+  }
+  
+  /* Floating animation */
+  .float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  /* Shimmer effect */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      oklch(0.95 0.08 85 / 0.2),
+      transparent
+    );
+    animation: shimmerMove 3s infinite;
+  }
+  
+  @keyframes shimmerMove {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 200%;
+    }
+  }
+  
+  /* Luxury input */
+  .input-luxury {
+    background: oklch(0.08 0.015 280 / 0.6);
+    border: 1px solid oklch(0.20 0.02 280 / 0.3);
+    border-radius: var(--radius-md);
+    color: var(--foreground);
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+  
+  .input-luxury:focus {
+    outline: none;
+    border-color: oklch(0.75 0.15 85 / 0.6);
+    box-shadow: 0 0 20px oklch(0.75 0.15 85 / 0.2);
+    background: oklch(0.10 0.015 280 / 0.8);
+  }
+  
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: oklch(0.08 0.01 280);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, oklch(0.75 0.15 85), oklch(0.65 0.20 65));
+    border-radius: 6px;
+    border: 2px solid oklch(0.08 0.01 280);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, oklch(0.85 0.12 85), oklch(0.75 0.15 85));
+  }
+  
+  /* Selection styling */
+  ::selection {
+    background: oklch(0.75 0.15 85 / 0.3);
+    color: oklch(0.98 0.01 85);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tilted-card {
+    transform: none;
+  }
+  
+  .game-card {
+    transform: none;
+  }
+  
+  .stat-card {
+    transform: none;
   }
 }
