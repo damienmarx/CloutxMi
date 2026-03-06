@@ -4,17 +4,17 @@ credentials-file: /root/.cloudflared/cloutscape-tunnel.json
 
 # Ingress rules
 ingress:
-  # Main application
+  # Main application on port 8080
   - hostname: cloutscape.org
-    service: http://localhost:3000
+    service: http://localhost:8080
   
   # WWW subdomain
   - hostname: www.cloutscape.org
-    service: http://localhost:3000
+    service: http://localhost:8080
   
   # API subdomain (if needed)
   - hostname: api.cloutscape.org
-    service: http://localhost:3000
+    service: http://localhost:8080
   
   # Catch-all rule (required)
   - service: http_status:404
