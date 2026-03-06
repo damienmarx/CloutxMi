@@ -407,8 +407,8 @@ export default function Home() {
                 <ul className="space-y-2 text-[var(--muted-foreground)]">
                   <li><a href="#" className="hover:text-neon-gold transition-colors">Help Center</a></li>
                   <li><a href="#" className="hover:text-neon-gold transition-colors">Provably Fair</a></li>
-                  <li><a href="#" className="hover:text-neon-gold transition-colors">Terms of Service</a></li>
-                  <li><a href="#" className="hover:text-neon-gold transition-colors">Privacy Policy</a></li>
+                  <li><a href="/legal" className="hover:text-neon-gold transition-colors">Legal & Terms</a></li>
+                  <li><a href="/legal" className="hover:text-neon-gold transition-colors">Privacy Policy</a></li>
                 </ul>
               </div>
             </div>
@@ -422,5 +422,3 @@ export default function Home() {
     </div>
   );
 }
-
-export default Home;

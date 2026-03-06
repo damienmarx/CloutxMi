@@ -26,6 +26,7 @@ import UserStatsDashboard from "./pages/UserStatsDashboard";
 import OsrsDeposit from "./pages/OsrsDeposit";
 import OsrsWithdraw from "./pages/OsrsWithdraw";
 import MfaManagement from "./pages/MfaManagement";
+import LegalDisclaimers from "./pages/LegalDisclaimers";
 
 function Router() {
   return (
@@ -51,6 +52,7 @@ function Router() {
       <Route path={"/osrs-deposit"} component={OsrsDeposit} />
       <Route path={"/osrs-withdraw"} component={OsrsWithdraw} />
       <Route path={"/mfa"} component={MfaManagement} />
+      <Route path={"/legal"} component={LegalDisclaimers} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
