@@ -1,116 +1,197 @@
-# CloutScape: Enterprise Casino Platform
+# 🎰 CloutScape - Luxury Crypto Casino Platform 2026
 
-**CloutScape** is a production-ready, full-stack cryptocurrency casino platform built with modern web technologies. It features 7 provably fair games, real-time multiplayer gameplay, secure wallet management, and a sophisticated admin dashboard.
+<div align="center">
 
-**Status**: Production Ready | **Version**: 2026.1.0 | **License**: MIT
+![CloutScape Logo](client/public/cloutscape-hero.jpg)
 
----
+### **The Ultimate Crypto Casino Experience**  
+_Luxury Obsidian Glassware Edition_
 
-## Features
+[![License: MIT](https://img.shields.io/badge/License-MIT-gold.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
-### Gaming Suite (7 Games)
+[🎮 Live Demo](https://cloutscape.org) • [📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start) • [💎 Features](#features)
 
-| Game | Features | Max Payout |
-|------|----------|-----------|
-| **Slots 3D** | 5-reel, multiple paylines, OSRS-themed | 500x |
-| **Keno** | Pick 2-10 numbers, turbo mode | 500x |
-| **Crash** | Real-time multiplier prediction | Variable |
-| **Blackjack** | Hit/Stand/Double Down, proper card logic | 2x |
-| **Roulette** | 37-number wheel, red/black betting | 36x |
-| **Dice** | Over/Under (1.98x), Exact (100x) | 100x |
-| **Poker** | Full hand rankings, betting rounds | 500x |
-
-### Financial System
-
-- **Wallet Management**: Real-time USD balance tracking
-- **Deposits & Withdrawals**: Secure fund transfers
-- **Player Tips**: Send funds to other players
-- **OSRS GP Exchange**: Convert OSRS GP ↔ USD with live rates
-- **Atomic Transactions**: Database-level transaction safety
-
-### Community & Social
-
-- **Live Chat**: Real-time messaging with profanity filtering
-- **Rain System**: Random reward distribution to active players
-- **User Statistics**: Comprehensive play tracking (wins, losses, ROI, playtime)
-- **VIP Program**: 5-tier system (Bronze → Diamond) with cashback and multipliers
-- **Leaderboards**: Weekly/monthly rankings
-
-### Security & Compliance
-
-- **PBKDF2 Password Hashing**: Industry-standard password security
-- **Session Authentication**: Secure cookie-based sessions
-- **SQL Injection Prevention**: Parameterized queries via Drizzle ORM
-- **CSRF Protection**: Token-based cross-site request forgery prevention
-- **Rate Limiting**: API endpoint protection against abuse
-- **Atomic Wallet Operations**: Transaction consistency guarantees
-
-### Design & UX
-
-- **Theme**: Obsidian background with gold and black accents
-- **Responsive**: Mobile-first design for all screen sizes
-- **Animations**: Smooth transitions and interactive elements
-- **Professional**: Enterprise-grade modern casino aesthetic
+</div>
 
 ---
 
-## Quick Start
+## ✨ Overview
+
+**CloutScape** is a production-ready, feature-rich cryptocurrency casino platform built with cutting-edge web technologies. Experience the luxury of obsidian black aesthetics combined with gold accents, glassmorphism effects, and 3D animations.
+
+### 🎯 Key Highlights
+
+- **7 Provably Fair Games** - Slots 3D, Keno, Crash, Blackjack, Roulette, Dice, Classic Slots
+- **Luxury Obsidian Theme** - Stunning glassmorphism with gold gradients and neon glows
+- **Real-Time Features** - Live chat, rain system, leaderboards
+- **Crypto Integration** - Full wallet management and OSRS GP exchange
+- **VIP Tier System** - 5-tier progression with cashback and multipliers
+- **One-Click Deployment** - Easy setup with automated scripts
+- **Cloudflare Tunnel** - Secure HTTPS deployment to cloutscape.org
+
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- **Node.js 22+**
-- **pnpm 10+**
-- **PostgreSQL 14+**
+- **Node.js** 18+ ([Download](https://nodejs.org/))
+- **MySQL** 5.7+ or 8.0+
+- **pnpm** 10.4+
 - **Git**
 
-### Installation
-
-#### Quick Setup
+### One-Click Installation
 
 ```bash
-# Clone repository
+# Clone the repository
 git clone https://github.com/damienmarx/CloutxMi.git
-cd CloutScape
+cd CloutxMi
 
-# Install dependencies
-pnpm install
-
-# Configure environment
-cp .env.example .env
-
-# Run database migrations
-pnpm db:push
-
-# Start development server
-pnpm dev
+# Run one-click deployment
+chmod +x deploy-one-click.sh
+./deploy-one-click.sh
 ```
 
+The script will automatically:
+- ✅ Check system requirements
+- ✅ Set up MySQL database
+- ✅ Install dependencies
+- ✅ Run database migrations
+- ✅ Build the application
+- ✅ Install Cloudflared
+- ✅ Create systemd service
+- ✅ Start the application
 
+### Manual Installation
 
-### Access the Application
+```bash
+# 1. Install dependencies
+pnpm install
 
-- **Frontend**: http://localhost:3000
-- **API**: http://localhost:3000/api/trpc
-- **Database**: Configure in `.env.local`
+# 2. Configure environment
+cp .env.example .env
+# Edit .env with your database credentials
+
+# 3. Set up database
+mysql -u root -p
+CREATE DATABASE cloutscape_db;
+CREATE USER 'cloutscape_user'@'localhost' IDENTIFIED BY 'your_password';
+GRANT ALL PRIVILEGES ON cloutscape_db.* TO 'cloutscape_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+
+# 4. Run migrations
+pnpm db:push
+
+# 5. Start development server
+pnpm dev
+
+# 6. Build for production
+pnpm build
+
+# 7. Start production server
+pnpm start
+```
+
+---
+
+## 💎 Features
+
+### 🎮 Gaming Suite
+
+| Game | Description | RTP | Volatility | Features |
+|------|-------------|-----|------------|----------|
+| **3D Slots** | Immersive 3D OSRS-themed slots | 98.5% | Extreme | 5 reels, multiple paylines, up to 500x |
+| **Keno** | Pick 2-10 numbers from 1-80 | 96.0% | High | Turbo mode, instant results |
+| **Crash** | Multiplier prediction game | 97.0% | Extreme | Real-time, variable payouts |
+| **Blackjack** | Classic card game | 99.5% | Low | Hit/Stand/Double Down |
+| **Roulette** | 37-number European wheel | 97.3% | Medium | Red/Black, Dozens, Columns |
+| **Dice** | Roll prediction game | 98.0% | High | Over/Under (1.98x), Exact (100x) |
+| **Classic Slots** | Traditional slot machine | 96.5% | Medium | Multi-payline |
+
+### 💰 Financial System
+
+- **Wallet Management** - Real-time USD balance tracking
+- **Deposits & Withdrawals** - Secure fund transfers
+- **Player Tips** - Send funds to other players
+- **OSRS GP Exchange** - Convert OSRS GP ↔ USD with live rates
+- **Atomic Transactions** - Database-level safety
+- **Transaction History** - Complete audit trail
+
+### 👥 Community Features
+
+- **Live Chat** - Real-time messaging with profanity filter
+- **Rain System** - Random reward distribution to active players
+- **Leaderboards** - Weekly/monthly rankings
+- **User Statistics** - Comprehensive play tracking
+- **Referral System** - Earn commissions from referrals
+- **Tournaments** - Competitive events with prize pools
+
+### 👑 VIP Program
+
+| Tier | Min Wager | Cashback | Multiplier | Benefits |
+|------|-----------|----------|------------|----------|
+| 💎 Diamond | $500,000 | 3.0% | 1.25x | VIP treatment + all perks |
+| 🌟 Platinum | $100,000 | 2.0% | 1.15x | Exclusive bonuses |
+| 🥇 Gold | $25,000 | 1.5% | 1.1x | Priority support |
+| 🥈 Silver | $5,000 | 1.0% | 1.05x | Increased rewards |
+| 🥉 Bronze | $0 | 0.5% | 1.0x | Base access |
+
+### 🔒 Security & Compliance
+
+- **PBKDF2 Password Hashing** - Industry-standard security
+- **Session Authentication** - Secure cookie-based sessions
+- **SQL Injection Prevention** - Parameterized queries
+- **CSRF Protection** - Token-based security
+- **Rate Limiting** - API abuse prevention
+- **2FA Support** - Two-factor authentication
+- **Self-Exclusion** - Responsible gambling features
+- **Age Verification** - Compliance checks
+
+### 🎨 Design & UX
+
+- **Luxury Obsidian Theme** - Deep black with gold accents
+- **Glassmorphism** - Frosted glass effects with backdrop blur
+- **3D Animations** - Tilted modular cards with perspective
+- **Gold Gradients** - Premium color schemes
+- **Neon Glows** - Interactive element highlighting
+- **Smooth Transitions** - Cubic-bezier animations
+- **Particle Effects** - Ambient background animations
+- **Responsive Design** - Mobile-first approach
+- **Custom Scrollbars** - Gold gradient styling
+- **Luxury Fonts** - Playfair Display, Cinzel, Montserrat
 
 ---
 
 ## 📦 Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| **Frontend** | React 18, TypeScript, Vite, TailwindCSS |
-| **Backend** | Node.js, Express, tRPC, TypeScript |
-| **Database** | PostgreSQL 14+, Drizzle ORM |
-| **Authentication** | Session-based, PBKDF2 hashing |
-| **State Management** | React Query (tRPC), Context API |
-| **Styling** | TailwindCSS, custom Degens Den theme |
-| **Build Tools** | Vite, esbuild |
-| **Package Manager** | pnpm |
+### Frontend
+- **React 19** - Latest React with concurrent features
+- **TypeScript** - Type-safe development
+- **Vite 7** - Lightning-fast build tool
+- **TailwindCSS 4** - Utility-first CSS framework
+- **Framer Motion** - Advanced animations
+- **Wouter** - Lightweight routing
+- **tRPC** - End-to-end type-safe APIs
+
+### Backend
+- **Node.js** - JavaScript runtime
+- **Express** - Web framework
+- **tRPC** - Type-safe RPC framework
+- **Socket.IO** - Real-time communication
+- **MySQL** - Relational database
+- **Drizzle ORM** - Type-safe database access
+
+### Infrastructure
+- **Cloudflare Tunnel** - Secure HTTPS access
+- **Systemd** - Service management
+- **pnpm** - Fast, disk space efficient package manager
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 CloutScape/
@@ -118,227 +199,140 @@ CloutScape/
 │   ├── src/
 │   │   ├── pages/            # Game and feature pages
 │   │   ├── components/       # Reusable UI components
-│   │   ├── styles/           # CSS (including degens-den-theme.css)
-│   │   ├── _core/            # Core utilities and hooks
-│   │   └── App.tsx           # Main router
+│   │   ├── styles/           # CSS and themes
+│   │   ├── _core/            # Core utilities
+│   │   └── App.tsx           # Main application
 │   └── public/               # Static assets
 ├── server/                    # Node.js backend
-│   ├── routers.ts            # tRPC router definitions
-│   ├── liveRouter.ts         # Live chat & rain system
-│   ├── liveFeatures.ts       # Chat/rain implementation
+│   ├── _core/                # Core server utilities
+│   ├── routers/              # tRPC routers
 │   ├── db.ts                 # Database functions
-│   ├── auth.ts               # Authentication logic
+│   ├── auth.ts               # Authentication
 │   ├── wallet.ts             # Wallet operations
-│   ├── gameLogic.ts          # Game calculations
-│   └── _core/                # Core server utilities
+│   └── gameLogic.ts          # Game calculations
 ├── drizzle/                  # Database schema & migrations
 │   └── schema.ts             # Drizzle ORM schema
-├── plugins/                  # Modular features
-│   ├── games/               # Game implementations
-│   ├── bots/                # Bot integrations
-│   └── marketing/           # Marketing tools
-├── scripts/                  # Utility scripts
 ├── shared/                   # Shared types & constants
-├── package.json              # Dependencies
-├── tsconfig.json             # TypeScript config
-├── vite.config.ts            # Vite config
-└── README.md                 # This file
+├── scripts/                  # Utility scripts
+├── deploy-one-click.sh       # One-click deployment
+├── cloudflared-config.yml    # Cloudflare Tunnel config
+└── package.json              # Dependencies
 ```
 
 ---
 
-## Game Details
+## 🌐 Deployment
 
-### Slots 3D
-- 5-reel slot machine with OSRS-themed symbols
-- Multiple payline configurations (1-5 paylines)
-- Up to 500x multiplier on winning combinations
-- Turbo mode for faster spins
+### Cloudflare Tunnel Setup
 
-### Keno
-- Pick 2-10 numbers from 1-80
-- Real-time number drawing
-- Turbo mode for instant results
-- Payout multiplier based on matches
+```bash
+# 1. Login to Cloudflare
+cloudflared tunnel login
 
-### Crash
-- Real-time multiplier that increases from 1.0x
-- Predict when the multiplier will crash
-- Cash out before crash for winnings
-- Variable payouts based on timing
+# 2. Create tunnel
+cloudflared tunnel create cloutscape-prod
 
-### Blackjack
-- Proper card deck logic with shuffling
-- Hit, Stand, and Double Down actions
-- Dealer follows standard rules (hit on 16, stand on 17)
-- 2x payout on win, push on tie
+# 3. Route DNS
+cloudflared tunnel route dns cloutscape-prod cloutscape.org
+cloudflared tunnel route dns cloutscape-prod www.cloutscape.org
 
-### Roulette
-- 37-number European roulette wheel
-- Red/Black, Even/Odd, High/Low betting
-- Dozen and Column bets
-- 36x payout on single number
+# 4. Start tunnel
+cloudflared tunnel run cloutscape-prod
 
-### Dice
-- Roll 1-100 dice
-- Over/Under prediction (1.98x payout)
-- Exact number prediction (100x payout)
-- Instant results
+# Or install as service
+sudo cloudflared service install
+sudo systemctl start cloudflared
+```
 
-### Poker
-- Full poker hand rankings
-- Betting rounds
-- Community cards
-- Variable payouts based on hand strength
+### Service Management
+
+```bash
+# View logs
+journalctl -u cloutscape -f
+
+# Restart application
+sudo systemctl restart cloutscape
+
+# Stop application
+sudo systemctl stop cloutscape
+
+# Check status
+sudo systemctl status cloutscape
+```
 
 ---
 
-## Live Chat System
-
-### Features
-- Real-time messaging with profanity filtering
-- User mentions with @username
-- Message history (last 50 messages)
-- Admin moderation (delete messages, mute users)
-- Persistent storage in database
-
-### Access
-- Route: `/live-chat`
-- Requires authentication
-- Auto-refresh every 3 seconds
-
----
-
-## Rain System
-
-### How It Works
-1. **Admin initiates** rain event with total amount and participant count
-2. **Amount per player** calculated automatically
-3. **Active players** randomly selected to receive rewards
-4. **Rewards distributed** to player wallets
-5. **Event tracked** in rain history
-
-### Access
-- Route: `/rain-system`
-- Admin panel for event creation
-- User rewards tracking
-
----
-
-## VIP Program
-
-### Tier Structure
-
-| Tier | Min Wager | Cashback | Multiplier | Benefits |
-|------|-----------|----------|-----------|----------|
-| Bronze | $0 | 0.5% | 1.0x | Base access |
-| Silver | $5,000 | 1.0% | 1.05x | Increased rewards |
-| Gold | $25,000 | 1.5% | 1.1x | Priority support |
-| Platinum | $100,000 | 2.0% | 1.15x | Exclusive bonuses |
-| Diamond | $500,000 | 3.0% | 1.25x | VIP treatment |
-
-### Access
-- Route: `/vip-progress`
-- Track tier progression
-- View current benefits
-- See tier requirements
-
----
-
-## User Statistics
-
-### Tracked Metrics
-- Total games played
-- Total wagered amount
-- Total won amount
-- Total lost amount
-- Net profit/loss
-- Win rate percentage
-- Return on investment (ROI)
-- Favorite game
-- Total playtime
-
-### Access
-- Route: `/user-stats`
-- Real-time updates
-- Historical tracking
-
----
-
-## Configuration
+## 🔧 Configuration
 
 ### Environment Variables
 
-```bash
+Key environment variables in `.env`:
+
+```env
 # Database
-DATABASE_URL=postgresql://user:password@localhost:5432/cloutscape_db
+DATABASE_URL=mysql://user:password@localhost:3306/cloutscape_db
 
 # Security
-SESSION_SECRET=<random-32-char-string>
-JWT_SECRET=<random-32-char-string>
+JWT_SECRET=your_jwt_secret_key
+ENCRYPTION_KEY=your_encryption_key
+SESSION_SECRET=your_session_secret
 
 # Application
-NODE_ENV=development
+NODE_ENV=production
 PORT=3000
-VITE_API_URL=http://localhost:3000
 
-# Features
-ENABLE_OSRS_INTEGRATION=true
-ENABLE_CRYPTO_WALLET=true
-ENABLE_LIVE_CHAT=true
-ENABLE_RAIN_SYSTEM=true
+# Cloudflare
+CLOUDFLARE_API_KEY=your_cloudflare_api_key
+CLOUDFLARE_DOMAIN=cloutscape.org
+```
 
-# Security
-CSRF_PROTECTION=true
-RATE_LIMIT_ENABLED=true
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX_REQUESTS=100
+### Game Configuration
 
-# Logging
-LOG_LEVEL=info
-LOG_FILE=./logs/app.log
+Adjust game settings in `.env`:
+
+```env
+GAME_MIN_BET=0.01
+GAME_MAX_BET=10000
+GAME_HOUSE_EDGE=0.02
 ```
 
 ---
 
-## Development
+## 🧪 Development
 
 ### Available Commands
 
 ```bash
-# Install dependencies
-pnpm install
+# Development
+pnpm dev              # Start dev server
+pnpm build            # Build for production
+pnpm start            # Start production server
 
-# Start development server
-pnpm dev
+# Database
+pnpm db:push          # Run migrations
+pnpm db:generate      # Generate migrations
 
-# Build for production
-pnpm build
-
-# Start production server
-pnpm start
-
-# Database migrations
-pnpm db:push
-
-# Type checking
-pnpm check
-
-# Run tests
-pnpm test
-
-# Format code
-pnpm format
+# Code Quality
+pnpm check            # TypeScript check
+pnpm format           # Format code
+pnpm test             # Run tests
 ```
+
+### Development Workflow
+
+1. Start development server: `pnpm dev`
+2. Frontend runs on: `http://localhost:5173`
+3. Backend API: `http://localhost:3000/api/trpc`
+4. Hot reload enabled for both frontend and backend
 
 ---
 
-## API Documentation
+## 📊 API Documentation
 
 ### Authentication Endpoints
 
 ```typescript
-// Register new user
+// Register
 POST /api/trpc/auth.register
 { username, email, password, confirmPassword }
 
@@ -351,14 +345,6 @@ GET /api/trpc/auth.me
 
 // Logout
 POST /api/trpc/auth.logout
-
-// Forgot password
-POST /api/trpc/auth.forgotPassword
-{ email }
-
-// Reset password
-POST /api/trpc/auth.resetPassword
-{ token, newPassword, confirmPassword }
 ```
 
 ### Wallet Endpoints
@@ -375,156 +361,100 @@ POST /api/trpc/wallet.deposit
 POST /api/trpc/wallet.withdraw
 { amount }
 
-// Tip player
+// Transfer to player
 POST /api/trpc/wallet.tip
 { toUsername, amount }
-
-// Transaction history
-GET /api/trpc/wallet.getTransactionHistory
-{ limit? }
 ```
 
 ### Game Endpoints
 
 ```typescript
-// Play Keno
-POST /api/trpc/games.playKeno
-{ selectedNumbers, betAmount, turboMode? }
+// Play game
+POST /api/trpc/games.play{GameName}
+{ betAmount, ...gameSpecificData }
 
-// Play Slots
-POST /api/trpc/games.playSlots
-{ betAmount, paylines }
+// Get game history
+GET /api/trpc/games.getHistory
+{ gameType?, limit? }
 
-// Play Crash
-POST /api/trpc/games.playCrash
-{ betAmount, prediction }
-
-// Play Blackjack
-POST /api/trpc/games.playBlackjack
-{ betAmount, playerHand, dealerHand, result }
-
-// Play Roulette
-POST /api/trpc/games.playRoulette
-{ betAmount, prediction, targetNumber }
-
-// Play Dice
-POST /api/trpc/games.playDice
-{ betAmount, prediction, targetNumber }
-
-// Play Poker
-POST /api/trpc/games.playPoker
-{ betAmount, hand }
-```
-
-### Live System Endpoints
-
-```typescript
-// Send chat message
-POST /api/trpc/live.chat.sendMessage
-{ message, mentions? }
-
-// Get chat history
-GET /api/trpc/live.chat.getHistory
-{ limit? }
-
-// Start rain event (admin)
-POST /api/trpc/live.rain.startEvent
-{ totalAmount, participantCount }
-
-// Get rain history
-GET /api/trpc/live.rain.getHistory
-{ limit? }
-
-// Get user rain rewards
-GET /api/trpc/live.rain.getUserRewards
+// Verify fairness
+POST /api/trpc/games.verifyFairness
+{ gameId }
 ```
 
 ---
 
-## Security Best Practices
-
-1. **Always use HTTPS** in production
-2. **Keep dependencies updated**: `pnpm update`
-3. **Rotate secrets regularly**: Update JWT_SECRET and other sensitive values
-4. **Enable rate limiting**: Configured by default
-5. **Monitor logs**: Check `.manus-logs/` directory regularly
-6. **Database backups**: Implement regular PostgreSQL backups
-7. **Input validation**: All inputs validated server-side
-8. **CORS configuration**: Restrict to trusted origins
-
----
-
-## Troubleshooting
+## 🛠️ Troubleshooting
 
 ### Database Connection Issues
+
 ```bash
-# Test PostgreSQL connection
-psql -h localhost -U postgres -d cloutscape_db
+# Test MySQL connection
+mysql -h localhost -u cloutscape_user -p cloutscape_db
 
 # Check DATABASE_URL format
 cat .env | grep DATABASE_URL
 ```
 
 ### Port Already in Use
+
 ```bash
 # Change port in .env
 PORT=3001
 
-# Or kill process using port 3000
+# Or kill process using port
 lsof -ti:3000 | xargs kill -9
 ```
 
 ### Build Failures
+
 ```bash
 # Clear cache and reinstall
 rm -rf node_modules pnpm-lock.yaml
 pnpm install
-pnpm run build
-```
-
-### Database Migration Issues
-```bash
-# Push schema to database
-pnpm db:push
+pnpm build
 ```
 
 ---
 
-## Support & Contact
+## 🤝 Contributing
 
-For issues, feature requests, or contributions:
+Contributions are welcome! Please follow these steps:
 
-- **GitHub Issues**: https://github.com/damienmarx/CloutxMi/issues
-- **Documentation**: See project README and inline code comments
-
----
-
-## License
-
-MIT License - See LICENSE file for details
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-## Roadmap
+## 📝 License
 
-- [x] 7 casino games with proper logic
-- [x] Live chat system
-- [x] Rain reward system
-- [x] VIP tier system
-- [x] User statistics dashboard
-- [x] Blackjack card logic upgrade
-- [ ] Leaderboard system implementation
-- [ ] Advanced analytics dashboard
-- [ ] Mobile app (React Native)
-- [ ] Blockchain integration
-- [ ] Multi-language support
-- [ ] Tournament system
-- [ ] Streaming integration
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
-Built with modern web technologies and best practices for a professional casino platform experience.
+- Built with modern web technologies and best practices
+- Inspired by luxury design principles
+- Powered by the crypto community
 
-**Version**: 2026.1.0 | **Last Updated**: March 2026 | **Status**: Production Ready ✅
+---
+
+## 📞 Support
+
+- **GitHub Issues**: [Report a bug](https://github.com/damienmarx/CloutxMi/issues)
+- **Email**: support@cloutscape.org
+- **Domain**: [cloutscape.org](https://cloutscape.org)
+
+---
+
+<div align="center">
+
+**Made with 💎 by CloutScape Team**
+
+[⬆ Back to Top](#-cloutscape---luxury-crypto-casino-platform-2026)
+
+</div>

@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: cloutscape-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: CloutScape2026RootPass!
+      MYSQL_DATABASE: cloutscape_db
+      MYSQL_USER: cloutscape_user
+      MYSQL_PASSWORD: CloutScape2026Secure!
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./drizzle:/docker-entrypoint-initdb.d
+    networks:
+      - cloutscape-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # CloutScape Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cloutscape-app
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: mysql://cloutscape_user:CloutScape2026Secure!@mysql:3306/cloutscape_db
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - cloutscape-network
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs
+      - app_node_modules:/app/node_modules
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Cloudflared Tunnel (Optional - comment out if not needed)
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloutscape-cloudflared
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - app
+    networks:
+      - cloutscape-network
+    restart: unless-stopped
+
+networks:
+  cloutscape-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
+  app_node_modules:
+    driver: local
