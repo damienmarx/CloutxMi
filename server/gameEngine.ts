@@ -268,34 +268,49 @@ async function playCrash(seedPair: any, nonce: number, gameData: any) {
 }
 
 /**
- * KENO GAME - Pick numbers, match wins
+ * KENO GAME - Pick numbers from 40, match wins
+ * Professional 40-number Keno with optimized payouts
  */
 async function playKeno(seedPair: any, nonce: number, gameData: any) {
   const { pickedNumbers } = gameData; // Array of user's picked numbers (2-10 numbers)
   
-  const drawnNumbers = generateKenoNumbers(seedPair.serverSeed, seedPair.clientSeed, nonce, 20);
+  // Generate 10 drawn numbers from 1-40 (instead of 20 from 80)
+  const allNumbers = Array.from({ length: 40 }, (_, i) => i + 1);
+  const drawnNumbers: number[] = [];
+  
+  for (let i = 0; i < 10; i++) {
+    const index = generateProvablyFairResult(
+      seedPair.serverSeed,
+      seedPair.clientSeed,
+      nonce + i,
+      allNumbers.length
+    );
+    drawnNumbers.push(allNumbers[index]);
+    allNumbers.splice(index, 1);
+  }
   
   const matches = pickedNumbers.filter((num: number) => drawnNumbers.includes(num)).length;
   const totalPicked = pickedNumbers.length;
   
-  // Keno payout table
+  // Professional Keno payout table (40 numbers, 10 drawn)
+  // Optimized for better player experience and house edge
   const payoutTable: { [key: string]: { [key: number]: number } } = {
-    '2': { 2: 4 },
-    '3': { 2: 2, 3: 10 },
-    '4': { 2: 1, 3: 4, 4: 20 },
-    '5': { 3: 2, 4: 8, 5: 50 },
-    '6': { 3: 1, 4: 4, 5: 20, 6: 100 },
-    '7': { 4: 2, 5: 10, 6: 50, 7: 250 },
-    '8': { 5: 4, 6: 20, 7: 100, 8: 500 },
-    '9': { 5: 2, 6: 10, 7: 50, 8: 200, 9: 1000 },
-    '10': { 5: 2, 6: 8, 7: 25, 8: 100, 9: 500, 10: 2000 }
+    '2': { 1: 0, 2: 3.5 },
+    '3': { 1: 0, 2: 1.5, 3: 12 },
+    '4': { 1: 0, 2: 0.5, 3: 3, 4: 25 },
+    '5': { 2: 0.5, 3: 2, 4: 10, 5: 60 },
+    '6': { 2: 0, 3: 1, 4: 5, 5: 25, 6: 120 },
+    '7': { 3: 0.5, 4: 2, 5: 10, 6: 50, 7: 250 },
+    '8': { 3: 0, 4: 1, 5: 5, 6: 20, 7: 100, 8: 500 },
+    '9': { 4: 0.5, 5: 2, 6: 10, 7: 50, 8: 200, 9: 1000 },
+    '10': { 4: 0, 5: 1, 6: 5, 7: 25, 8: 100, 9: 400, 10: 2500 }
   };
 
   const multiplier = payoutTable[totalPicked]?.[matches] || 0;
   const win = multiplier > 0;
 
   return {
-    result: { drawnNumbers, pickedNumbers, matches },
+    result: { drawnNumbers, pickedNumbers, matches, totalNumbers: 40 },
     multiplier,
     win
   };
