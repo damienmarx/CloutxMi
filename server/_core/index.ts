@@ -1,3 +1,4 @@
+import { initializeDiscordBot } from "../discordBot";
 import { sql } from "drizzle-orm";
 import "dotenv/config";
 import express from "express";
@@ -100,7 +101,20 @@ async function startServer() {
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
     console.log(`Socket.IO server initialized on http://localhost:${port}`);
-    // Optionally, handle graceful shutdown
+
+    // Initialize Discord bot if credentials are configured
+    const discordToken = process.env.DISCORD_BOT_TOKEN;
+    const discordGuildId = process.env.DISCORD_GUILD_ID;
+    if (discordToken && discordGuildId) {
+      const bot = initializeDiscordBot(discordToken, discordGuildId);
+      bot.initialize().catch((err: Error) => {
+        console.warn("[Discord] Bot failed to start:", err.message);
+      });
+    } else {
+      console.log("[Discord] Bot disabled — set DISCORD_BOT_TOKEN and DISCORD_GUILD_ID to enable");
+    }
+
+    // Graceful shutdown
     process.on("SIGTERM", async () => {
       console.log("SIGTERM signal received: closing HTTP server and shutting down plugins");
       await pluginManager.shutdownPlugins();
