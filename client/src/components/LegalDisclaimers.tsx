@@ -10,7 +10,7 @@ export const LegalDisclaimers: React.FC = () => {
           <h2 className="text-xl font-bold uppercase tracking-tighter italic">Responsible Gaming</h2>
         </div>
         <p className="mb-4">
-          Degens Den is a high-stakes entertainment platform. Gambling involves significant risk and can be addictive. 
+          CloutScape is a high-stakes entertainment platform. Gambling involves significant risk and can be addictive. 
           Please play responsibly. Only wager what you can afford to lose.
         </p>
         <p>
@@ -25,7 +25,7 @@ export const LegalDisclaimers: React.FC = () => {
           <h2 className="text-xl font-bold uppercase tracking-tighter italic">Platform Rights & Terms</h2>
         </div>
         <p className="mb-4">
-          © 2026 CloutScape. All rights reserved. The "Degens Den" brand, software, and OSRS-themed assets 
+          © 2026 CloutScape. All rights reserved. The "CloutScape" brand, software, and OSRS-themed assets 
           are the property of CloutScape.
         </p>
         <p>

@@ -1,8 +1,8 @@
-/* Degens Den - Sinister Casino Theme */
+/* CloutScape - Sinister Casino Theme */
 /* Obsidian (Black) + Gold + Deep Purple Accents */
 
 :root {
-  /* Degens Den Color Palette */
+  /* CloutScape Color Palette */
   --degens-obsidian: #0a0e27;
   --degens-obsidian-light: #1a1f3a;
   --degens-obsidian-lighter: #2a2f4a;
@@ -19,7 +19,7 @@
   --degens-gray: #9ca3af;
 }
 
-/* Degens Den Game Container */
+/* CloutScape Game Container */
 .degens-container {
   background: linear-gradient(135deg, var(--degens-obsidian) 0%, var(--degens-obsidian-light) 50%, var(--degens-obsidian) 100%);
   color: var(--degens-white);
@@ -42,7 +42,7 @@
   z-index: 0;
 }
 
-/* Degens Den Card Styling */
+/* CloutScape Card Styling */
 .degens-card {
   background: linear-gradient(135deg, rgba(26, 31, 58, 0.8) 0%, rgba(42, 47, 74, 0.6) 100%);
   border: 2px solid var(--degens-gold);
@@ -66,7 +66,7 @@
   pointer-events: none;
 }
 
-/* Degens Den Button */
+/* CloutScape Button */
 .degens-btn {
   background: linear-gradient(135deg, var(--degens-gold) 0%, var(--degens-gold-dark) 100%);
   color: var(--degens-obsidian);
@@ -109,7 +109,7 @@
   transform: translateY(0);
 }
 
-/* Degens Den Primary Button (Red) */
+/* CloutScape Primary Button (Red) */
 .degens-btn-primary {
   background: linear-gradient(135deg, var(--degens-red) 0%, var(--degens-red-dark) 100%);
   color: white;
@@ -121,7 +121,7 @@
   box-shadow: 0 0 40px rgba(220, 38, 38, 0.6);
 }
 
-/* Degens Den Secondary Button (Purple) */
+/* CloutScape Secondary Button (Purple) */
 .degens-btn-secondary {
   background: linear-gradient(135deg, var(--degens-purple-light) 0%, var(--degens-purple) 100%);
   color: white;
@@ -133,7 +133,7 @@
   box-shadow: 0 0 40px rgba(107, 33, 168, 0.6);
 }
 
-/* Degens Den Title */
+/* CloutScape Title */
 .degens-title {
   font-size: 2.5rem;
   font-weight: 900;
@@ -145,7 +145,7 @@
   letter-spacing: 2px;
 }
 
-/* Degens Den Subtitle */
+/* CloutScape Subtitle */
 .degens-subtitle {
   color: var(--degens-cyan);
   font-size: 1.1rem;
@@ -154,7 +154,7 @@
   letter-spacing: 1px;
 }
 
-/* Degens Den Badge */
+/* CloutScape Badge */
 .degens-badge {
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%);
   border: 1px solid var(--degens-gold);
@@ -166,7 +166,7 @@
   display: inline-block;
 }
 
-/* Degens Den Input */
+/* CloutScape Input */
 .degens-input {
   background: linear-gradient(135deg, rgba(26, 31, 58, 0.6) 0%, rgba(42, 47, 74, 0.4) 100%);
   border: 2px solid var(--degens-gold);
@@ -188,7 +188,7 @@
   color: var(--degens-gray);
 }
 
-/* Degens Den Stat Box */
+/* CloutScape Stat Box */
 .degens-stat-box {
   background: linear-gradient(135deg, rgba(26, 31, 58, 0.8) 0%, rgba(42, 47, 74, 0.6) 100%);
   border: 1px solid var(--degens-gold);
@@ -211,7 +211,7 @@
   font-weight: 900;
 }
 
-/* Degens Den Glow Effect */
+/* CloutScape Glow Effect */
 .degens-glow {
   box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
   animation: degens-pulse 2s ease-in-out infinite;
@@ -226,7 +226,7 @@
   }
 }
 
-/* Degens Den Shine Effect */
+/* CloutScape Shine Effect */
 .degens-shine {
   position: relative;
   overflow: hidden;
@@ -252,7 +252,7 @@
   }
 }
 
-/* Degens Den Table */
+/* CloutScape Table */
 .degens-table {
   width: 100%;
   border-collapse: collapse;
@@ -287,7 +287,7 @@
   background: rgba(212, 175, 55, 0.05);
 }
 
-/* Degens Den Divider */
+/* CloutScape Divider */
 .degens-divider {
   border: none;
   height: 2px;
@@ -295,7 +295,7 @@
   margin: 20px 0;
 }
 
-/* Degens Den Alert */
+/* CloutScape Alert */
 .degens-alert {
   background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(153, 27, 27, 0.1) 100%);
   border: 2px solid var(--degens-red);
