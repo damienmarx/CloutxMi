@@ -128,7 +128,7 @@ After pulling, verify these are working:
 
 - **Local:** http://localhost:8080
 - **Network:** http://YOUR_SERVER_IP:8080
-- **Public:** https://degensden.org (after Cloudflare Tunnel)
+- **Public:** https://cloutscape.org (after Cloudflare Tunnel)
 
 ---
 

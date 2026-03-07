@@ -124,7 +124,7 @@ export class ErrorBoundaryEnhanced extends Component<Props, State> {
 
             <p className="error-support">
               If the problem persists, please contact{" "}
-              <a href="mailto:Support@degensden.org">Support@degensden.org</a> / <a href="mailto:Support@degensden.online">Support@degensden.online</a>
+              <a href="mailto:Support@cloutscape.org">Support@cloutscape.org</a> / <a href="mailto:Support@degensden.online">Support@degensden.online</a>
             </p>
           </div>
         </div>

@@ -7,14 +7,14 @@
 set -e
 
 # Configuration
-TUNNEL_NAME="degensden-tunnel"
+TUNNEL_NAME="cloutscape-tunnel"
 CONFIG_DIR="/etc/cloudflared"
 CONFIG_FILE="${CONFIG_DIR}/config.yml"
 CREDENTIALS_FILE="${CONFIG_DIR}/${TUNNEL_NAME}.json"
 LOG_FILE="/var/log/cloudflare-tunnel-setup.log"
 
 # Domains to be tunneled (must match ingress rules in config.yml)
-DOMAINS=("degensden.org" "www.degensden.org" "api.degensden.org" "ws.degensden.org")
+DOMAINS=("cloutscape.org" "www.cloutscape.org" "api.cloutscape.org" "ws.cloutscape.org")
 
 # Logging function
 log() {

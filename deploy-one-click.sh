@@ -3,7 +3,7 @@
 ###############################################################################
 # Degens¤Den One-Click Deployment Script
 # Version: 2026.1.0
-# Domain: degensden.org
+# Domain: cloutscape.org
 # Author: Damien Marx
 ###############################################################################
 
@@ -37,10 +37,10 @@ echo -e "${NC}"
 # Configuration
 APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOG_FILE="$APP_DIR/logs/deployment.log"
-DB_NAME="degensden_db"
-DB_USER="degensden_user"
+DB_NAME="cloutscape_db"
+DB_USER="cloutscape_user"
 DB_PASS="Degens¤Den2026Secure!"
-CLOUDFLARE_DOMAIN="degensden.org"
+CLOUDFLARE_DOMAIN="cloutscape.org"
 
 # Create logs directory
 mkdir -p "$APP_DIR/logs"
@@ -184,14 +184,14 @@ To complete the Cloudflare Tunnel setup, run these commands:
    ${CYAN}cloudflared tunnel login${NC}
 
 2. Create tunnel:
-   ${CYAN}cloudflared tunnel create degensden-prod${NC}
+   ${CYAN}cloudflared tunnel create cloutscape-prod${NC}
 
 3. Route DNS:
-   ${CYAN}cloudflared tunnel route dns degensden-prod degensden.org${NC}
-   ${CYAN}cloudflared tunnel route dns degensden-prod www.degensden.org${NC}
+   ${CYAN}cloudflared tunnel route dns cloutscape-prod cloutscape.org${NC}
+   ${CYAN}cloudflared tunnel route dns cloutscape-prod www.cloutscape.org${NC}
 
 4. Start tunnel (in a separate terminal or as service):
-   ${CYAN}cloudflared tunnel run degensden-prod${NC}
+   ${CYAN}cloudflared tunnel run cloutscape-prod${NC}
 
 Or install as a service:
    ${CYAN}sudo cloudflared service install${NC}

@@ -12,7 +12,7 @@
 
 Degens¤Den is a premium, fully provably fair crypto casino platform. Every game result can be independently verified using HMAC-SHA256. Built with a modern monorepo stack: React + Vite + tRPC + Socket.IO + Drizzle + MySQL.
 
-**Domain**: `degensden.org`
+**Domain**: `cloutscape.org`
 
 ---
 
@@ -92,7 +92,7 @@ Backend API: `http://localhost:3000/api`
 See `.env.example` for full list. Required:
 
 ```bash
-DATABASE_URL=mysql://user:pass@localhost:3306/degensden_db
+DATABASE_URL=mysql://user:pass@localhost:3306/cloutscape_db
 JWT_SECRET=your-very-long-random-secret-min-32-chars
 SESSION_SECRET=your-session-secret
 

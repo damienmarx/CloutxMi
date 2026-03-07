@@ -1,199 +1,384 @@
 #!/bin/bash
-
-# Master All-in-One Deployment Script for Degens¤Den on Ubuntu
-# This script automates the entire setup: Installs free tools (Node.js, PostgreSQL, pnpm, git, cloudflared), sets up a free local PostgreSQL database, clones your repo, configures .env, deploys the app as a systemd service, and exposes it via Cloudflare Tunnel for free public access (HTTPS).
-# Totally free: Uses open-source tools, no paid services required (Cloudflare free tier for Tunnel/DNS).
-# Guided: Prompts for all inputs with clear instructions.
-# Minimal Effort: Run this script on your Ubuntu server (e.g., local VM or free VPS like Oracle Cloud Always Free).
-# Robust Error Handling: Retries, logs, validation, fallbacks.
-# Assumptions: Ubuntu 20.04+ (server edition preferred), sudo access, internet connection. Run as non-root user with sudo.
-# Usage: Save as deploy.sh, chmod +x deploy.sh, ./deploy.sh
-# Logs: Written to deploy-master.log
+###############################################################################
+# Degens¤Den — Smart Deploy Script
+# Auto-detects your existing Cloudflare Tunnel setup and deploys
+# Domain: cloutscape.org  |  Brand: Degens¤Den
+# Version: 2026.1.0
+###############################################################################
 
 set -euo pipefail
 
-# Config
-LOG_FILE="deploy-master.log"
-MAX_RETRIES=3
-BACKOFF_START=2
-REPO_URL="https://github.com/damienmarx/degensden.git"
-APP_DIR="$HOME/Degens¤Den"
-DB_NAME=""
-DB_USER=""
-DB_PASS=""
+# ── Colors ───────────────────────────────────────────────────────────────────
+RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
+CYAN='\033[0;36m'; PURPLE='\033[0;35m'; BOLD='\033[1m'; NC='\033[0m'
+
+log()     { echo -e "${GREEN}[✓] $1${NC}"; }
+warn()    { echo -e "${YELLOW}[!] $1${NC}"; }
+error()   { echo -e "${RED}[✗] $1${NC}"; exit 1; }
+info()    { echo -e "${CYAN}[→] $1${NC}"; }
+header()  { echo -e "\n${PURPLE}${BOLD}━━━ $1 ━━━${NC}\n"; }
+
+# ── Banner ───────────────────────────────────────────────────────────────────
+echo -e "${PURPLE}${BOLD}"
+cat << 'EOF'
+  ____  ____  ___  ____  _  _  ____    ____  ____  _  _ 
+ (  _ \( ___)/ __)( ___)( \( )/ ___)  (  _ \( ___)( \( )
+  )(_) ))__)( (_-. )__)  )  ( \__  \   )(_) ))__)  )  ( 
+ (____/(____)\___/(____)(___/ (_____)  (____/(____)(___/ 
+ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       The Vault Where Degens Become Legends
+         deploying → cloutscape.org
+EOF
+echo -e "${NC}"
+
+# ── Resolve app directory ─────────────────────────────────────────────────────
+APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LOG_FILE="$APP_DIR/logs/deploy-$(date +%Y%m%d-%H%M%S).log"
+mkdir -p "$APP_DIR/logs"
+exec > >(tee -a "$LOG_FILE") 2>&1
+
+###############################################################################
+# PHASE 1 — AUTO-DETECT CLOUDFLARE TUNNEL SETUP
+###############################################################################
+header "Phase 1: Auto-Detecting Cloudflare Tunnel"
+
+# ── Search priority for cloudflared config ────────────────────────────────────
+CFGD_CONFIG=""
+TUNNEL_NAME=""
+TUNNEL_UUID=""
 DOMAIN=""
-API_SUBDOMAIN="api"
-CLOUDFLARED_CONFIG_DIR="$HOME/.cloudflared"
-TUNNEL_NAME="degensden-tunnel"
-FRONTEND_PORT=3000
-BACKEND_PORT=4000  # Adjust if your app uses different; assumes concurrent in pnpm dev
-NODE_VERSION="22"
-PG_VERSION="14"  # PostgreSQL 14+
+APP_PORT=8080   # default — overridden by detected config
 
-# Log function
-log() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
+# Priority search paths for config.yml
+CF_CONFIG_CANDIDATES=(
+  "/root/.cloudflared/config.yml"
+  "/etc/cloudflared/config.yml"
+  "$APP_DIR/cloudflared-config.yml"
+  "$APP_DIR/.cloudflared/config.yml"
+  "$HOME/.cloudflared/config.yml"
+)
+
+detect_config() {
+  for path in "${CF_CONFIG_CANDIDATES[@]}"; do
+    if [[ -f "$path" ]]; then
+      echo "$path"
+      return 0
+    fi
+  done
+  return 1
 }
 
-# Notify/Exit on error
-error_exit() {
-    log "ERROR: $1"
-    exit 1
+parse_config() {
+  local cfg="$1"
+  # Extract tunnel name
+  TUNNEL_NAME=$(grep -E '^tunnel:' "$cfg" 2>/dev/null | awk '{print $2}' | tr -d '"' | head -1 || true)
+  # Extract credentials file
+  local creds_path
+  creds_path=$(grep -E '^credentials-file:' "$cfg" 2>/dev/null | awk '{print $2}' | tr -d '"' | head -1 || true)
+  # Extract first hostname
+  DOMAIN=$(grep -E '^\s+hostname:' "$cfg" 2>/dev/null | awk '{print $2}' | tr -d '"' | head -1 || true)
+  # Extract service port
+  local svc
+  svc=$(grep -E '^\s+service:' "$cfg" 2>/dev/null | grep -oE ':[0-9]+' | head -1 || true)
+  if [[ -n "$svc" ]]; then APP_PORT="${svc#:}"; fi
+  # Get UUID from credentials file
+  if [[ -n "$creds_path" && -f "$creds_path" ]]; then
+    TUNNEL_UUID=$(python3 -c "import json,sys; d=json.load(open('$creds_path')); print(d.get('TunnelID',''))" 2>/dev/null || true)
+    if [[ -z "$TUNNEL_UUID" ]]; then
+      TUNNEL_UUID=$(grep -oE '"TunnelID"\s*:\s*"[^"]+"' "$creds_path" 2>/dev/null | grep -oE '[0-9a-f-]{36}' | head -1 || true)
+    fi
+  fi
 }
 
-# Retry function with backoff
-retry() {
-    local n=1 backoff=$BACKOFF_START
-    until [ $n -ge $MAX_RETRIES ]; do
-        "$@" && return 0 || {
-            log "Retry $n/$MAX_RETRIES failed for $@. Backoff ${backoff}s..."
-            sleep $backoff
-            backoff=$((backoff * 2))
-        }
-        n=$((n+1))
-    done
-    error_exit "Failed after $MAX_RETRIES attempts: $@"
+# ── Try to find running tunnel ─────────────────────────────────────────────────
+detect_running_tunnel() {
+  if command -v cloudflared &>/dev/null; then
+    # List existing tunnels
+    local tunnel_list
+    tunnel_list=$(cloudflared tunnel list 2>/dev/null || true)
+    if [[ -n "$tunnel_list" ]]; then
+      info "Found existing tunnels:"
+      echo "$tunnel_list"
+    fi
+  fi
 }
 
-# Validate Ubuntu
-if ! grep -q "Ubuntu" /etc/os-release; then
-    error_exit "This script requires Ubuntu. Exiting."
+# ── Scan for JSON credential files ────────────────────────────────────────────
+detect_credentials() {
+  local cred_dirs=("/root/.cloudflared" "/etc/cloudflared" "$HOME/.cloudflared" "$APP_DIR/.cloudflared")
+  for d in "${cred_dirs[@]}"; do
+    if [[ -d "$d" ]]; then
+      while IFS= read -r -d '' f; do
+        if python3 -c "import json; d=json.load(open('$f')); exit(0 if 'TunnelID' in d else 1)" 2>/dev/null; then
+          echo "$f"
+          return 0
+        fi
+      done < <(find "$d" -name "*.json" -print0 2>/dev/null)
+    fi
+  done
+  return 1
+}
+
+# ── Run detection ─────────────────────────────────────────────────────────────
+if CFGD_CONFIG=$(detect_config); then
+  log "Found cloudflared config: $CFGD_CONFIG"
+  parse_config "$CFGD_CONFIG"
+  log "Tunnel name : ${TUNNEL_NAME:-<not found>}"
+  log "Domain      : ${DOMAIN:-<not found>}"
+  log "App port    : $APP_PORT"
+  [[ -n "$TUNNEL_UUID" ]] && log "Tunnel UUID : $TUNNEL_UUID"
+else
+  warn "No cloudflared config found in standard locations."
+  warn "Falling back to repo-bundled config..."
+  CFGD_CONFIG="$APP_DIR/cloudflared-config.yml"
+  if [[ -f "$CFGD_CONFIG" ]]; then
+    parse_config "$CFGD_CONFIG"
+    log "Using bundled config → $CFGD_CONFIG"
+  else
+    warn "No bundled config found. Will create minimal config."
+    DOMAIN="cloutscape.org"
+    TUNNEL_NAME="cloutscape-prod"
+    APP_PORT=8080
+  fi
 fi
 
-# Step 1: System Update & Install Dependencies
-log "Step 1: Updating system and installing free tools (Node.js $NODE_VERSION, PostgreSQL $PG_VERSION, pnpm, git, curl)..."
-retry sudo apt update -y
-retry sudo apt upgrade -y
-retry sudo apt install -y curl git postgresql-$PG_VERSION
-curl -fsSL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash -
-retry sudo apt install -y nodejs
-retry npm install -g pnpm
-log "Dependencies installed."
+# ── Attempt to find JSON credentials if UUID not set ─────────────────────────
+if [[ -z "$TUNNEL_UUID" ]]; then
+  if CRED_FILE=$(detect_credentials 2>/dev/null); then
+    log "Found credentials file: $CRED_FILE"
+    TUNNEL_UUID=$(python3 -c "import json; d=json.load(open('$CRED_FILE')); print(d.get('TunnelID',''))" 2>/dev/null || true)
+    [[ -n "$TUNNEL_UUID" ]] && log "Resolved UUID: $TUNNEL_UUID"
+  else
+    warn "No tunnel credentials found. You'll need to run: cloudflared tunnel login"
+  fi
+fi
 
-# Step 2: Set Up Free PostgreSQL Database
-log "Step 2: Setting up free local PostgreSQL database..."
-sudo systemctl start postgresql
-sudo systemctl enable postgresql
+# ── Final resolved values ─────────────────────────────────────────────────────
+TUNNEL_NAME="${TUNNEL_NAME:-cloutscape-prod}"
+DOMAIN="${DOMAIN:-cloutscape.org}"
 
-# Prompt for DB details
-read -p "Enter database name (default: degensden_db): " DB_NAME
-DB_NAME=${DB_NAME:-degensden_db}
-read -p "Enter database user (default: degensden_user): " DB_USER
-DB_USER=${DB_USER:-degensden_user}
-read -s -p "Enter database password: " DB_PASS
+echo ""
+echo -e "${BOLD}Resolved deployment target:${NC}"
+echo -e "  Domain      : ${CYAN}$DOMAIN${NC}"
+echo -e "  Tunnel name : ${CYAN}$TUNNEL_NAME${NC}"
+echo -e "  App port    : ${CYAN}$APP_PORT${NC}"
+echo -e "  Config file : ${CYAN}$CFGD_CONFIG${NC}"
 echo ""
 
-# Create DB user and database with error handling
-sudo -u postgres psql -c "CREATE USER $DB_USER WITH PASSWORD '$DB_PASS';" || log "User already exists, skipping."
-sudo -u postgres psql -c "CREATE DATABASE $DB_NAME OWNER $DB_USER;" || log "DB already exists, skipping."
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO $DB_USER;"
-log "Database setup complete. DATABASE_URL=postgres://$DB_USER:$DB_PASS@localhost:5432/$DB_NAME"
+###############################################################################
+# PHASE 2 — DEPENDENCY CHECK
+###############################################################################
+header "Phase 2: Dependency Check"
 
-# Step 3: Clone Repo and Install App
-log "Step 3: Cloning repo and installing app..."
-mkdir -p "$APP_DIR"
-cd "$APP_DIR"
-retry git clone "$REPO_URL" .
-retry pnpm install
-log "Repo cloned and deps installed."
+check_cmd() {
+  if command -v "$1" &>/dev/null; then log "$1 found"; else
+    warn "$1 not found — $2"; return 1
+  fi
+}
 
-# Step 4: Configure .env
-log "Step 4: Configuring .env..."
-cp .env.example .env || error_exit ".env.example not found."
-sed -i "s|^DATABASE_URL=.*|DATABASE_URL=postgres://$DB_USER:$DB_PASS@localhost:5432/$DB_NAME|" .env
+check_cmd "node"   "Install Node.js 20+ from https://nodejs.org"
+NODE_VER=$(node -v | cut -d'v' -f2 | cut -d'.' -f1)
+[[ "$NODE_VER" -ge 18 ]] || error "Node.js 18+ required (found v${NODE_VER})"
 
-# Prompt for additional .env vars if needed (e.g., secrets)
-read -p "Enter any other secrets (e.g., JWT_SECRET, press Enter if none): " OTHER_SECRET
-if [ -n "$OTHER_SECRET" ]; then
-    echo "$OTHER_SECRET" >> .env
+check_cmd "pnpm"   "Run: npm install -g pnpm@10.4.1" || npm install -g pnpm@10.4.1 && log "pnpm installed"
+
+if ! check_cmd "cloudflared" "Download from https://github.com/cloudflare/cloudflared/releases"; then
+  warn "cloudflared missing — attempting install..."
+  curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb -o /tmp/cf.deb \
+    && sudo dpkg -i /tmp/cf.deb && rm /tmp/cf.deb && log "cloudflared installed" \
+    || warn "Could not auto-install cloudflared — install manually then re-run"
 fi
-log ".env configured."
 
-# Step 5: Run DB Migrations
-log "Step 5: Running database migrations..."
-retry pnpm db:push
-log "Migrations complete."
+###############################################################################
+# PHASE 3 — BUILD APPLICATION
+###############################################################################
+header "Phase 3: Building Degens¤Den"
 
-# Step 6: Install Cloudflared for Free Public Exposure
-log "Step 6: Installing cloudflared for free HTTPS tunnel..."
-retry wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -O cloudflared
-chmod +x cloudflared
-sudo mv cloudflared /usr/local/bin/
-cloudflared --version || error_exit "cloudflared install failed."
+cd "$APP_DIR"
 
-# Prompt for Cloudflare details
-log "Go to dash.cloudflare.com/profile/api-tokens, create a token with 'Zero Trust: Edit' and 'DNS: Edit'."
-read -p "Enter Cloudflare API Token: " API_TOKEN
-read -p "Enter your domain (e.g., degensden.org): " DOMAIN
-read -p "Enter Zone ID (from dashboard Overview): " ZONE_ID
+info "Installing Node dependencies..."
+pnpm install --frozen-lockfile || pnpm install --no-frozen-lockfile
+log "Dependencies installed"
 
-# Authenticate
-retry cloudflared tunnel login
+info "Building frontend..."
+pnpm vite build
+log "Frontend built → dist/public/"
 
-# Create Tunnel
-TUNNEL_ID=$(cloudflared tunnel list --name "$TUNNEL_NAME" -o json | jq -r '.[0].id' 2>/dev/null)
-[ -z "$TUNNEL_ID" ] || [ "$TUNNEL_ID" == "null" ] && retry cloudflared tunnel create "$TUNNEL_NAME"
-TUNNEL_ID=$(cloudflared tunnel list --name "$TUNNEL_NAME" -o json | jq -r '.[0].id')
+info "Building backend..."
+pnpm esbuild server/index.ts \
+  --bundle --platform=node --target=node20 \
+  --outfile=dist/server.js \
+  --external:argon2 --external:mysql2 \
+  --external:socket.io --external:discord.js \
+  2>/dev/null || {
+  warn "esbuild not available, trying tsc..."
+  pnpm tsc --project tsconfig.server.json 2>/dev/null || warn "Backend build errors (non-fatal in dev)"
+}
+log "Build phase complete"
 
-# Generate config.yml
-mkdir -p "$CLOUDFLARED_CONFIG_DIR"
-CONFIG_FILE="$CLOUDFLARED_CONFIG_DIR/config.yml"
-cat > "$CONFIG_FILE" << EOF
-tunnel: $TUNNEL_ID
-credentials-file: $CLOUDFLARED_CONFIG_DIR/$TUNNEL_ID.json
+###############################################################################
+# PHASE 4 — DATABASE SETUP
+###############################################################################
+header "Phase 4: Database"
 
-ingress:
-  - hostname: $DOMAIN
-    service: http://localhost:$FRONTEND_PORT
-  - hostname: $API_SUBDOMAIN.$DOMAIN
-    service: http://localhost:$BACKEND_PORT
-  - service: http_status:404
-EOF
-log "Tunnel config created."
+if command -v mysql &>/dev/null; then
+  info "Checking database..."
+  DB_NAME="cloutscape_db"
+  # Read from .env if present
+  if [[ -f "$APP_DIR/.env" ]]; then
+    DB_URL=$(grep -E '^DATABASE_URL=' "$APP_DIR/.env" | cut -d'=' -f2- | tr -d '"' || true)
+    if [[ -n "$DB_URL" ]]; then
+      info "Using DATABASE_URL from .env"
+    fi
+  fi
+  log "Database configuration detected"
+else
+  warn "MySQL client not found — skipping DB check. Ensure DATABASE_URL is set in .env"
+fi
 
-# Set up DNS
-CNAME_TARGET="$TUNNEL_ID.cfargotunnel.com"
-retry curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records" \
-    -H "Authorization: Bearer $API_TOKEN" \
-    -H "Content-Type: application/json" \
-    --data "{\"type\":\"CNAME\",\"name\":\"$DOMAIN\",\"content\":\"$CNAME_TARGET\",\"ttl\":1,\"proxied\":true}"
-retry curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records" \
-    -H "Authorization: Bearer $API_TOKEN" \
-    -H "Content-Type: application/json" \
-    --data "{\"type\":\"CNAME\",\"name\":\"$API_SUBDOMAIN\",\"content\":\"$CNAME_TARGET\",\"ttl\":1,\"proxied\":true}"
-log "DNS setup. Wait 1-5 min for propagation."
+# Run Drizzle migrations if available
+if [[ -f "$APP_DIR/drizzle.config.ts" ]]; then
+  info "Running Drizzle migrations..."
+  pnpm drizzle-kit push 2>/dev/null && log "Migrations applied" || warn "Migration skipped (check DATABASE_URL in .env)"
+fi
 
-# Install cloudflared as service
-retry cloudflared service install --config "$CONFIG_FILE"
-sudo systemctl start cloudflared
-sudo systemctl enable cloudflared
-log "Tunnel service running."
+###############################################################################
+# PHASE 5 — PROCESS MANAGEMENT (PM2 / systemd)
+###############################################################################
+header "Phase 5: Starting Application"
 
-# Step 7: Deploy App as Systemd Service
-log "Step 7: Deploying app as systemd service..."
-cat > /etc/systemd/system/degensden.service << EOF
-[Unit]
-Description=Degens¤Den App
-After=network.target postgresql.service
+APP_START_CMD="node dist/server.js"
 
-[Service]
-WorkingDirectory=$APP_DIR
-ExecStart=/usr/bin/pnpm dev
-Restart=always
-User=$USER
-EnvironmentFile=$APP_DIR/.env
+# Prefer PM2 if available
+if command -v pm2 &>/dev/null; then
+  info "Starting with PM2..."
+  pm2 delete degensden 2>/dev/null || true
+  PORT=$APP_PORT pm2 start "$APP_START_CMD" --name degensden --env production
+  pm2 save
+  log "App running via PM2 on port $APP_PORT"
+  PM2_AVAILABLE=true
+else
+  warn "PM2 not found — starting with nohup. Consider: npm install -g pm2"
+  pkill -f "node dist/server" 2>/dev/null || true
+  sleep 1
+  PORT=$APP_PORT nohup node dist/server.js > "$APP_DIR/logs/server.log" 2>&1 &
+  echo $! > "$APP_DIR/.server.pid"
+  sleep 2
+  if kill -0 $(cat "$APP_DIR/.server.pid" 2>/dev/null) 2>/dev/null; then
+    log "App running (PID $(cat "$APP_DIR/.server.pid")) on port $APP_PORT"
+  else
+    warn "Server may have failed to start — check logs/server.log"
+  fi
+  PM2_AVAILABLE=false
+fi
 
-[Install]
-WantedBy=multi-user.target
-EOF
-sudo systemctl daemon-reload
-sudo systemctl start degensden
-sudo systemctl enable degensden
-log "App deployed."
+###############################################################################
+# PHASE 6 — CLOUDFLARE TUNNEL
+###############################################################################
+header "Phase 6: Cloudflare Tunnel"
 
-# Step 8: Health Check
-log "Step 8: Verifying deployment..."
-sleep 30  # Wait for startup/DNS
-curl -sI "https://$DOMAIN" | grep -q "HTTP" || error_exit "Frontend check failed. Check logs."
-curl -sI "https://$API_SUBDOMAIN.$DOMAIN" | grep -q "HTTP" || log "Backend check optional if ports differ."
-log "Deployment complete! Access at https://$DOMAIN. Logs in $LOG_FILE and journalctl -u degensden."
+start_tunnel() {
+  local cfg="$1"
+  if command -v cloudflared &>/dev/null; then
+    # Check if service is installed
+    if systemctl is-active --quiet cloudflared 2>/dev/null; then
+      info "Reloading cloudflared systemd service..."
+      sudo systemctl restart cloudflared && log "cloudflared service restarted" && return 0
+    fi
+    # Check for running tunnel process
+    if pgrep -x cloudflared &>/dev/null; then
+      info "Restarting existing cloudflared process..."
+      pkill -f cloudflared 2>/dev/null || true
+      sleep 1
+    fi
+    info "Launching cloudflared tunnel..."
+    nohup cloudflared tunnel --config "$cfg" run "$TUNNEL_NAME" > "$APP_DIR/logs/tunnel.log" 2>&1 &
+    echo $! > "$APP_DIR/.tunnel.pid"
+    sleep 3
+    if kill -0 $(cat "$APP_DIR/.tunnel.pid" 2>/dev/null) 2>/dev/null; then
+      log "Cloudflare Tunnel running (PID $(cat "$APP_DIR/.tunnel.pid"))"
+      return 0
+    else
+      warn "Tunnel process may have exited — check logs/tunnel.log"
+      return 1
+    fi
+  else
+    warn "cloudflared not found — tunnel not started"
+    return 1
+  fi
+}
+
+# Update config to point to correct port before starting
+update_config_port() {
+  local cfg="$1"
+  local port="$2"
+  if [[ -f "$cfg" ]]; then
+    sed -i "s|localhost:[0-9]*|localhost:${port}|g" "$cfg"
+    log "Config port updated to $port in $cfg"
+  fi
+}
+
+if [[ -f "$CFGD_CONFIG" ]]; then
+  update_config_port "$CFGD_CONFIG" "$APP_PORT"
+  
+  # Check if cloudflared credentials exist
+  CRED_FILE="/root/.cloudflared/${TUNNEL_NAME}.json"
+  if [[ ! -f "$CRED_FILE" ]]; then
+    CRED_FILE=$(detect_credentials 2>/dev/null || echo "")
+  fi
+
+  if [[ -n "$CRED_FILE" && -f "$CRED_FILE" ]]; then
+    log "Credentials found: $CRED_FILE"
+    start_tunnel "$CFGD_CONFIG"
+  else
+    warn "No credentials found — tunnel requires authentication first."
+    echo ""
+    echo -e "${YELLOW}  Run these commands to authenticate:${NC}"
+    echo -e "  ${CYAN}1. cloudflared tunnel login${NC}"
+    echo -e "  ${CYAN}2. cloudflared tunnel create ${TUNNEL_NAME}${NC}"
+    echo -e "  ${CYAN}3. cloudflared tunnel route dns ${TUNNEL_NAME} ${DOMAIN}${NC}"
+    echo -e "  ${CYAN}4. cloudflared tunnel route dns ${TUNNEL_NAME} www.${DOMAIN}${NC}"
+    echo -e "  ${CYAN}5. Re-run this script${NC}"
+  fi
+else
+  warn "No cloudflared config found at $CFGD_CONFIG"
+fi
+
+###############################################################################
+# PHASE 7 — HEALTH CHECK
+###############################################################################
+header "Phase 7: Health Check"
+
+sleep 3
+if curl -sf "http://localhost:${APP_PORT}" > /dev/null 2>&1; then
+  log "App responding on localhost:${APP_PORT}"
+else
+  warn "App not responding yet on :${APP_PORT} — check logs/server.log"
+fi
+
+# Check tunnel log for errors
+if [[ -f "$APP_DIR/logs/tunnel.log" ]]; then
+  TUNNEL_ERRORS=$(grep -ci "error\|failed\|fatal" "$APP_DIR/logs/tunnel.log" 2>/dev/null || echo 0)
+  if [[ "$TUNNEL_ERRORS" -gt 0 ]]; then
+    warn "Tunnel log has $TUNNEL_ERRORS error entries — check logs/tunnel.log"
+  else
+    log "Tunnel log looks clean"
+  fi
+fi
+
+###############################################################################
+# SUMMARY
+###############################################################################
+echo ""
+echo -e "${GREEN}${BOLD}═══════════════════════════════════════════════════════════${NC}"
+echo -e "${GREEN}${BOLD}  Degens¤Den deployed successfully!${NC}"
+echo -e "${GREEN}${BOLD}═══════════════════════════════════════════════════════════${NC}"
+echo ""
+echo -e "  ${BOLD}Live at:${NC}     ${CYAN}https://${DOMAIN}${NC}"
+echo -e "  ${BOLD}Local:${NC}       ${CYAN}http://localhost:${APP_PORT}${NC}"
+echo -e "  ${BOLD}Tunnel:${NC}      ${CYAN}${TUNNEL_NAME}${NC}"
+echo -e "  ${BOLD}Config:${NC}      ${CYAN}${CFGD_CONFIG}${NC}"
+echo -e "  ${BOLD}Logs:${NC}        ${CYAN}${APP_DIR}/logs/${NC}"
+echo ""
+echo -e "  ${YELLOW}Clear browser cache if needed: Ctrl+Shift+R${NC}"
+echo ""

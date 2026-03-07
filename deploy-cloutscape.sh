@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# degensden Automated Deployment Script for degensden.org
+# degensden Automated Deployment Script for cloutscape.org
 # This script automates the entire deployment process via Cloudflare Tunnel
 # Usage: ./deploy-degensden.sh
 
@@ -14,8 +14,8 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-DOMAIN="degensden.org"
-TUNNEL_NAME="degensden-prod"
+DOMAIN="cloutscape.org"
+TUNNEL_NAME="cloutscape-prod"
 PORT=8080
 PROJECT_DIR="$(pwd)"
 

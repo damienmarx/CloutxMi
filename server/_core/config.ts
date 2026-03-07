@@ -66,7 +66,7 @@ export const config = {
   email: {
     enabled: process.env.EMAIL_ENABLED === "true",
     provider: process.env.EMAIL_PROVIDER || "smtp",
-    from: process.env.EMAIL_FROM || "noreply@degensden.org",
+    from: process.env.EMAIL_FROM || "noreply@cloutscape.org",
     smtp: {
       host: process.env.SMTP_HOST || "smtp.gmail.com",
       port: parseInt(process.env.SMTP_PORT || "587", 10),

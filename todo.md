@@ -161,7 +161,7 @@
 
 ## Notes
 
-- **Database**: Local PostgreSQL (degensden_db)
+- **Database**: Local PostgreSQL (cloutscape_db)
 - **Server Port**: 3000 (production)
 - **Frontend Port**: 5173 (development)
 - **Theme**: Obsidian (#000000) with Gold (#FFD700) accents

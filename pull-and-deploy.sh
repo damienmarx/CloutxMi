@@ -1,56 +1,63 @@
 #!/bin/bash
-
 ###############################################################################
-# Degens¤Den Quick Update Script
-# Pull latest from GitHub and deploy luxury frontend
+# Degens¤Den — Pull Latest & Redeploy
+# Pulls from GitHub degens-den-complete branch and re-runs smart deploy
 ###############################################################################
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
+set -euo pipefail
 
-echo -e "${CYAN}╔═══════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║         CLOUTSCAPE - PULL & DEPLOY FROM GITHUB              ║${NC}"
-echo -e "${CYAN}╚═══════════════════════════════════════════════════════════════╝${NC}"
-echo ""
+RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
+log()  { echo -e "${GREEN}[✓] $1${NC}"; }
+info() { echo -e "${CYAN}[→] $1${NC}"; }
+warn() { echo -e "${YELLOW}[!] $1${NC}"; }
 
-cd /app
+APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Stop server
-echo -e "${YELLOW}[1/4] Stopping server...${NC}"
-pkill -f 'node dist' 2>/dev/null || true
-sleep 2
-echo -e "${GREEN}✓ Server stopped${NC}"
+echo -e "${CYAN}"
+echo "╔════════════════════════════════════════════════╗"
+echo "║   Degens¤Den — Pull & Redeploy                 ║"
+echo "║   cloutscape.org                               ║"
+echo "╚════════════════════════════════════════════════╝"
+echo -e "${NC}"
 
-# Pull latest
-echo -e "${YELLOW}[2/4] Pulling latest from GitHub...${NC}"
+# ── Stop running server gracefully ─────────────────────────────────────────
+info "Stopping current server..."
+if command -v pm2 &>/dev/null; then
+  pm2 stop degensden 2>/dev/null || true
+  log "PM2 process stopped"
+elif [[ -f "$APP_DIR/.server.pid" ]]; then
+  kill $(cat "$APP_DIR/.server.pid") 2>/dev/null || true
+  rm -f "$APP_DIR/.server.pid"
+  log "Server process stopped"
+else
+  pkill -f "node dist/server" 2>/dev/null || true
+  warn "Server stopped (was not managed)"
+fi
+
+# ── Pause tunnel during update ──────────────────────────────────────────────
+info "Pausing Cloudflare Tunnel..."
+if systemctl is-active --quiet cloudflared 2>/dev/null; then
+  sudo systemctl stop cloudflared
+  TUNNEL_WAS_SYSTEMD=true
+  log "cloudflared service paused"
+elif [[ -f "$APP_DIR/.tunnel.pid" ]]; then
+  kill $(cat "$APP_DIR/.tunnel.pid") 2>/dev/null || true
+  rm -f "$APP_DIR/.tunnel.pid"
+  TUNNEL_WAS_SYSTEMD=false
+  log "Tunnel process paused"
+else
+  TUNNEL_WAS_SYSTEMD=false
+fi
+
+# ── Pull latest code ────────────────────────────────────────────────────────
+info "Pulling latest from GitHub (degens-den-complete)..."
+cd "$APP_DIR"
 git fetch origin
-git reset --hard origin/main
-git pull origin main
-echo -e "${GREEN}✓ Latest code pulled${NC}"
+git reset --hard origin/degens-den-complete
+git pull origin degens-den-complete 2>/dev/null || git pull origin main 2>/dev/null || true
+log "Latest code pulled"
 
-# Install any new dependencies
-echo -e "${YELLOW}[3/4] Installing dependencies...${NC}"
-npm install -g pnpm@10.4.1 2>/dev/null || true
-pnpm install --no-frozen-lockfile
-echo -e "${GREEN}✓ Dependencies updated${NC}"
-
-# Run fix script
-echo -e "${YELLOW}[4/4] Running frontend fix and rebuild...${NC}"
-chmod +x /app/fix-frontend.sh
-/app/fix-frontend.sh
-
-echo ""
-echo -e "${GREEN}╔═══════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${GREEN}║              ✅ UPDATE COMPLETE! ✅                          ║${NC}"
-echo -e "${GREEN}╚═══════════════════════════════════════════════════════════════╝${NC}"
-echo ""
-echo -e "${CYAN}Degens¤Den is now running the latest version!${NC}"
-echo -e "  • Luxury obsidian theme"
-echo -e "  • All fixes applied"
-echo -e "  • Server on port 8080"
-echo ""
-echo -e "${YELLOW}⚠️  Clear your browser cache: Ctrl+Shift+R${NC}"
-echo ""
+# ── Run full deploy ─────────────────────────────────────────────────────────
+info "Running smart deploy..."
+chmod +x "$APP_DIR/deploy.sh"
+exec "$APP_DIR/deploy.sh"

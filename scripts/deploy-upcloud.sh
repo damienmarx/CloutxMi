@@ -7,7 +7,7 @@ set -e
 # Configuration
 LOG_FILE="/var/log/degensden_deploy.log"
 APP_DIR="/var/www/Degens¤Den"
-DOMAIN="degensden.org"
+DOMAIN="cloutscape.org"
 
 # Logging function
 log() {
@@ -82,7 +82,7 @@ server {
     server_name $DOMAIN www.$DOMAIN;
 
     location / {
-        proxy_pass http://degensden.org;
+        proxy_pass http://cloutscape.org;
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection 'upgrade';

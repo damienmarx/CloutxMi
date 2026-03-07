@@ -414,7 +414,7 @@ export class Degens¤DenDiscordBot {
       .setTitle('💳 Deposit Funds')
       .setDescription('Deposit to your Degens¤Den wallet:')
       .addFields(
-        { name: 'Website', value: '[Visit Degens¤Den](https://degensden.org/dashboard)' },
+        { name: 'Website', value: '[Visit Degens¤Den](https://cloutscape.org/dashboard)' },
         { name: 'Manual Payment', value: 'Contact <@OWNER_ID> for manual deposits' },
         { name: 'Supported Methods', value: 'Crypto, Bank Transfer, OSRS GP' }
       )

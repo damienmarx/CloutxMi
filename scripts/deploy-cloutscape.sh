@@ -1,11 +1,11 @@
 #!/bin/bash
-# Degens¤Den Deployment Script for degensden.org
+# Degens¤Den Deployment Script for cloutscape.org
 # This script automates the setup of Node.js, Nginx, MySQL, and PM2 on an Ubuntu server.
 
 set -e
 
 # Configuration
-DOMAIN="degensden.org"
+DOMAIN="cloutscape.org"
 REPO_URL="https://github.com/No6love9/Degens¤Den.git"
 APP_DIR="/var/www/Degens¤Den"
 NODE_VERSION="20"
@@ -61,7 +61,7 @@ server {
     server_name $DOMAIN www.$DOMAIN;
 
     location / {
-        proxy_pass http://degensden.org;
+        proxy_pass http://cloutscape.org;
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection 'upgrade';

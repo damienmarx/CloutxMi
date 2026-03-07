@@ -24,7 +24,7 @@ git clone https://github.com/damienmarx/degensden.git degensden && cd degensden 
 
 ---
 
-## ☁️ Step 2: Connect to degensden.org
+## ☁️ Step 2: Connect to cloutscape.org
 
 After deployment script completes:
 
@@ -33,11 +33,11 @@ After deployment script completes:
 cloudflared tunnel login
 
 # 2. Create tunnel
-cloudflared tunnel create degensden-prod
+cloudflared tunnel create cloutscape-prod
 
 # 3. Route DNS
-cloudflared tunnel route dns degensden-prod degensden.org
-cloudflared tunnel route dns degensden-prod www.degensden.org
+cloudflared tunnel route dns cloutscape-prod cloutscape.org
+cloudflared tunnel route dns cloutscape-prod www.cloutscape.org
 
 # 4. Install as service
 sudo cloudflared service install
@@ -45,7 +45,7 @@ sudo systemctl start cloudflared
 sudo systemctl enable cloudflared
 ```
 
-**Done!** Visit https://degensden.org 🎉
+**Done!** Visit https://cloutscape.org 🎉
 
 ---
 
@@ -214,13 +214,13 @@ ENCRYPTION_KEY=your_new_32_char_random_string
 SESSION_SECRET=your_new_32_char_random_string
 
 # Database password
-DATABASE_URL=mysql://degensden_user:YOUR_NEW_PASSWORD@localhost:3306/degensden_db
+DATABASE_URL=mysql://cloutscape_user:YOUR_NEW_PASSWORD@localhost:3306/cloutscape_db
 ```
 
 Update MySQL password:
 ```bash
 sudo mysql
-ALTER USER 'degensden_user'@'localhost' IDENTIFIED BY 'YOUR_NEW_PASSWORD';
+ALTER USER 'cloutscape_user'@'localhost' IDENTIFIED BY 'YOUR_NEW_PASSWORD';
 FLUSH PRIVILEGES;
 EXIT;
 ```
@@ -245,7 +245,7 @@ Add:
 ```bash
 #!/bin/bash
 DATE=$(date +%Y%m%d_%H%M%S)
-mysqldump -u degensden_user -pYOUR_PASSWORD degensden_db > /app/backups/db_$DATE.sql
+mysqldump -u cloutscape_user -pYOUR_PASSWORD cloutscape_db > /app/backups/db_$DATE.sql
 find /app/backups -name "db_*.sql" -mtime +7 -delete
 ```
 
@@ -260,11 +260,11 @@ crontab -e
 
 ## 👑 Step 7: Create Admin Account
 
-1. Visit https://degensden.org/register
+1. Visit https://cloutscape.org/register
 2. Register with your email
 3. Access database:
    ```bash
-   mysql -u degensden_user -p degensden_db
+   mysql -u cloutscape_user -p cloutscape_db
    ```
 4. Make yourself admin:
    ```sql
@@ -309,7 +309,7 @@ sudo systemctl status degensden
 
 ```bash
 # Access database
-mysql -u degensden_user -p degensden_db
+mysql -u cloutscape_user -p cloutscape_db
 
 # View recent bets
 SELECT * FROM transactions ORDER BY createdAt DESC LIMIT 10;
@@ -339,7 +339,7 @@ REFERRAL_TIER_3=0.01      # 3rd level: 1%
 
 ### How It Works
 
-1. User gets unique referral link: `https://degensden.org?ref=USERNAME`
+1. User gets unique referral link: `https://cloutscape.org?ref=USERNAME`
 2. New users sign up via link
 3. Referrer earns commission on ALL wagers
 4. Commission paid weekly/monthly (configurable)
@@ -381,7 +381,7 @@ sudo journalctl -u cloudflared -n 100
 
 ```bash
 # Test connection
-mysql -u degensden_user -p degensden_db
+mysql -u cloutscape_user -p cloutscape_db
 
 # Check MySQL status
 sudo systemctl status mysql
@@ -470,7 +470,7 @@ Integrate Twitch/YouTube for:
 
 ## 📞 Support Channels
 
-- **Email**: support@degensden.org
+- **Email**: support@cloutscape.org
 - **Discord**: Your server
 - **GitHub**: https://github.com/damienmarx/degensden/issues
 
@@ -484,7 +484,7 @@ Before going live:
 - [ ] Database is created and migrated
 - [ ] Service starts automatically
 - [ ] Cloudflare tunnel connected
-- [ ] https://degensden.org loads
+- [ ] https://cloutscape.org loads
 - [ ] Discord bot is online
 - [ ] Discord server is themed
 - [ ] Admin account created
@@ -506,7 +506,7 @@ Before going live:
 ```
         ⭐ CLOUTSCAPE IS RUNNING ⭐
         
-   💎 Domain: https://degensden.org
+   💎 Domain: https://cloutscape.org
    🎮 Games: 7 provably fair games  
    🤖 Discord: Automated & themed
    💰 Payments: Ready for deposits

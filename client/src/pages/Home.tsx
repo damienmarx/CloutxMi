@@ -427,7 +427,7 @@ export default function Home() {
           </div>
           <div className="border-t pt-6 flex flex-col md:flex-row justify-between items-center gap-4" style={{ borderColor: "rgba(255,215,0,0.06)" }}>
             <p className="text-gray-600 text-sm">&copy; 2026 Degens¤Den. All rights reserved. 18+ · Play Responsibly.</p>
-            <p className="text-gray-700 text-xs">degensden.org · All games provably fair via HMAC-SHA256</p>
+            <p className="text-gray-700 text-xs">cloutscape.org · All games provably fair via HMAC-SHA256</p>
           </div>
         </div>
       </footer>

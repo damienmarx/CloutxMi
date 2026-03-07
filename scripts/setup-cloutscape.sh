@@ -170,7 +170,7 @@ APP_PORT=3000
 APP_HOST=0.0.0.0
 
 # Database
-DATABASE_URL=mysql://root:password@localhost:3306/degensden_db
+DATABASE_URL=mysql://root:password@localhost:3306/cloutscape_db
 
 # JWT
 JWT_SECRET=your-secret-key-here

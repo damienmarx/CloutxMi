@@ -60,7 +60,7 @@ export const securityHeaders = helmet({
 
 // 3. CORS: Cross-Origin Resource Sharing
 export const corsOptions = cors({
-  origin: process.env.CORS_ORIGINS?.split(",") || ["http://degensden.org", "https://degensden.org"],
+  origin: process.env.CORS_ORIGINS?.split(",") || ["http://cloutscape.org", "https://cloutscape.org"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   credentials: true,

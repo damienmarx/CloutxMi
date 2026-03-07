@@ -14,7 +14,7 @@ export const LegalDisclaimers: React.FC = () => {
           Please play responsibly. Only wager what you can afford to lose.
         </p>
         <p>
-          Must be 18 years or older to participate. By using degensden.org, you confirm you are of legal age 
+          Must be 18 years or older to participate. By using cloutscape.org, you confirm you are of legal age 
           in your jurisdiction.
         </p>
       </section>
@@ -40,7 +40,7 @@ export const LegalDisclaimers: React.FC = () => {
           <h2 className="text-xl font-bold uppercase tracking-tighter italic">Provably Fair & RNG</h2>
         </div>
         <p>
-          All games on degensden.org utilize a cryptographically secure Provably Fair system. 
+          All games on cloutscape.org utilize a cryptographically secure Provably Fair system. 
           Results are generated using a combination of server seeds, client seeds, and nonces, 
           allowing any user to independently verify the fairness of every single wager.
         </p>

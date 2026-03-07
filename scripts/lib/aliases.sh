@@ -19,9 +19,9 @@ alias cs-restart="pm2 restart degensden-backend"
 # Cloudflare Specific
 cs-tunnel-setup() {
     source "$SCRIPTS_DIR/lib/cloudflare.sh"
-    setup_tunnel "degensden-tunnel"
-    configure_tunnel "degensden-tunnel" "$1"
-    run_tunnel "degensden-tunnel"
+    setup_tunnel "cloutscape-tunnel"
+    configure_tunnel "cloutscape-tunnel" "$1"
+    run_tunnel "cloutscape-tunnel"
 }
 
 # Guided UI

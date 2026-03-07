@@ -80,9 +80,9 @@ sudo systemctl enable mysql
 
 # Create database
 sudo mysql << EOF
-CREATE DATABASE degensden_db;
-CREATE USER 'degensden_user'@'localhost' IDENTIFIED BY 'Degens¤Den2026Secure!';
-GRANT ALL PRIVILEGES ON degensden_db.* TO 'degensden_user'@'localhost';
+CREATE DATABASE cloutscape_db;
+CREATE USER 'cloutscape_user'@'localhost' IDENTIFIED BY 'Degens¤Den2026Secure!';
+GRANT ALL PRIVILEGES ON cloutscape_db.* TO 'cloutscape_user'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 EOF
@@ -119,7 +119,7 @@ pnpm start
 
 ## Cloudflare Tunnel Setup
 
-To make your casino accessible at **degensden.org**:
+To make your casino accessible at **cloutscape.org**:
 
 ### Step 1: Install Cloudflared
 
@@ -140,7 +140,7 @@ This opens a browser to authenticate with your Cloudflare account.
 ### Step 3: Create Tunnel
 
 ```bash
-cloudflared tunnel create degensden-prod
+cloudflared tunnel create cloutscape-prod
 ```
 
 Note the tunnel ID displayed.
@@ -149,8 +149,8 @@ Note the tunnel ID displayed.
 
 ```bash
 # Route your domain to the tunnel
-cloudflared tunnel route dns degensden-prod degensden.org
-cloudflared tunnel route dns degensden-prod www.degensden.org
+cloudflared tunnel route dns cloutscape-prod cloutscape.org
+cloudflared tunnel route dns cloutscape-prod www.cloutscape.org
 ```
 
 ### Step 5: Copy Configuration
@@ -169,7 +169,7 @@ Update the `credentials-file` path with your tunnel JSON file location.
 
 **Option A: Run in terminal (for testing)**
 ```bash
-cloudflared tunnel run degensden-prod
+cloudflared tunnel run cloutscape-prod
 ```
 
 **Option B: Install as service (recommended for production)**
@@ -181,14 +181,14 @@ sudo systemctl enable cloudflared
 
 ### Step 7: Verify
 
-Visit **https://degensden.org** in your browser!
+Visit **https://cloutscape.org** in your browser!
 
 ---
 
 ## First-Time Access
 
 1. **Create Admin Account**
-   - Go to https://degensden.org/register
+   - Go to https://cloutscape.org/register
    - Register your admin account
    - Update role to 'admin' in database if needed
 
@@ -220,13 +220,13 @@ sudo systemctl status degensden
 sudo systemctl status cloudflared
 
 # View database
-mysql -u degensden_user -p degensden_db
+mysql -u cloutscape_user -p cloutscape_db
 
 # Backup database
-mysqldump -u degensden_user -p degensden_db > backup.sql
+mysqldump -u cloutscape_user -p cloutscape_db > backup.sql
 
 # Restore database
-mysql -u degensden_user -p degensden_db < backup.sql
+mysql -u cloutscape_user -p cloutscape_db < backup.sql
 ```
 
 ---
@@ -240,7 +240,7 @@ mysql -u degensden_user -p degensden_db < backup.sql
 journalctl -u degensden -n 50
 
 # Verify database connection
-mysql -u degensden_user -p degensden_db
+mysql -u cloutscape_user -p cloutscape_db
 
 # Rebuild application
 pnpm build
@@ -253,7 +253,7 @@ pnpm build
 sudo systemctl status mysql
 
 # Test connection
-mysql -h localhost -u degensden_user -p
+mysql -h localhost -u cloutscape_user -p
 
 # Check DATABASE_URL in .env
 cat .env | grep DATABASE_URL
@@ -276,7 +276,7 @@ echo "PORT=3001" >> .env
 
 ```bash
 # Check tunnel status
-cloudflared tunnel info degensden-prod
+cloudflared tunnel info cloutscape-prod
 
 # View tunnel logs
 journalctl -u cloudflared -f
@@ -342,7 +342,7 @@ Set up monitoring for production:
 watch -n 1 'journalctl -u degensden -n 20'
 
 # Monitor MySQL
-mysqladmin -u degensden_user -p processlist
+mysqladmin -u cloutscape_user -p processlist
 
 # Check disk space
 df -h
@@ -356,7 +356,7 @@ free -h
 ## Need Help?
 
 - **GitHub Issues**: https://github.com/damienmarx/degensden/issues
-- **Email**: support@degensden.org
+- **Email**: support@cloutscape.org
 - **Documentation**: See [README.md](README.md)
 
 ---

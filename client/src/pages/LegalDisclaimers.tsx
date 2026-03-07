@@ -86,7 +86,7 @@ export default function LegalDisclaimers() {
                   <li>Verified fraud or security breaches</li>
                 </ul>
                 <p className="mt-2 text-[var(--foreground)] font-semibold">
-                  All refund requests must be submitted to support@degensden.org with evidence.
+                  All refund requests must be submitted to support@cloutscape.org with evidence.
                 </p>
               </div>
             </div>
@@ -213,7 +213,7 @@ export default function LegalDisclaimers() {
               For questions, concerns, or to report issues:
             </p>
             <div className="glass-card p-4">
-              <p className="text-neon-gold font-semibold">📧 Email: support@degensden.org</p>
+              <p className="text-neon-gold font-semibold">📧 Email: support@cloutscape.org</p>
               <p className="text-[var(--muted-foreground)] mt-2">
                 Response time: 24-48 hours
               </p>

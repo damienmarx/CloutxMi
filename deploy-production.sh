@@ -3,7 +3,7 @@
 ###############################################################################
 # Degens¤Den Complete Production Deployment
 # Ubuntu-optimized with all features
-# Domain: degensden.org
+# Domain: cloutscape.org
 ###############################################################################
 
 set -e
@@ -29,15 +29,15 @@ cat << "EOF"
                                              | |          
                                              |_|          
   🎰 Complete Production Deployment 🎰
-  Ubuntu Edition - degensden.org
+  Ubuntu Edition - cloutscape.org
 EOF
 echo -e "${NC}"
 
 # Configuration
 APP_DIR="$(pwd)"
-DOMAIN="degensden.org"
-DB_NAME="degensden_db"
-DB_USER="degensden_user"
+DOMAIN="cloutscape.org"
+DB_NAME="cloutscape_db"
+DB_USER="cloutscape_user"
 DB_PASS="Degens¤Den2026Secure!"
 
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
@@ -220,17 +220,17 @@ ${CYAN}1. Login to Cloudflare:${NC}
    cloudflared tunnel login
 
 ${CYAN}2. Create tunnel:${NC}
-   cloudflared tunnel create degensden-prod
+   cloudflared tunnel create cloutscape-prod
 
 ${CYAN}3. Copy tunnel credentials:${NC}
-   cp ~/.cloudflared/*.json ~/.cloudflared/degensden-tunnel.json
+   cp ~/.cloudflared/*.json ~/.cloudflared/cloutscape-tunnel.json
 
 ${CYAN}4. Route DNS to tunnel:${NC}
-   cloudflared tunnel route dns degensden-prod ${DOMAIN}
-   cloudflared tunnel route dns degensden-prod www.${DOMAIN}
+   cloudflared tunnel route dns cloutscape-prod ${DOMAIN}
+   cloudflared tunnel route dns cloutscape-prod www.${DOMAIN}
 
 ${CYAN}5. Start tunnel:${NC}
-   cloudflared tunnel --config $APP_DIR/cloudflared-config.yml run degensden-prod
+   cloudflared tunnel --config $APP_DIR/cloudflared-config.yml run cloutscape-prod
 
 ${CYAN}6. Install as service (optional):${NC}
    sudo cloudflared service install

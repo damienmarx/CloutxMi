@@ -419,7 +419,7 @@ if (process.env.DISCORD_BOT_TOKEN) {
 2. Add sound effects
 3. Connect Discord bot
 4. Test all games
-5. Deploy to degensden.org
+5. Deploy to cloutscape.org
 
 ---
 

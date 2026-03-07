@@ -294,7 +294,7 @@ export default function LandingPage() {
             <a href="#about" className="navbar-nav-item">
               About
             </a>
-            <a href="mailto:support@degensden.org" className="navbar-nav-item">
+            <a href="mailto:support@cloutscape.org" className="navbar-nav-item">
               Contact
             </a>
           </div>
@@ -528,7 +528,7 @@ export default function LandingPage() {
               <h4 className="footer-title">Support</h4>
               <ul className="footer-links">
                 <li>
-                  <a href="mailto:support@degensden.org">Email Support</a>
+                  <a href="mailto:support@cloutscape.org">Email Support</a>
                 </li>
                 <li>
                   <a href="/faq">FAQ</a>

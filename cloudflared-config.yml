@@ -1,28 +1,43 @@
-# Cloudflared Tunnel Configuration for CloutScape
+# Cloudflare Tunnel Configuration — Degens¤Den @ cloutscape.org
+# Auto-detected and used by deploy.sh
+# Tunnel: cloutscape-prod
 tunnel: cloutscape-prod
 credentials-file: /root/.cloudflared/cloutscape-tunnel.json
 
-# Ingress rules
+# ── Ingress Rules ──────────────────────────────────────────────────────────
 ingress:
-  # Main application on port 8080
+  # Main app (Degens¤Den frontend + API)
   - hostname: cloutscape.org
     service: http://localhost:8080
-  
-  # WWW subdomain
+    originRequest:
+      connectTimeout: 30s
+      noTLSVerify: false
+
+  # WWW redirect
   - hostname: www.cloutscape.org
     service: http://localhost:8080
-  
-  # API subdomain (if needed)
+    originRequest:
+      connectTimeout: 30s
+
+  # WebSocket support for Socket.IO (live chat, games)
+  - hostname: ws.cloutscape.org
+    service: http://localhost:8080
+    originRequest:
+      connectTimeout: 30s
+      noTLSVerify: false
+
+  # API subdomain (optional)
   - hostname: api.cloutscape.org
     service: http://localhost:8080
-  
-  # Catch-all rule (required)
+
+  # Required catch-all
   - service: http_status:404
 
-# Connection settings
+# ── Connection Settings ────────────────────────────────────────────────────
 originRequest:
   connectTimeout: 30s
   noTLSVerify: false
-  
-# Logging
+  http2Origin: true
+
+# ── Logging ───────────────────────────────────────────────────────────────
 loglevel: info

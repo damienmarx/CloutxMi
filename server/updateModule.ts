@@ -19,7 +19,7 @@ export interface PlatformStatus {
 
 const PLATFORM_CONFIG = {
   version: "1.1.0",
-  domain: "degensden.org",
+  domain: "cloutscape.org",
   maintenance: false,
 };
 

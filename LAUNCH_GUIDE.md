@@ -30,7 +30,7 @@ This opens your browser to authenticate.
 ### 2. Create Tunnel
 
 ```bash
-cloudflared tunnel create degensden-prod
+cloudflared tunnel create cloutscape-prod
 ```
 
 Note the tunnel ID shown.
@@ -51,15 +51,15 @@ credentials-file: /root/.cloudflared/<TUNNEL_ID>.json
 ### 4. Route Your Domain
 
 ```bash
-cloudflared tunnel route dns degensden-prod degensden.org
-cloudflared tunnel route dns degensden-prod www.degensden.org
+cloudflared tunnel route dns cloutscape-prod cloutscape.org
+cloudflared tunnel route dns cloutscape-prod www.cloutscape.org
 ```
 
 ### 5. Start Tunnel
 
 **Option A: Run in terminal (testing)**
 ```bash
-cloudflared tunnel run degensden-prod
+cloudflared tunnel run cloutscape-prod
 ```
 
 **Option B: Install as service (production)**
@@ -90,7 +90,7 @@ sudo systemctl enable cloudflared
 
 4. **Visit your site**
    - Local: http://localhost:3000
-   - Public: https://degensden.org (after tunnel setup)
+   - Public: https://cloutscape.org (after tunnel setup)
 
 ---
 
@@ -118,7 +118,7 @@ sudo journalctl -u degensden -f
 ### Database Access
 
 ```bash
-mysql -u degensden_user -p degensden_db
+mysql -u cloutscape_user -p cloutscape_db
 # Password: Degens¤Den2026Secure!
 ```
 
@@ -227,11 +227,11 @@ sudo systemctl restart degensden
 
 ```bash
 # Test connection
-mysql -u degensden_user -p degensden_db
+mysql -u cloutscape_user -p cloutscape_db
 
 # Reset password
 sudo mysql
-ALTER USER 'degensden_user'@'localhost' IDENTIFIED BY 'Degens¤Den2026Secure!';
+ALTER USER 'cloutscape_user'@'localhost' IDENTIFIED BY 'Degens¤Den2026Secure!';
 FLUSH PRIVILEGES;
 EXIT;
 ```
@@ -240,7 +240,7 @@ EXIT;
 
 ```bash
 # Check tunnel status
-cloudflared tunnel info degensden-prod
+cloudflared tunnel info cloutscape-prod
 
 # View tunnel logs
 sudo journalctl -u cloudflared -f
@@ -336,7 +336,7 @@ Create `/app/scripts/backup-db.sh`:
 ```bash
 #!/bin/bash
 DATE=$(date +%Y%m%d_%H%M%S)
-mysqldump -u degensden_user -pDegens¤Den2026Secure! degensden_db > /app/backups/db_$DATE.sql
+mysqldump -u cloutscape_user -pDegens¤Den2026Secure! cloutscape_db > /app/backups/db_$DATE.sql
 # Keep last 7 days
 find /app/backups -name "db_*.sql" -mtime +7 -delete
 ```
@@ -360,7 +360,7 @@ crontab -e
 sudo journalctl -u degensden -f
 
 # MySQL processes
-watch -n 1 'mysqladmin -u degensden_user -pDegens¤Den2026Secure! processlist'
+watch -n 1 'mysqladmin -u cloutscape_user -pDegens¤Den2026Secure! processlist'
 
 # System resources
 htop
@@ -397,7 +397,7 @@ crontab -e
 
 ## Support
 
-- **Email**: support@degensden.org
+- **Email**: support@cloutscape.org
 - **GitHub Issues**: https://github.com/damienmarx/degensden/issues
 - **Logs**: `/app/logs/` and `sudo journalctl -u degensden`
 
@@ -409,13 +409,13 @@ crontab -e
 |---------|---------|
 | `sudo systemctl restart degensden` | Restart application |
 | `sudo journalctl -u degensden -f` | View live logs |
-| `mysql -u degensden_user -p degensden_db` | Access database |
+| `mysql -u cloutscape_user -p cloutscape_db` | Access database |
 | `cd /app && git pull && pnpm build && sudo systemctl restart degensden` | Update app |
-| `cloudflared tunnel run degensden-prod` | Start tunnel |
+| `cloudflared tunnel run cloutscape-prod` | Start tunnel |
 | `sudo systemctl status cloudflared` | Check tunnel status |
 
 ---
 
-**You're all set! Degens¤Den is now running on degensden.org 🎰💎**
+**You're all set! Degens¤Den is now running on cloutscape.org 🎰💎**
 
 For advanced features, payment processing, and custom modifications, refer to the main documentation.

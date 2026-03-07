@@ -5,7 +5,7 @@
 source "$(dirname "${BASH_SOURCE[0]}")/utils.sh"
 
 setup_tunnel() {
-    local tunnel_name="${1:-degensden-tunnel}"
+    local tunnel_name="${1:-cloutscape-tunnel}"
     info "Setting up Cloudflare Tunnel: $tunnel_name"
     
     if [ ! -f ~/.cloudflared/cert.pem ]; then
@@ -25,7 +25,7 @@ setup_tunnel() {
 }
 
 configure_tunnel() {
-    local tunnel_name="${1:-degensden-tunnel}"
+    local tunnel_name="${1:-cloutscape-tunnel}"
     local domain="$2"
     local local_port="${3:-3000}"
     
@@ -55,7 +55,7 @@ EOF
 }
 
 run_tunnel() {
-    local tunnel_name="${1:-degensden-tunnel}"
+    local tunnel_name="${1:-cloutscape-tunnel}"
     info "Starting Cloudflare Tunnel in background via PM2..."
     
     pm2 delete "cloudflare-tunnel" >> "$LOG_FILE" 2>&1

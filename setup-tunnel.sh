@@ -1,7 +1,7 @@
 #!/bin/bash
 # Quick Cloudflare Tunnel Setup for Degens¤Den
 
-echo "🔧 Setting up Cloudflare Tunnel for degensden.org..."
+echo "🔧 Setting up Cloudflare Tunnel for cloutscape.org..."
 
 # Set environment
 export CLOUDFLARE_API_KEY=i6w_cGOpC_N5_9rogXvbbtgsd4uwFVPvCGKGhatR
@@ -11,11 +11,11 @@ export CLOUDFLARE_EMAIL=damienbmk@gmail.com
 mkdir -p /root/.cloudflared
 
 # Create a simple tunnel credentials file
-cat > /root/.cloudflared/degensden-tunnel.json << 'EOF'
+cat > /root/.cloudflared/cloutscape-tunnel.json << 'EOF'
 {
   "AccountTag": "placeholder",
   "TunnelSecret": "placeholder",
-  "TunnelID": "degensden-prod"
+  "TunnelID": "cloutscape-prod"
 }
 EOF
 
@@ -29,12 +29,12 @@ echo "1. Login to Cloudflare:"
 echo "   cloudflared tunnel login"
 echo ""
 echo "2. Create tunnel:"
-echo "   cloudflared tunnel create degensden-prod"
+echo "   cloudflared tunnel create cloutscape-prod"
 echo ""
 echo "3. Route DNS:"
-echo "   cloudflared tunnel route dns degensden-prod degensden.org"
-echo "   cloudflared tunnel route dns degensden-prod www.degensden.org"
+echo "   cloudflared tunnel route dns cloutscape-prod cloutscape.org"
+echo "   cloudflared tunnel route dns cloutscape-prod www.cloutscape.org"
 echo ""
 echo "4. Run tunnel:"
-echo "   cloudflared tunnel --config /app/cloudflared-config.yml run degensden-prod"
+echo "   cloudflared tunnel --config /app/cloudflared-config.yml run cloutscape-prod"
 echo ""
