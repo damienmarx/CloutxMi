@@ -34,10 +34,22 @@ export const securityHeaders = helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://checkout.stripe.com"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      imgSrc: ["'self'", "data:", "https://*.stripe.com"],
-      connectSrc: ["'self'", "https://api.stripe.com", "https://api.coinbase.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://checkout.stripe.com", "https://fonts.bunny.net", "https://fonts.googleapis.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://fonts.bunny.net"],
+      imgSrc: ["'self'", "data:", "blob:", "https://*.stripe.com", "https://images.unsplash.com"],
+      connectSrc: [
+        "'self'",
+        "wss://cloutscape.org", "ws://cloutscape.org",
+        "wss://www.cloutscape.org", "ws://www.cloutscape.org",
+        "ws://localhost:*", "wss://localhost:*",
+        "https://api.stripe.com", "https://api.coinbase.com",
+        "https://fonts.bunny.net", "https://fonts.googleapis.com",
+      ],
+      fontSrc: ["'self'", "https://fonts.bunny.net", "https://fonts.googleapis.com", "https://fonts.gstatic.com", "data:"],
+      frameSrc: ["'self'", "https://checkout.stripe.com"],
+      mediaSrc: ["'self'"],
+    },
+  },
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
@@ -60,11 +72,18 @@ export const securityHeaders = helmet({
 
 // 3. CORS: Cross-Origin Resource Sharing
 export const corsOptions = cors({
-  origin: process.env.CORS_ORIGINS?.split(",") || ["http://cloutscape.org", "https://cloutscape.org"],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  origin: [
+    "https://cloutscape.org",
+    "https://www.cloutscape.org",
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://localhost:8080",
+    ...(process.env.CORS_ORIGINS?.split(",").map((o: string) => o.trim()) || []),
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   credentials: true,
-  maxAge: 86400, // 24 hours
+  maxAge: 86400,
 });
 
 // 4. Custom Security Middlewares

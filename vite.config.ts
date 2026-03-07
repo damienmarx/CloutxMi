@@ -27,7 +27,22 @@ export default defineConfig({
     allowedHosts: [
       "localhost",
       "127.0.0.1",
+      "cloutscape.org",
+      "www.cloutscape.org",
     ],
+    proxy: {
+      "/api": {
+        target: `http://localhost:${process.env.PORT || 3000}`,
+        changeOrigin: true,
+        secure: false,
+      },
+      "/socket.io": {
+        target: `http://localhost:${process.env.PORT || 3000}`,
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+      },
+    },
     fs: {
       strict: true,
       deny: ["**/.*"],

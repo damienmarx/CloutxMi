@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-// Preconfigured storage helpers for Manus WebDev templates
+// Preconfigured storage helpers for Degens¤Den WebDev templates
 // Uses the Biz-provided storage proxy (Authorization: Bearer <token>)
 
 import { ENV } from './_core/env';

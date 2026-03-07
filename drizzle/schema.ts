@@ -415,6 +415,63 @@ export const userChallengeProgressRelations = relations(userChallengeProgress, (
 
 
 /**
+ * Avatar and extended user profile
+ */
+export const userProfiles = mysqlTable("userProfiles", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  avatarUrl: text("avatarUrl"),              // base64 data URL or CDN path
+  bio: varchar("bio", { length: 160 }),
+  totalWagered: decimal("totalWagered", { precision: 15, scale: 2 }).default("0.00").notNull(),
+  totalWins: int("totalWins").default(0).notNull(),
+  totalLosses: int("totalLosses").default(0).notNull(),
+  biggestWin: decimal("biggestWin", { precision: 15, scale: 2 }).default("0.00").notNull(),
+  gamesPlayed: int("gamesPlayed").default(0).notNull(),
+  vipTier: mysqlEnum("vipTier", ["bronze","silver","gold","platinum","diamond"]).default("bronze").notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type UserProfile = typeof userProfiles.$inferSelect;
+export type InsertUserProfile = typeof userProfiles.$inferInsert;
+
+/**
+ * Limbo game records
+ */
+export const limboGames = mysqlTable("limboGames", {
+  id: varchar("id", { length: 100 }).primaryKey(),
+  userId: int("userId").notNull(),
+  betAmount: decimal("betAmount", { precision: 15, scale: 2 }).notNull(),
+  targetMultiplier: decimal("targetMultiplier", { precision: 8, scale: 2 }).notNull(),
+  resultMultiplier: decimal("resultMultiplier", { precision: 8, scale: 2 }).notNull(),
+  payout: decimal("payout", { precision: 15, scale: 2 }).notNull(),
+  result: mysqlEnum("result", ["win","loss"]).notNull(),
+  serverSeed: varchar("serverSeed", { length: 128 }),
+  clientSeed: varchar("clientSeed", { length: 128 }),
+  nonce: int("nonce"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type LimboGame = typeof limboGames.$inferSelect;
+export type InsertLimboGame = typeof limboGames.$inferInsert;
+
+/**
+ * Lucky Wheel game records
+ */
+export const luckyWheelGames = mysqlTable("luckyWheelGames", {
+  id: varchar("id", { length: 100 }).primaryKey(),
+  userId: int("userId").notNull(),
+  betAmount: decimal("betAmount", { precision: 15, scale: 2 }).notNull(),
+  segment: int("segment").notNull(),
+  multiplier: decimal("multiplier", { precision: 8, scale: 2 }).notNull(),
+  payout: decimal("payout", { precision: 15, scale: 2 }).notNull(),
+  result: mysqlEnum("result", ["win","loss"]).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type LuckyWheelGame = typeof luckyWheelGames.$inferSelect;
+export type InsertLuckyWheelGame = typeof luckyWheelGames.$inferInsert;
+
+/**
  * Chat Messages for live chat system
  */
 export const chatMessages = mysqlTable("chatMessages", {
@@ -422,7 +479,9 @@ export const chatMessages = mysqlTable("chatMessages", {
   userId: int("userId").notNull(),
   username: varchar("username", { length: 64 }).notNull(),
   message: text("message").notNull(),
-  mentions: text("mentions"), // JSON array of mentioned usernames
+  room: varchar("room", { length: 32 }).default("global").notNull(),
+  vipTier: mysqlEnum("vipTier", ["bronze","silver","gold","platinum","diamond"]).default("bronze").notNull(),
+  mentions: text("mentions"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 

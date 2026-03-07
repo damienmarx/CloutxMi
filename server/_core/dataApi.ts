@@ -2,7 +2,7 @@ import { sql } from "drizzle-orm";
 /**
  * Quick example (matches curl usage):
  *   await callDataApi("Youtube/search", {
- *     query: { gl: "US", hl: "en", q: "manus" },
+ *     query: { gl: "US", hl: "en", q: "Degens¤Den" },
  *   })
  */
 import { ENV } from "./env";

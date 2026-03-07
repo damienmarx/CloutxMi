@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { Menu, X, Home, Gamepad2, Users, BarChart3, Settings, LogOut } from "lucide-react";
+import { Menu, X, Home, Gamepad2, Users, BarChart3, Settings, LogOut, MessageSquare, Rss } from "lucide-react";
+import { useLocation } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
+import ChatPanel from "./ChatPanel";
 import "./ShellLayout.css";
 
 interface ShellLayoutProps {
@@ -8,19 +11,15 @@ interface ShellLayoutProps {
   currentPage?: string;
 }
 
-interface NavItem {
-  label: string;
-  icon: React.ReactNode;
-  path: string;
-  badge?: string;
-}
-
 export const ShellLayout: React.FC<ShellLayoutProps> = ({ children, title, currentPage }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [, setLocation] = useLocation();
+  const { user, logout } = useAuth();
 
-  const navItems: NavItem[] = [
+  const navItems = [
     { label: "Dashboard", icon: <Home size={20} />, path: "/dashboard" },
-    { label: "Casino", icon: <Gamepad2 size={20} />, path: "/casino" },
+    { label: "Games", icon: <Gamepad2 size={20} />, path: "/" },
     { label: "Community", icon: <Users size={20} />, path: "/live-community", badge: "Live" },
     { label: "Stats", icon: <BarChart3 size={20} />, path: "/user-stats" },
     { label: "Settings", icon: <Settings size={20} />, path: "/settings" },
@@ -31,28 +30,38 @@ export const ShellLayout: React.FC<ShellLayoutProps> = ({ children, title, curre
       {/* Top Navigation Bar */}
       <nav className="shell-topnav">
         <div className="topnav-left">
-          <button
-            className="topnav-menu-btn"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            aria-label="Toggle sidebar"
-          >
+          <button className="topnav-menu-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
             {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
-          <div className="topnav-branding">
+          <div className="topnav-branding cursor-pointer" onClick={() => setLocation("/")}>
             <h1 className="topnav-title">Degens¤Den</h1>
             {title && <span className="topnav-subtitle">{title}</span>}
           </div>
         </div>
 
         <div className="topnav-right">
+          {/* Chat toggle */}
+          <button
+            onClick={() => setChatOpen(o => !o)}
+            data-testid="chat-toggle-btn"
+            className="relative p-2 rounded-lg transition-all hover:bg-white/10"
+            style={{ color: chatOpen ? "#FFD700" : "#9ca3af" }}
+            title="Live Chat"
+          >
+            <MessageSquare size={20} />
+            <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-green-400" />
+          </button>
+
           <div className="topnav-user">
-            <div className="user-avatar">DD</div>
+            <div className="user-avatar">
+              {user?.username?.slice(0,1).toUpperCase() || "D"}
+            </div>
             <div className="user-info">
-              <p className="user-name">Player</p>
+              <p className="user-name">{user?.username || "Player"}</p>
               <p className="user-status">Online</p>
             </div>
           </div>
-          <button className="topnav-logout" title="Logout">
+          <button className="topnav-logout" title="Logout" onClick={logout}>
             <LogOut size={20} />
           </button>
         </div>
@@ -97,18 +106,17 @@ export const ShellLayout: React.FC<ShellLayoutProps> = ({ children, title, curre
 
         {/* Overlay for mobile */}
         {sidebarOpen && (
-          <div
-            className="shell-overlay"
-            onClick={() => setSidebarOpen(false)}
-            aria-hidden="true"
-          ></div>
+          <div className="shell-overlay" onClick={() => setSidebarOpen(false)} />
         )}
 
         {/* Main Content Area */}
-        <main className="shell-content">
+        <main className="shell-content" style={{ marginRight: chatOpen ? "320px" : "0", transition: "margin-right 0.3s" }}>
           <div className="content-wrapper">{children}</div>
         </main>
       </div>
+
+      {/* Chat Panel */}
+      <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} />
     </div>
   );
 };

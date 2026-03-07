@@ -234,7 +234,7 @@ export default function Slots3DGame() {
                 {[
                   { user: "CloutKing", win: 1250, game: "3D Slots" },
                   { user: "No6love9", win: 450, game: "Crash" },
-                  { user: "ManusAI", win: 8900, game: "3D Slots" }
+                  { user: "Degens¤DenAI", win: 8900, game: "3D Slots" }
                 ].map((w, i) => (
                   <div key={i} className="flex items-center justify-between border-b border-white/5 pb-2">
                     <div>

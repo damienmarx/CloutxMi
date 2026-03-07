@@ -4,13 +4,15 @@ import { motion } from "framer-motion";
 import {
   Dices, TrendingUp, LayoutGrid, Triangle, Rows3, Spade, Circle,
   Shield, Zap, Crown, Users, Trophy, BarChart3, ArrowRight, MessageSquare,
-  ChevronRight
+  ChevronRight, Star
 } from "lucide-react";
 
 const games = [
   { id: "dice",     name: "Dice",         icon: Dices,       path: "/dice",        badge: "Popular",   desc: "High / Low / Exact" },
   { id: "crash",    name: "Crash",        icon: TrendingUp,  path: "/crash",       badge: "Live",      desc: "Cash out before crash" },
   { id: "plinko",   name: "Plinko",       icon: Triangle,    path: "/plinko",      badge: "New",       desc: "16-level physics board" },
+  { id: "limbo",    name: "Limbo",        icon: Zap,         path: "/limbo",       badge: "New",       desc: "Set your own multiplier" },
+  { id: "wheel",    name: "Lucky Wheel",  icon: Star,        path: "/wheel",       badge: "New",       desc: "Spin to win" },
   { id: "keno",     name: "Keno",         icon: LayoutGrid,  path: "/keno",        badge: "",          desc: "Pick up to 10 numbers" },
   { id: "slots-3d", name: "3D Slots",     icon: Rows3,       path: "/slots-3d",    badge: "OSRS",      desc: "5-reel OSRS themed" },
   { id: "blackjack",name: "Blackjack",    icon: Spade,       path: "/blackjack",   badge: "",          desc: "Classic 3:2 payout" },
@@ -401,7 +403,7 @@ export default function Home() {
             <div>
               <h5 className="font-bold text-white mb-4 text-sm" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Games</h5>
               <ul className="space-y-2 text-sm text-gray-500">
-                {["Crash", "Dice", "Plinko", "Keno", "Blackjack"].map(g => (
+                {["Crash", "Dice", "Plinko", "Limbo", "Wheel", "Keno"].map(g => (
                   <li key={g}>
                     <button onClick={() => navigate(`/${g.toLowerCase()}`)} className="hover:text-amber-400 transition-colors">{g}</button>
                   </li>
@@ -414,6 +416,7 @@ export default function Home() {
                 <li><button onClick={() => setLocation("/verifier")} className="hover:text-amber-400 transition-colors">¤ Fairness Lab</button></li>
                 <li><button onClick={() => setLocation("/vip-progress")} className="hover:text-amber-400 transition-colors">VIP Program</button></li>
                 <li><button onClick={() => setLocation("/live-community")} className="hover:text-amber-400 transition-colors">Community</button></li>
+                <li><button onClick={() => setLocation("/user-stats")} className="hover:text-amber-400 transition-colors">My Stats</button></li>
               </ul>
             </div>
             <div>
