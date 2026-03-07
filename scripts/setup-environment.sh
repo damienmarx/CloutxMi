@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ################################################################################
-# CloutScape Environment Setup Script
+# Degens¤Den Environment Setup Script
 # Comprehensive setup for development and production environments
 # Usage: ./scripts/setup-environment.sh [dev|prod|staging]
 ################################################################################
@@ -249,7 +249,7 @@ setup_certificates() {
             if ! [[ -f "$PROJECT_ROOT/certificates/server.key" ]]; then
                 openssl req -x509 -newkey rsa:4096 -keyout "$PROJECT_ROOT/certificates/server.key" \
                     -out "$PROJECT_ROOT/certificates/server.crt" -days 365 -nodes \
-                    -subj "/C=US/ST=State/L=City/O=CloutScape/CN=localhost"
+                    -subj "/C=US/ST=State/L=City/O=Degens¤Den/CN=localhost"
                 log_success "Self-signed certificates generated"
             fi
             ;;
@@ -405,7 +405,7 @@ health_check() {
 print_summary() {
     echo ""
     echo -e "${BLUE}╔════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${BLUE}║          CloutScape Environment Setup Complete             ║${NC}"
+    echo -e "${BLUE}║          Degens¤Den Environment Setup Complete             ║${NC}"
     echo -e "${BLUE}╚════════════════════════════════════════════════════════════╝${NC}"
     echo ""
     echo -e "${GREEN}Environment:${NC} $ENVIRONMENT"
@@ -430,7 +430,7 @@ print_summary() {
 
 main() {
     echo -e "${BLUE}╔════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${BLUE}║        CloutScape Environment Setup Script                 ║${NC}"
+    echo -e "${BLUE}║        Degens¤Den Environment Setup Script                 ║${NC}"
     echo -e "${BLUE}╚════════════════════════════════════════════════════════════╝${NC}"
     echo ""
 

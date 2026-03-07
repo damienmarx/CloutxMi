@@ -1,8 +1,8 @@
-# 🚀 CloutScape Quick Setup Guide
+# 🚀 Degens¤Den Quick Setup Guide
 
 ## Option 1: One-Click Deployment (Recommended)
 
-The easiest way to get CloutScape running:
+The easiest way to get Degens¤Den running:
 
 ```bash
 chmod +x deploy-one-click.sh
@@ -44,7 +44,7 @@ docker-compose down
 
 Services included:
 - MySQL database
-- CloutScape application
+- Degens¤Den application
 - Cloudflared tunnel (optional)
 
 ---
@@ -80,9 +80,9 @@ sudo systemctl enable mysql
 
 # Create database
 sudo mysql << EOF
-CREATE DATABASE cloutscape_db;
-CREATE USER 'cloutscape_user'@'localhost' IDENTIFIED BY 'CloutScape2026Secure!';
-GRANT ALL PRIVILEGES ON cloutscape_db.* TO 'cloutscape_user'@'localhost';
+CREATE DATABASE degensden_db;
+CREATE USER 'degensden_user'@'localhost' IDENTIFIED BY 'Degens¤Den2026Secure!';
+GRANT ALL PRIVILEGES ON degensden_db.* TO 'degensden_user'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 EOF
@@ -92,8 +92,8 @@ EOF
 
 ```bash
 # Clone repository
-git clone https://github.com/damienmarx/CloutxMi.git
-cd CloutxMi
+git clone https://github.com/damienmarx/degensden.git
+cd degensden
 
 # Install dependencies
 pnpm install
@@ -119,7 +119,7 @@ pnpm start
 
 ## Cloudflare Tunnel Setup
 
-To make your casino accessible at **cloutscape.org**:
+To make your casino accessible at **degensden.org**:
 
 ### Step 1: Install Cloudflared
 
@@ -140,7 +140,7 @@ This opens a browser to authenticate with your Cloudflare account.
 ### Step 3: Create Tunnel
 
 ```bash
-cloudflared tunnel create cloutscape-prod
+cloudflared tunnel create degensden-prod
 ```
 
 Note the tunnel ID displayed.
@@ -149,8 +149,8 @@ Note the tunnel ID displayed.
 
 ```bash
 # Route your domain to the tunnel
-cloudflared tunnel route dns cloutscape-prod cloutscape.org
-cloudflared tunnel route dns cloutscape-prod www.cloutscape.org
+cloudflared tunnel route dns degensden-prod degensden.org
+cloudflared tunnel route dns degensden-prod www.degensden.org
 ```
 
 ### Step 5: Copy Configuration
@@ -169,7 +169,7 @@ Update the `credentials-file` path with your tunnel JSON file location.
 
 **Option A: Run in terminal (for testing)**
 ```bash
-cloudflared tunnel run cloutscape-prod
+cloudflared tunnel run degensden-prod
 ```
 
 **Option B: Install as service (recommended for production)**
@@ -181,14 +181,14 @@ sudo systemctl enable cloudflared
 
 ### Step 7: Verify
 
-Visit **https://cloutscape.org** in your browser!
+Visit **https://degensden.org** in your browser!
 
 ---
 
 ## First-Time Access
 
 1. **Create Admin Account**
-   - Go to https://cloutscape.org/register
+   - Go to https://degensden.org/register
    - Register your admin account
    - Update role to 'admin' in database if needed
 
@@ -208,25 +208,25 @@ Visit **https://cloutscape.org** in your browser!
 
 ```bash
 # View application logs
-journalctl -u cloutscape -f
+journalctl -u degensden -f
 
 # Restart application
-sudo systemctl restart cloutscape
+sudo systemctl restart degensden
 
 # Check application status
-sudo systemctl status cloutscape
+sudo systemctl status degensden
 
 # View Cloudflared tunnel status
 sudo systemctl status cloudflared
 
 # View database
-mysql -u cloutscape_user -p cloutscape_db
+mysql -u degensden_user -p degensden_db
 
 # Backup database
-mysqldump -u cloutscape_user -p cloutscape_db > backup.sql
+mysqldump -u degensden_user -p degensden_db > backup.sql
 
 # Restore database
-mysql -u cloutscape_user -p cloutscape_db < backup.sql
+mysql -u degensden_user -p degensden_db < backup.sql
 ```
 
 ---
@@ -237,10 +237,10 @@ mysql -u cloutscape_user -p cloutscape_db < backup.sql
 
 ```bash
 # Check logs
-journalctl -u cloutscape -n 50
+journalctl -u degensden -n 50
 
 # Verify database connection
-mysql -u cloutscape_user -p cloutscape_db
+mysql -u degensden_user -p degensden_db
 
 # Rebuild application
 pnpm build
@@ -253,7 +253,7 @@ pnpm build
 sudo systemctl status mysql
 
 # Test connection
-mysql -h localhost -u cloutscape_user -p
+mysql -h localhost -u degensden_user -p
 
 # Check DATABASE_URL in .env
 cat .env | grep DATABASE_URL
@@ -276,7 +276,7 @@ echo "PORT=3001" >> .env
 
 ```bash
 # Check tunnel status
-cloudflared tunnel info cloutscape-prod
+cloudflared tunnel info degensden-prod
 
 # View tunnel logs
 journalctl -u cloudflared -f
@@ -326,7 +326,7 @@ Already configured in Express middleware.
 4. **Use PM2 for process management (alternative to systemd)**
 ```bash
 npm install -g pm2
-pm2 start dist/index.js --name cloutscape
+pm2 start dist/index.js --name degensden
 pm2 startup
 pm2 save
 ```
@@ -339,10 +339,10 @@ Set up monitoring for production:
 
 ```bash
 # View real-time metrics
-watch -n 1 'journalctl -u cloutscape -n 20'
+watch -n 1 'journalctl -u degensden -n 20'
 
 # Monitor MySQL
-mysqladmin -u cloutscape_user -p processlist
+mysqladmin -u degensden_user -p processlist
 
 # Check disk space
 df -h
@@ -355,8 +355,8 @@ free -h
 
 ## Need Help?
 
-- **GitHub Issues**: https://github.com/damienmarx/CloutxMi/issues
-- **Email**: support@cloutscape.org
+- **GitHub Issues**: https://github.com/damienmarx/degensden/issues
+- **Email**: support@degensden.org
 - **Documentation**: See [README.md](README.md)
 
 ---

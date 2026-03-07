@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# CloutScape Master Setup Script
+# Degens¤Den Master Setup Script
 # This script prepares the local environment and initiates the deployment process.
 
 set -e
@@ -34,7 +34,7 @@ handle_error() {
 
 trap handle_error ERR
 
-log "INFO" "Starting CloutScape Master Setup..."
+log "INFO" "Starting Degens¤Den Master Setup..."
 
 # 1. Check for required tools
 log "INFO" "Checking for required tools..."
@@ -56,7 +56,7 @@ if [ ! -f ".env" ]; then
         cat << ENV_TEMPLATE > .env
 NODE_ENV=production
 PORT=3000
-DATABASE_URL=mysql://clout_admin:CloutScape_Secure_2026!@localhost:3306/cloutscape_production
+DATABASE_URL=mysql://clout_admin:Degens¤Den_Secure_2026!@localhost:3306/degensden_production
 GITHUB_TOKEN=
 UPCLOUD_API_TOKEN=
 ENV_TEMPLATE

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ###############################################################################
-# CloutScape Complete Production Deployment
+# Degens¤Den Complete Production Deployment
 # Ubuntu-optimized with all features
-# Domain: cloutscape.org
+# Domain: degensden.org
 ###############################################################################
 
 set -e
@@ -29,16 +29,16 @@ cat << "EOF"
                                              | |          
                                              |_|          
   🎰 Complete Production Deployment 🎰
-  Ubuntu Edition - cloutscape.org
+  Ubuntu Edition - degensden.org
 EOF
 echo -e "${NC}"
 
 # Configuration
 APP_DIR="$(pwd)"
-DOMAIN="cloutscape.org"
-DB_NAME="cloutscape_db"
-DB_USER="cloutscape_user"
-DB_PASS="CloutScape2026Secure!"
+DOMAIN="degensden.org"
+DB_NAME="degensden_db"
+DB_USER="degensden_user"
+DB_PASS="Degens¤Den2026Secure!"
 
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo -e "${GREEN}           CLOUTSCAPE PRODUCTION DEPLOYMENT${NC}"
@@ -153,9 +153,9 @@ fi
 # Systemd service
 echo -e "${CYAN}━━━ Step 8/10: Service Configuration ━━━${NC}"
 
-sudo tee /etc/systemd/system/cloutscape.service > /dev/null << EOF
+sudo tee /etc/systemd/system/degensden.service > /dev/null << EOF
 [Unit]
-Description=CloutScape Casino Platform
+Description=Degens¤Den Casino Platform
 After=network.target mysql.service
 
 [Service]
@@ -169,7 +169,7 @@ Restart=always
 RestartSec=10
 StandardOutput=journal
 StandardError=journal
-SyslogIdentifier=cloutscape
+SyslogIdentifier=degensden
 
 # Security
 NoNewPrivileges=true
@@ -183,7 +183,7 @@ WantedBy=multi-user.target
 EOF
 
 sudo systemctl daemon-reload
-sudo systemctl enable cloutscape
+sudo systemctl enable degensden
 echo -e "${GREEN}✓ Systemd service configured${NC}"
 
 # Create logs directory
@@ -192,9 +192,9 @@ mkdir -p "$APP_DIR/logs"
 # Start application
 echo -e "${CYAN}━━━ Step 9/10: Starting Application ━━━${NC}"
 
-sudo systemctl stop cloutscape 2>/dev/null || true
+sudo systemctl stop degensden 2>/dev/null || true
 sleep 2
-sudo systemctl start cloutscape
+sudo systemctl start degensden
 
 # Wait for startup
 echo -e "${YELLOW}Waiting for application to start...${NC}"
@@ -205,7 +205,7 @@ if curl -s http://localhost:3000 > /dev/null; then
     echo -e "${GREEN}✓ Application is running${NC}"
 else
     echo -e "${RED}⚠️  Application may not be responding yet${NC}"
-    echo -e "${YELLOW}Check logs: sudo journalctl -u cloutscape -n 50${NC}"
+    echo -e "${YELLOW}Check logs: sudo journalctl -u degensden -n 50${NC}"
 fi
 
 # Cloudflare instructions
@@ -220,17 +220,17 @@ ${CYAN}1. Login to Cloudflare:${NC}
    cloudflared tunnel login
 
 ${CYAN}2. Create tunnel:${NC}
-   cloudflared tunnel create cloutscape-prod
+   cloudflared tunnel create degensden-prod
 
 ${CYAN}3. Copy tunnel credentials:${NC}
-   cp ~/.cloudflared/*.json ~/.cloudflared/cloutscape-tunnel.json
+   cp ~/.cloudflared/*.json ~/.cloudflared/degensden-tunnel.json
 
 ${CYAN}4. Route DNS to tunnel:${NC}
-   cloudflared tunnel route dns cloutscape-prod ${DOMAIN}
-   cloudflared tunnel route dns cloutscape-prod www.${DOMAIN}
+   cloudflared tunnel route dns degensden-prod ${DOMAIN}
+   cloudflared tunnel route dns degensden-prod www.${DOMAIN}
 
 ${CYAN}5. Start tunnel:${NC}
-   cloudflared tunnel --config $APP_DIR/cloudflared-config.yml run cloutscape-prod
+   cloudflared tunnel --config $APP_DIR/cloudflared-config.yml run degensden-prod
 
 ${CYAN}6. Install as service (optional):${NC}
    sudo cloudflared service install
@@ -253,15 +253,15 @@ ${CYAN}📊 Application Status:${NC}
   • Database: ${GREEN}MySQL ($DB_NAME)${NC}
 
 ${CYAN}🛠️  Useful Commands:${NC}
-  • View logs:      ${YELLOW}sudo journalctl -u cloutscape -f${NC}
-  • Restart:        ${YELLOW}sudo systemctl restart cloutscape${NC}
-  • Stop:           ${YELLOW}sudo systemctl stop cloutscape${NC}
-  • Status:         ${YELLOW}sudo systemctl status cloutscape${NC}
+  • View logs:      ${YELLOW}sudo journalctl -u degensden -f${NC}
+  • Restart:        ${YELLOW}sudo systemctl restart degensden${NC}
+  • Stop:           ${YELLOW}sudo systemctl stop degensden${NC}
+  • Status:         ${YELLOW}sudo systemctl status degensden${NC}
   • Database:       ${YELLOW}mysql -u $DB_USER -p $DB_NAME${NC}
 
 ${CYAN}📁 Important Files:${NC}
   • Environment:    ${YELLOW}$APP_DIR/.env${NC}
-  • Service:        ${YELLOW}/etc/systemd/system/cloutscape.service${NC}
+  • Service:        ${YELLOW}/etc/systemd/system/degensden.service${NC}
   • Logs:           ${YELLOW}$APP_DIR/logs/${NC}
   • Cloudflared:    ${YELLOW}$APP_DIR/cloudflared-config.yml${NC}
 
@@ -282,18 +282,18 @@ ${CYAN}🎰 Next Steps:${NC}
   7. Enable 2FA for admin account
 
 ${CYAN}📞 Support:${NC}
-  • GitHub: https://github.com/damienmarx/CloutxMi
+  • GitHub: https://github.com/damienmarx/degensden
   • Logs: $APP_DIR/logs/
 
 ${GREEN}════════════════════════════════════════════════════════════════${NC}
 ${PURPLE}
-   CloutScape is LIVE! Start making that crypto! 💎🎰✨
+   Degens¤Den is LIVE! Start making that crypto! 💎🎰✨
 ${NC}
 "
 
 # Save deployment info
 cat > "$APP_DIR/DEPLOYMENT_INFO.txt" << EOF
-CloutScape Deployment Information
+Degens¤Den Deployment Information
 ==================================
 Deployed: $(date)
 Domain: $DOMAIN
@@ -303,9 +303,9 @@ User: $DB_USER
 Local URL: http://localhost:3000
 Production URL: https://$DOMAIN
 
-Service Status: sudo systemctl status cloutscape
-View Logs: sudo journalctl -u cloutscape -f
-Restart: sudo systemctl restart cloutscape
+Service Status: sudo systemctl status degensden
+View Logs: sudo journalctl -u degensden -f
+Restart: sudo systemctl restart degensden
 
 Database Access:
 mysql -u $DB_USER -p $DB_NAME

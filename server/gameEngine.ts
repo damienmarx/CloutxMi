@@ -1,5 +1,5 @@
 /**
- * CloutScape / Degens Den - Core Game Engine
+ * Degens¤Den / Degens Den - Core Game Engine
  * Handles betting, provably fair RNG, payouts, and Discord notifications
  */
 

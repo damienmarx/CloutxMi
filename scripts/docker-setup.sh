@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ################################################################################
-# CloutScape Docker Setup Script
+# Degens¤Den Docker Setup Script
 # Configures Docker and Docker Compose for development and production
 # Usage: ./scripts/docker-setup.sh [build|start|stop|logs|clean]
 ################################################################################
@@ -159,7 +159,7 @@ show_logs() {
 ################################################################################
 
 clean_docker() {
-    log_warning "This will remove all CloutScape Docker containers and volumes"
+    log_warning "This will remove all Degens¤Den Docker containers and volumes"
     read -p "Are you sure? (yes/no): " -r
     echo
 
@@ -240,11 +240,11 @@ check_status() {
 
     echo ""
     echo -e "${BLUE}Docker Images:${NC}"
-    docker images | grep cloutscape || echo "No CloutScape images found"
+    docker images | grep degensden || echo "No Degens¤Den images found"
 
     echo ""
     echo -e "${BLUE}Docker Volumes:${NC}"
-    docker volume ls | grep cloutscape || echo "No CloutScape volumes found"
+    docker volume ls | grep degensden || echo "No Degens¤Den volumes found"
 }
 
 ################################################################################
@@ -252,7 +252,7 @@ check_status() {
 ################################################################################
 
 print_help() {
-    echo -e "${BLUE}CloutScape Docker Setup Script${NC}"
+    echo -e "${BLUE}Degens¤Den Docker Setup Script${NC}"
     echo ""
     echo "Usage: ./scripts/docker-setup.sh [command] [options]"
     echo ""

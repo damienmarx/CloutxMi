@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ################################################################################
-# CloutScape Complete Setup Script
+# Degens¤Den Complete Setup Script
 # Comprehensive setup for development and production environments
-# Usage: ./scripts/setup-cloutscape.sh [dev|prod|staging]
+# Usage: ./scripts/setup-degensden.sh [dev|prod|staging]
 ################################################################################
 
 set -e
@@ -68,7 +68,7 @@ check_command() {
 validate_environment() {
     if [[ ! "$ENVIRONMENT" =~ ^(dev|development|prod|production|staging)$ ]]; then
         log_error "Invalid environment: $ENVIRONMENT"
-        log_info "Usage: ./scripts/setup-cloutscape.sh [dev|prod|staging]"
+        log_info "Usage: ./scripts/setup-degensden.sh [dev|prod|staging]"
         exit 1
     fi
 
@@ -161,16 +161,16 @@ setup_env_files() {
         else
             log_warning ".env.example not found, creating default .env.$ENVIRONMENT"
             cat > "$env_file" << 'EOF'
-# CloutScape Environment Configuration
+# Degens¤Den Environment Configuration
 
 # Application
 NODE_ENV=development
-APP_NAME=CloutScape
+APP_NAME=Degens¤Den
 APP_PORT=3000
 APP_HOST=0.0.0.0
 
 # Database
-DATABASE_URL=mysql://root:password@localhost:3306/cloutscape_db
+DATABASE_URL=mysql://root:password@localhost:3306/degensden_db
 
 # JWT
 JWT_SECRET=your-secret-key-here
@@ -268,7 +268,7 @@ setup_certificates() {
             if ! [[ -f "$PROJECT_ROOT/certificates/server.key" ]]; then
                 openssl req -x509 -newkey rsa:4096 -keyout "$PROJECT_ROOT/certificates/server.key" \
                     -out "$PROJECT_ROOT/certificates/server.crt" -days 365 -nodes \
-                    -subj "/C=US/ST=State/L=City/O=CloutScape/CN=localhost" 2>/dev/null
+                    -subj "/C=US/ST=State/L=City/O=Degens¤Den/CN=localhost" 2>/dev/null
                 log_success "Self-signed certificates generated"
             else
                 log_info "Certificates already exist"
@@ -419,7 +419,7 @@ verify_setup() {
 ################################################################################
 
 main() {
-    log_section "CloutScape Setup Script"
+    log_section "Degens¤Den Setup Script"
     log_info "Project Root: $PROJECT_ROOT"
     log_info "Environment: $ENVIRONMENT"
     log_info "Log File: $LOG_FILE"
@@ -437,7 +437,7 @@ main() {
     verify_setup
 
     log_section "Setup Complete"
-    echo -e "${GREEN}CloutScape is ready for $ENVIRONMENT environment!${NC}"
+    echo -e "${GREEN}Degens¤Den is ready for $ENVIRONMENT environment!${NC}"
     echo ""
     echo "Next steps:"
     echo "  1. Update .env.$ENVIRONMENT with your configuration"

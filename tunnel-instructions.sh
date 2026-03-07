@@ -8,8 +8,8 @@ cat << 'EOF'
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 
-Your CloutScape casino is running on port 8080 but needs Cloudflare
-Tunnel to be accessible at cloutscape.org
+Your Degens¤Den casino is running on port 8080 but needs Cloudflare
+Tunnel to be accessible at degensden.org
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -22,14 +22,14 @@ Run these commands in your terminal:
    cloudflared tunnel login
 
 2. Create tunnel:
-   cloudflared tunnel create cloutscape-prod
+   cloudflared tunnel create degensden-prod
 
 3. Route DNS:
-   cloudflared tunnel route dns cloutscape-prod cloutscape.org
-   cloudflared tunnel route dns cloutscape-prod www.cloutscape.org
+   cloudflared tunnel route dns degensden-prod degensden.org
+   cloudflared tunnel route dns degensden-prod www.degensden.org
 
 4. Start tunnel:
-   cloudflared tunnel --config /root/.cloudflared/config.yml run cloutscape-prod
+   cloudflared tunnel --config /root/.cloudflared/config.yml run degensden-prod
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -53,10 +53,10 @@ This will keep the tunnel running even after reboot.
 2. Select your account
 3. Go to Networks → Tunnels
 4. Click "Create a tunnel"
-5. Name it "cloutscape-prod"
+5. Name it "degensden-prod"
 6. Install connector (choose Docker or other)
 7. Add public hostname:
-   - Public hostname: cloutscape.org
+   - Public hostname: degensden.org
    - Service: http://localhost:8080
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -64,10 +64,10 @@ This will keep the tunnel running even after reboot.
 ✅ CURRENT STATUS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-   CloutScape Server:  ✅ RUNNING on port 8080
+   Degens¤Den Server:  ✅ RUNNING on port 8080
    Local Access:       ✅ http://localhost:8080
    Cloudflare Tunnel:  ⏳ NOT CONFIGURED
-   Public Access:      ❌ https://cloutscape.org (awaiting tunnel)
+   Public Access:      ❌ https://degensden.org (awaiting tunnel)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -78,13 +78,13 @@ This will keep the tunnel running even after reboot.
    Config file: /root/.cloudflared/config.yml
    App config: /app/cloudflared-config.yml
    
-   Your config is already set to route port 8080 to cloutscape.org
+   Your config is already set to route port 8080 to degensden.org
    You just need to authenticate and create the tunnel!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 After tunnel is running, test with:
-   curl https://cloutscape.org
+   curl https://degensden.org
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

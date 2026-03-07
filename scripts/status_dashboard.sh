@@ -1,6 +1,6 @@
 #!/bin/bash
-# CloutScape Status Dashboard
-# Developed by your Personal CloutScape Agent
+# Degens¤Den Status Dashboard
+# Developed by your Personal Degens¤Den Agent
 
 source "$(dirname "${BASH_SOURCE[0]}")/lib/utils.sh"
 
@@ -12,11 +12,11 @@ check_service() {
     fi
 }
 
-echo -e "${CYAN}--- CloutScape Environment Status ---${NC}"
+echo -e "${CYAN}--- Degens¤Den Environment Status ---${NC}"
 printf "%-20s : %s\n" "Node.js" "$(node -v 2>/dev/null || echo -e "${RED}NOT FOUND${NC}")"
 printf "%-20s : %s\n" "pnpm" "$(pnpm -v 2>/dev/null || echo -e "${RED}NOT FOUND${NC}")"
 printf "%-20s : %s\n" "MySQL" "$(check_service mysql)"
-printf "%-20s : %s\n" "PM2 Backend" "$(check_service cloutscape-backend)"
+printf "%-20s : %s\n" "PM2 Backend" "$(check_service degensden-backend)"
 printf "%-20s : %s\n" "Cloudflare Tunnel" "$(check_service cloudflared)"
 
 echo -e "\n${CYAN}--- Deployment Info ---${NC}"

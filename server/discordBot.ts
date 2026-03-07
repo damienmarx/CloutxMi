@@ -2,11 +2,11 @@ import { Client, GatewayIntentBits, TextChannel, EmbedBuilder, ChannelType, Perm
 import type { Guild } from 'discord.js';
 
 /**
- * CloutScape Discord Bot
+ * Degens¤Den Discord Bot
  * Automated server setup, big wins notifications, payments
  */
 
-export class CloutScapeDiscordBot {
+export class Degens¤DenDiscordBot {
   private client: Client;
   private token: string;
   private guildId: string;
@@ -34,7 +34,7 @@ export class CloutScapeDiscordBot {
   async initialize(): Promise<void> {
     try {
       await this.client.login(this.token);
-      console.log(`✅ CloutScape Discord Bot logged in as ${this.client.user?.tag}`);
+      console.log(`✅ Degens¤Den Discord Bot logged in as ${this.client.user?.tag}`);
       
       this.client.once('ready', async () => {
         console.log('🤖 Bot is ready!');
@@ -55,7 +55,7 @@ export class CloutScapeDiscordBot {
     try {
       const guild = await this.client.guilds.fetch(this.guildId);
       
-      console.log('🔧 Setting up CloutScape Discord server...');
+      console.log('🔧 Setting up Degens¤Den Discord server...');
       
       // Delete old channels (except system channels)
       await this.cleanupOldChannels(guild);
@@ -69,7 +69,7 @@ export class CloutScapeDiscordBot {
       // Set up permissions
       await this.setupPermissions(guild);
       
-      console.log('✅ CloutScape Discord server setup complete!');
+      console.log('✅ Degens¤Den Discord server setup complete!');
     } catch (error) {
       console.error('❌ Server setup failed:', error);
       throw error;
@@ -86,7 +86,7 @@ export class CloutScapeDiscordBot {
       if (channel && channel.type !== ChannelType.GuildCategory) {
         try {
           if (!channel.name.includes('system') && !channel.name.includes('rules')) {
-            await channel.delete('CloutScape server restructure');
+            await channel.delete('Degens¤Den server restructure');
             console.log(`🗑️  Deleted channel: ${channel.name}`);
           }
         } catch (error) {
@@ -99,7 +99,7 @@ export class CloutScapeDiscordBot {
     for (const [id, channel] of channels) {
       if (channel && channel.type === ChannelType.GuildCategory) {
         try {
-          await channel.delete('CloutScape server restructure');
+          await channel.delete('Degens¤Den server restructure');
           console.log(`🗑️  Deleted category: ${channel.name}`);
         } catch (error) {
           console.error(`Failed to delete category ${channel?.name}:`, error);
@@ -143,7 +143,7 @@ export class CloutScapeDiscordBot {
   }
 
   /**
-   * Create channel structure matching CloutScape theme
+   * Create channel structure matching Degens¤Den theme
    */
   private async createChannelStructure(guild: Guild): Promise<void> {
     // 📢 Information Category
@@ -163,7 +163,7 @@ export class CloutScapeDiscordBot {
       name: '📣・announcements',
       type: ChannelType.GuildText,
       parent: infoCategory.id,
-      topic: 'Important CloutScape updates'
+      topic: 'Important Degens¤Den updates'
     }).then(channel => {
       this.announcementsChannelId = channel.id;
     });
@@ -397,7 +397,7 @@ export class CloutScapeDiscordBot {
         )
         .setThumbnail('https://em-content.zobj.net/thumbs/160/microsoft/319/money-bag_1f4b0.png')
         .setTimestamp()
-        .setFooter({ text: 'CloutScape Casino' });
+        .setFooter({ text: 'Degens¤Den Casino' });
 
       await channel.send({ embeds: [embed] });
     } catch (error) {
@@ -412,9 +412,9 @@ export class CloutScapeDiscordBot {
     const embed = new EmbedBuilder()
       .setColor(0x4ECDC4)
       .setTitle('💳 Deposit Funds')
-      .setDescription('Deposit to your CloutScape wallet:')
+      .setDescription('Deposit to your Degens¤Den wallet:')
       .addFields(
-        { name: 'Website', value: '[Visit CloutScape](https://cloutscape.org/dashboard)' },
+        { name: 'Website', value: '[Visit Degens¤Den](https://degensden.org/dashboard)' },
         { name: 'Manual Payment', value: 'Contact <@OWNER_ID> for manual deposits' },
         { name: 'Supported Methods', value: 'Crypto, Bank Transfer, OSRS GP' }
       )
@@ -429,7 +429,7 @@ export class CloutScapeDiscordBot {
   private async sendHelpMessage(message: any): Promise<void> {
     const embed = new EmbedBuilder()
       .setColor(0xFFD700)
-      .setTitle('🎰 CloutScape Bot Commands')
+      .setTitle('🎰 Degens¤Den Bot Commands')
       .setDescription('Available commands:')
       .addFields(
         { name: '!clout balance', value: 'Check your balance' },
@@ -437,7 +437,7 @@ export class CloutScapeDiscordBot {
         { name: '!clout setup', value: 'Setup server (Admin only)' },
         { name: '!clout help', value: 'Show this message' }
       )
-      .setFooter({ text: 'CloutScape - Luxury Crypto Casino' });
+      .setFooter({ text: 'Degens¤Den - Luxury Crypto Casino' });
 
     await message.reply({ embeds: [embed] });
   }
@@ -480,20 +480,20 @@ export class CloutScapeDiscordBot {
    */
   async shutdown(): Promise<void> {
     await this.client.destroy();
-    console.log('🛑 CloutScape Discord Bot shut down');
+    console.log('🛑 Degens¤Den Discord Bot shut down');
   }
 }
 
 // Export singleton instance
-let botInstance: CloutScapeDiscordBot | null = null;
+let botInstance: Degens¤DenDiscordBot | null = null;
 
-export function initializeDiscordBot(token: string, guildId: string): CloutScapeDiscordBot {
+export function initializeDiscordBot(token: string, guildId: string): Degens¤DenDiscordBot {
   if (!botInstance) {
-    botInstance = new CloutScapeDiscordBot(token, guildId);
+    botInstance = new Degens¤DenDiscordBot(token, guildId);
   }
   return botInstance;
 }
 
-export function getDiscordBot(): CloutScapeDiscordBot | null {
+export function getDiscordBot(): Degens¤DenDiscordBot | null {
   return botInstance;
 }

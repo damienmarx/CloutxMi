@@ -198,9 +198,9 @@ export async function sendVerificationEmail(
     const verificationLink = `${process.env.APP_URL}/verify-email?token=${verificationToken}`;
 
     const mailOptions = {
-      from: process.env.SMTP_FROM || "Support@cloutscape.org",
+      from: process.env.SMTP_FROM || "Support@degensden.org",
       to: email,
-      subject: "Verify your CloutScape email",
+      subject: "Verify your Degens¤Den email",
       html: `
         <h2>Email Verification</h2>
         <p>Hi ${userName || "User"},</p>
@@ -211,7 +211,7 @@ export async function sendVerificationEmail(
         <p>Or copy and paste this link in your browser:</p>
         <p>${verificationLink}</p>
         <p>This link will expire in 24 hours.</p>
-        <p>Best regards,<br/>CloutScape Team</p>
+        <p>Best regards,<br/>Degens¤Den Team</p>
       `,
     };
 

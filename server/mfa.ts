@@ -9,12 +9,12 @@ import { eq } from "drizzle-orm";
  * Generate a new MFA secret for a user.
  */
 export async function generateMfaSecret(userId: number, username: string) {
-  const secret = speakeasy.generateSecret({ name: `CloutScape:${username}` });
+  const secret = speakeasy.generateSecret({ name: `Degens¤Den:${username}` });
   await db.update(users).set({ mfaSecret: secret.base32 }).where(eq(users.id, userId));
   const otpauthUrl = speakeasy.otpauthURL({
     secret: secret.ascii,
-    label: `CloutScape:${username}`,
-    issuer: "CloutScape",
+    label: `Degens¤Den:${username}`,
+    issuer: "Degens¤Den",
   });
   const qrCodeDataUrl = await qrcode.toDataURL(otpauthUrl);
   return { secret: secret.base32, qrCodeDataUrl };

@@ -43,7 +43,7 @@ export default function Login() {
       <div className="mb-8 text-center">
         <div className="flex items-center justify-center gap-2 mb-2">
           <Zap className="w-8 h-8 text-neon-gold" />
-          <span className="text-3xl font-extrabold gradient-text-gold tracking-tight">CloutScape</span>
+          <span className="text-3xl font-extrabold gradient-text-gold tracking-tight">Degens¤Den</span>
         </div>
         <p className="text-muted-foreground text-sm">Welcome back to your casino</p>
       </div>

@@ -1,8 +1,8 @@
-# 🎰 CloutScape - Luxury Crypto Casino Platform 2026
+# 🎰 Degens¤Den - Luxury Crypto Casino Platform 2026
 
 <div align="center">
 
-![CloutScape Logo](client/public/cloutscape-hero.jpg)
+![Degens¤Den Logo](client/public/degensden-hero.jpg)
 
 ### **The Ultimate Crypto Casino Experience**  
 _Luxury Obsidian Glassware Edition_
@@ -11,7 +11,7 @@ _Luxury Obsidian Glassware Edition_
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
-[🎮 Live Demo](https://cloutscape.org) • [📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start) • [💎 Features](#features)
+[🎮 Live Demo](https://degensden.org) • [📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start) • [💎 Features](#features)
 
 </div>
 
@@ -19,7 +19,7 @@ _Luxury Obsidian Glassware Edition_
 
 ## ✨ Overview
 
-**CloutScape** is a production-ready, feature-rich cryptocurrency casino platform built with cutting-edge web technologies. Experience the luxury of obsidian black aesthetics combined with gold accents, glassmorphism effects, and 3D animations.
+**Degens¤Den** is a production-ready, feature-rich cryptocurrency casino platform built with cutting-edge web technologies. Experience the luxury of obsidian black aesthetics combined with gold accents, glassmorphism effects, and 3D animations.
 
 ### 🎯 Key Highlights
 
@@ -29,7 +29,7 @@ _Luxury Obsidian Glassware Edition_
 - **Crypto Integration** - Full wallet management and OSRS GP exchange
 - **VIP Tier System** - 5-tier progression with cashback and multipliers
 - **One-Click Deployment** - Easy setup with automated scripts
-- **Cloudflare Tunnel** - Secure HTTPS deployment to cloutscape.org
+- **Cloudflare Tunnel** - Secure HTTPS deployment to degensden.org
 
 ---
 
@@ -46,8 +46,8 @@ _Luxury Obsidian Glassware Edition_
 
 ```bash
 # Clone the repository
-git clone https://github.com/damienmarx/CloutxMi.git
-cd CloutxMi
+git clone https://github.com/damienmarx/degensden.git
+cd degensden
 
 # Run one-click deployment
 chmod +x deploy-one-click.sh
@@ -76,9 +76,9 @@ cp .env.example .env
 
 # 3. Set up database
 mysql -u root -p
-CREATE DATABASE cloutscape_db;
-CREATE USER 'cloutscape_user'@'localhost' IDENTIFIED BY 'your_password';
-GRANT ALL PRIVILEGES ON cloutscape_db.* TO 'cloutscape_user'@'localhost';
+CREATE DATABASE degensden_db;
+CREATE USER 'degensden_user'@'localhost' IDENTIFIED BY 'your_password';
+GRANT ALL PRIVILEGES ON degensden_db.* TO 'degensden_user'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 
@@ -194,7 +194,7 @@ pnpm start
 ## 📁 Project Structure
 
 ```
-CloutScape/
+Degens¤Den/
 ├── client/                    # React frontend
 │   ├── src/
 │   │   ├── pages/            # Game and feature pages
@@ -230,14 +230,14 @@ CloutScape/
 cloudflared tunnel login
 
 # 2. Create tunnel
-cloudflared tunnel create cloutscape-prod
+cloudflared tunnel create degensden-prod
 
 # 3. Route DNS
-cloudflared tunnel route dns cloutscape-prod cloutscape.org
-cloudflared tunnel route dns cloutscape-prod www.cloutscape.org
+cloudflared tunnel route dns degensden-prod degensden.org
+cloudflared tunnel route dns degensden-prod www.degensden.org
 
 # 4. Start tunnel
-cloudflared tunnel run cloutscape-prod
+cloudflared tunnel run degensden-prod
 
 # Or install as service
 sudo cloudflared service install
@@ -248,16 +248,16 @@ sudo systemctl start cloudflared
 
 ```bash
 # View logs
-journalctl -u cloutscape -f
+journalctl -u degensden -f
 
 # Restart application
-sudo systemctl restart cloutscape
+sudo systemctl restart degensden
 
 # Stop application
-sudo systemctl stop cloutscape
+sudo systemctl stop degensden
 
 # Check status
-sudo systemctl status cloutscape
+sudo systemctl status degensden
 ```
 
 ---
@@ -270,7 +270,7 @@ Key environment variables in `.env`:
 
 ```env
 # Database
-DATABASE_URL=mysql://user:password@localhost:3306/cloutscape_db
+DATABASE_URL=mysql://user:password@localhost:3306/degensden_db
 
 # Security
 JWT_SECRET=your_jwt_secret_key
@@ -283,7 +283,7 @@ PORT=3000
 
 # Cloudflare
 CLOUDFLARE_API_KEY=your_cloudflare_api_key
-CLOUDFLARE_DOMAIN=cloutscape.org
+CLOUDFLARE_DOMAIN=degensden.org
 ```
 
 ### Game Configuration
@@ -390,7 +390,7 @@ POST /api/trpc/games.verifyFairness
 
 ```bash
 # Test MySQL connection
-mysql -h localhost -u cloutscape_user -p cloutscape_db
+mysql -h localhost -u degensden_user -p degensden_db
 
 # Check DATABASE_URL format
 cat .env | grep DATABASE_URL
@@ -445,16 +445,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **GitHub Issues**: [Report a bug](https://github.com/damienmarx/CloutxMi/issues)
-- **Email**: support@cloutscape.org
-- **Domain**: [cloutscape.org](https://cloutscape.org)
+- **GitHub Issues**: [Report a bug](https://github.com/damienmarx/degensden/issues)
+- **Email**: support@degensden.org
+- **Domain**: [degensden.org](https://degensden.org)
 
 ---
 
 <div align="center">
 
-**Made with 💎 by CloutScape Team**
+**Made with 💎 by Degens¤Den Team**
 
-[⬆ Back to Top](#-cloutscape---luxury-crypto-casino-platform-2026)
+[⬆ Back to Top](#-degensden---luxury-crypto-casino-platform-2026)
 
 </div>

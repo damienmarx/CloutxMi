@@ -205,10 +205,10 @@ export const TRUST_WALLET_CONFIG = {
 
   // Support & Contact
   support: {
-    email: "support@cloutscape.dev",
-    discord: "https://discord.gg/cloutscape",
+    email: "support@degensden.dev",
+    discord: "https://discord.gg/degensden",
     twitter: "@DegensDen",
-    website: "https://cloutscape.dev",
+    website: "https://degensden.dev",
   },
 };
 

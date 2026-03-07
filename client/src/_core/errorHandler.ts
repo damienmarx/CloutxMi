@@ -1,5 +1,5 @@
 /**
- * CloutScape Error Handler
+ * Degens¤Den Error Handler
  * Comprehensive error handling, logging, and recovery system
  */
 

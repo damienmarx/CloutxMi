@@ -1,6 +1,6 @@
 #!/bin/bash
-# CloutScape Obfuscation Module
-# Developed by your Personal CloutScape Agent
+# Degens¤Den Obfuscation Module
+# Developed by your Personal Degens¤Den Agent
 
 source "$(dirname "${BASH_SOURCE[0]}")/utils.sh"
 

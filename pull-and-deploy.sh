@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###############################################################################
-# CloutScape Quick Update Script
+# Degens¤Den Quick Update Script
 # Pull latest from GitHub and deploy luxury frontend
 ###############################################################################
 
@@ -47,7 +47,7 @@ echo -e "${GREEN}╔════════════════════
 echo -e "${GREEN}║              ✅ UPDATE COMPLETE! ✅                          ║${NC}"
 echo -e "${GREEN}╚═══════════════════════════════════════════════════════════════╝${NC}"
 echo ""
-echo -e "${CYAN}CloutScape is now running the latest version!${NC}"
+echo -e "${CYAN}Degens¤Den is now running the latest version!${NC}"
 echo -e "  • Luxury obsidian theme"
 echo -e "  • All fixes applied"
 echo -e "  • Server on port 8080"

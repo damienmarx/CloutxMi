@@ -11,7 +11,7 @@
 
 ### Solutions Applied:
 1. ✅ **Removed ALL Degens Den references** from source code
-2. ✅ **Deleted all images** from `client/public/` (cloutscape-hero.jpg, graffiti-style.png, etc.)
+2. ✅ **Deleted all images** from `client/public/` (degensden-hero.jpg, graffiti-style.png, etc.)
 3. ✅ **Cleared all caches** (dist, client/dist, node_modules/.vite)
 4. ✅ **Rebuilt with luxury theme** - 196KB CSS with obsidian styles
 5. ✅ **Created verification script** - ensures correct UI always loads
@@ -87,7 +87,7 @@ After pulling, verify these are working:
 - Kills old servers
 - Clears all caches
 - Removes unwanted images
-- Verifies CloutScape branding
+- Verifies Degens¤Den branding
 - Checks for Degens Den references
 - Rebuilds with luxury styles
 - Starts server
@@ -115,9 +115,9 @@ After pulling, verify these are working:
 - **Animations:** Float, pulse-glow, shimmer, particle background
 - **Performance:** Optimized, no laggy images
 
-### CloutScape Branding:
+### Degens¤Den Branding:
 - Crown logo with gold glow
-- "CloutScape" in luxury fonts
+- "Degens¤Den" in luxury fonts
 - Gold gradient text effects
 - Premium card styling
 - Luxury button effects
@@ -128,7 +128,7 @@ After pulling, verify these are working:
 
 - **Local:** http://localhost:8080
 - **Network:** http://YOUR_SERVER_IP:8080
-- **Public:** https://cloutscape.org (after Cloudflare Tunnel)
+- **Public:** https://degensden.org (after Cloudflare Tunnel)
 
 ---
 
@@ -151,7 +151,7 @@ HTML: 1KB (optimized)
 
 ## 🔄 UPDATES PUSHED TO GITHUB
 
-All commits pushed to: https://github.com/damienmarx/CloutxMi
+All commits pushed to: https://github.com/damienmarx/degensden
 
 Latest commits:
 1. **Complete frontend overhaul** - Removed Degens Den, added luxury
@@ -162,7 +162,7 @@ Latest commits:
 
 ## 💎 RESULT
 
-**CloutScape luxury casino with:**
+**Degens¤Den luxury casino with:**
 - Deep obsidian black design
 - Gold and amber accents
 - Glassmorphism effects

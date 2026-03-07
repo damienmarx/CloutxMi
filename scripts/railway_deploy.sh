@@ -5,4 +5,4 @@ export RAILWAY_TOKEN=$1
 curl -fsSL https://railway.app/install.sh | sh
 
 # Deploy
-railway up --service cloutscape --detach
+railway up --service degensden --detach

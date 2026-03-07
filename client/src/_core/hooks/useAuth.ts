@@ -44,7 +44,7 @@ export function useAuth(options?: UseAuthOptions) {
   const state = useMemo(() => {
     // Store user info in localStorage for persistence
     localStorage.setItem(
-      "cloutscape-user-info",
+      "degensden-user-info",
       JSON.stringify(meQuery.data)
     );
     return {

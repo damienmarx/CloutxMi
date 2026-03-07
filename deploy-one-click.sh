@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ###############################################################################
-# CloutScape One-Click Deployment Script
+# Degens¤Den One-Click Deployment Script
 # Version: 2026.1.0
-# Domain: cloutscape.org
+# Domain: degensden.org
 # Author: Damien Marx
 ###############################################################################
 
@@ -37,10 +37,10 @@ echo -e "${NC}"
 # Configuration
 APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOG_FILE="$APP_DIR/logs/deployment.log"
-DB_NAME="cloutscape_db"
-DB_USER="cloutscape_user"
-DB_PASS="CloutScape2026Secure!"
-CLOUDFLARE_DOMAIN="cloutscape.org"
+DB_NAME="degensden_db"
+DB_USER="degensden_user"
+DB_PASS="Degens¤Den2026Secure!"
+CLOUDFLARE_DOMAIN="degensden.org"
 
 # Create logs directory
 mkdir -p "$APP_DIR/logs"
@@ -184,14 +184,14 @@ To complete the Cloudflare Tunnel setup, run these commands:
    ${CYAN}cloudflared tunnel login${NC}
 
 2. Create tunnel:
-   ${CYAN}cloudflared tunnel create cloutscape-prod${NC}
+   ${CYAN}cloudflared tunnel create degensden-prod${NC}
 
 3. Route DNS:
-   ${CYAN}cloudflared tunnel route dns cloutscape-prod cloutscape.org${NC}
-   ${CYAN}cloudflared tunnel route dns cloutscape-prod www.cloutscape.org${NC}
+   ${CYAN}cloudflared tunnel route dns degensden-prod degensden.org${NC}
+   ${CYAN}cloudflared tunnel route dns degensden-prod www.degensden.org${NC}
 
 4. Start tunnel (in a separate terminal or as service):
-   ${CYAN}cloudflared tunnel run cloutscape-prod${NC}
+   ${CYAN}cloudflared tunnel run degensden-prod${NC}
 
 Or install as a service:
    ${CYAN}sudo cloudflared service install${NC}
@@ -205,10 +205,10 @@ ${YELLOW}═══════════════════════�
 ###############################################################################
 log "=== Step 7: Creating Systemd Service ===" "$CYAN"
 
-SERVICE_FILE="/etc/systemd/system/cloutscape.service"
+SERVICE_FILE="/etc/systemd/system/degensden.service"
 sudo tee "$SERVICE_FILE" > /dev/null << EOF
 [Unit]
-Description=CloutScape Casino Platform
+Description=Degens¤Den Casino Platform
 After=network.target mysql.service
 
 [Service]
@@ -221,7 +221,7 @@ Restart=always
 RestartSec=10
 StandardOutput=journal
 StandardError=journal
-SyslogIdentifier=cloutscape
+SyslogIdentifier=degensden
 
 [Install]
 WantedBy=multi-user.target
@@ -236,13 +236,13 @@ log "✓ Systemd service created"
 log "=== Step 8: Starting Application ===" "$CYAN"
 
 # Stop existing service if running
-sudo systemctl stop cloutscape 2>/dev/null || true
+sudo systemctl stop degensden 2>/dev/null || true
 
 # Start the service
-sudo systemctl start cloutscape || error "Failed to start CloutScape service"
-sudo systemctl enable cloutscape
+sudo systemctl start degensden || error "Failed to start Degens¤Den service"
+sudo systemctl enable degensden
 
-log "✓ CloutScape service started and enabled"
+log "✓ Degens¤Den service started and enabled"
 
 ###############################################################################
 # Step 9: Health Check
@@ -254,7 +254,7 @@ sleep 5
 if curl -s http://localhost:3000 > /dev/null; then
     log "✓ Application is responding on http://localhost:3000"
 else
-    warning "Application may not be ready yet. Check logs with: journalctl -u cloutscape -f"
+    warning "Application may not be ready yet. Check logs with: journalctl -u degensden -f"
 fi
 
 ###############################################################################
@@ -272,10 +272,10 @@ ${CYAN}Application Status:${NC}
   • Domain: https://$CLOUDFLARE_DOMAIN (after tunnel setup)
   
 ${CYAN}Useful Commands:${NC}
-  • View logs:      ${YELLOW}journalctl -u cloutscape -f${NC}
-  • Restart app:    ${YELLOW}sudo systemctl restart cloutscape${NC}
-  • Stop app:       ${YELLOW}sudo systemctl stop cloutscape${NC}
-  • App status:     ${YELLOW}sudo systemctl status cloutscape${NC}
+  • View logs:      ${YELLOW}journalctl -u degensden -f${NC}
+  • Restart app:    ${YELLOW}sudo systemctl restart degensden${NC}
+  • Stop app:       ${YELLOW}sudo systemctl stop degensden${NC}
+  • App status:     ${YELLOW}sudo systemctl status degensden${NC}
   
 ${CYAN}Database Info:${NC}
   • Database:       $DB_NAME
@@ -289,7 +289,7 @@ ${CYAN}Next Steps:${NC}
   4. Start making that crypto! 💰🎰
 
 ${CYAN}Support:${NC}
-  • GitHub: https://github.com/damienmarx/CloutxMi
+  • GitHub: https://github.com/damienmarx/degensden
   • Logs: $LOG_FILE
 
 ${GREEN}════════════════════════════════════════════════════════════════${NC}

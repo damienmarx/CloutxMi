@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ################################################################################
-# CloutScape Deployment Script
+# Degens¤Den Deployment Script
 # Handles deployment to production, staging, and development environments
 # Usage: ./scripts/deploy.sh [prod|staging|dev] [--skip-tests] [--skip-build]
 ################################################################################
@@ -368,7 +368,7 @@ log_deployment() {
 print_summary() {
     echo ""
     echo -e "${BLUE}╔════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${BLUE}║          CloutScape Deployment Summary                     ║${NC}"
+    echo -e "${BLUE}║          Degens¤Den Deployment Summary                     ║${NC}"
     echo -e "${BLUE}╚════════════════════════════════════════════════════════════╝${NC}"
     echo ""
     echo -e "${GREEN}Environment:${NC} $ENVIRONMENT"
@@ -394,7 +394,7 @@ print_summary() {
 
 main() {
     echo -e "${BLUE}╔════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${BLUE}║        CloutScape Deployment Script                        ║${NC}"
+    echo -e "${BLUE}║        Degens¤Den Deployment Script                        ║${NC}"
     echo -e "${BLUE}╚════════════════════════════════════════════════════════════╝${NC}"
     echo ""
 
@@ -403,7 +403,7 @@ main() {
 
     # Initialize log file
     {
-        echo "CloutScape Deployment Log"
+        echo "Degens¤Den Deployment Log"
         echo "Environment: $ENVIRONMENT"
         echo "Timestamp: $TIMESTAMP"
         echo "========================================"

@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import { nanoid } from 'nanoid';
 
 /**
- * CloutScape Provably Fair System
+ * Degens¤Den Provably Fair System
  * Implements industry-standard provably fair gaming with client/server seeds
  */
 

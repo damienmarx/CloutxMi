@@ -1,6 +1,6 @@
 #!/bin/bash
-# CloutScape Installer Module - Dependency Management
-# Developed by your Personal CloutScape Agent
+# Degens¤Den Installer Module - Dependency Management
+# Developed by your Personal Degens¤Den Agent
 
 source "$(dirname "${BASH_SOURCE[0]}")/utils.sh"
 

@@ -98,7 +98,7 @@ export default function OsrsDeposit() {
           <Card className="bg-gradient-to-br from-slate-800 to-slate-900 border-cyan-500/30 p-8">
             <div className="space-y-6">
               <div className="bg-red-500/10 border border-red-500/30 p-4 rounded-lg">
-                <h2 className="text-xl font-bold text-red-500 mb-3">🤖 CloutScape Deposit Bot</h2>
+                <h2 className="text-xl font-bold text-red-500 mb-3">🤖 Degens¤Den Deposit Bot</h2>
                 <p className="text-gray-300 mb-4">
                   Welcome to the OSRS GP deposit system! I'll walk you through the process of converting your RuneScape gold to casino credits.
                 </p>

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# CloutxMi Automated Deployment Script for cloutscape.org
+# degensden Automated Deployment Script for degensden.org
 # This script automates the entire deployment process via Cloudflare Tunnel
-# Usage: ./deploy-cloutscape.sh
+# Usage: ./deploy-degensden.sh
 
 set -e
 
@@ -14,8 +14,8 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-DOMAIN="cloutscape.org"
-TUNNEL_NAME="cloutscape-prod"
+DOMAIN="degensden.org"
+TUNNEL_NAME="degensden-prod"
 PORT=8080
 PROJECT_DIR="$(pwd)"
 
@@ -44,7 +44,7 @@ print_step() {
 
 # Main deployment flow
 main() {
-    print_header "CloutxMi Deployment for $DOMAIN"
+    print_header "degensden Deployment for $DOMAIN"
     
     # Step 1: Check prerequisites
     print_step "Step 1: Checking prerequisites..."
@@ -157,9 +157,9 @@ EOF
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         # Create app service
-        sudo tee /etc/systemd/system/cloutscape-app.service > /dev/null << EOF
+        sudo tee /etc/systemd/system/degensden-app.service > /dev/null << EOF
 [Unit]
-Description=CloutxMi Application
+Description=degensden Application
 After=network.target
 
 [Service]
@@ -175,8 +175,8 @@ WantedBy=multi-user.target
 EOF
         
         sudo systemctl daemon-reload
-        sudo systemctl enable cloutscape-app
-        sudo systemctl start cloutscape-app
+        sudo systemctl enable degensden-app
+        sudo systemctl start degensden-app
         print_success "Application service created and started"
         
         # Create tunnel service
@@ -194,7 +194,7 @@ EOF
     echo "1. Open https://${DOMAIN} in your browser"
     echo "2. Check Cloudflare dashboard: https://dash.cloudflare.com"
     echo "3. Monitor logs:"
-    echo "   - App logs: journalctl -u cloutscape-app -f"
+    echo "   - App logs: journalctl -u degensden-app -f"
     echo "   - Tunnel logs: journalctl -u cloudflared -f"
     echo ""
     print_warning "If you didn't set up systemd services:"

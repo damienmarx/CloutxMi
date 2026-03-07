@@ -180,8 +180,8 @@
 ## 🎨 BRANDING - MIXED AS REQUESTED
 
 ### **Homepage Title**: "DEGENS DEN"
-### **Site Branding**: "CloutScape" throughout
-### **Productions**: "CloutScape / Degens Den Productions"
+### **Site Branding**: "Degens¤Den" throughout
+### **Productions**: "Degens¤Den / Degens Den Productions"
 
 **Implementation**:
 ```typescript
@@ -189,8 +189,8 @@
 <h1>DEGENS DEN</h1>  // Main title
 
 // Rest of site
-<header>CloutScape</header>
-<footer>CloutScape / Degens Den Productions</footer>
+<header>Degens¤Den</header>
+<footer>Degens¤Den / Degens Den Productions</footer>
 ```
 
 ---
@@ -201,7 +201,7 @@
 
 1. **Create Discord Bot**:
    - Go to https://discord.com/developers/applications
-   - Create new application: "CloutScape Bot"
+   - Create new application: "Degens¤Den Bot"
    - Go to Bot tab → Add Bot
    - Copy bot token
    - Enable intents: Server Members, Message Content
@@ -419,7 +419,7 @@ if (process.env.DISCORD_BOT_TOKEN) {
 2. Add sound effects
 3. Connect Discord bot
 4. Test all games
-5. Deploy to cloutscape.org
+5. Deploy to degensden.org
 
 ---
 
@@ -435,6 +435,6 @@ if (process.env.DISCORD_BOT_TOKEN) {
 
 ---
 
-**CloutScape / Degens Den Productions**
+**Degens¤Den / Degens Den Productions**
 *Professional Crypto Casino Platform*
 *All Systems Go - Ready for Frontend! 🎰💎*

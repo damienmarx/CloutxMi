@@ -1,5 +1,5 @@
 /**
- * CloutScape Wallet System
+ * Degens¤Den Wallet System
  * Handles balance tracking, deposits, withdrawals, and transactions
  * Theme: Obsidian (#000000) with Gold (#FFD700) accents
  */

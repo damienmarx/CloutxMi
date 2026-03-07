@@ -46,14 +46,14 @@ export const TermsModal: React.FC<TermsModalProps> = ({
 
 ## II. Terms & Conditions
 
-By entering the Degens♧Den and utilizing CloutScape, you agree to:
+By entering the Degens♧Den and utilizing Degens¤Den, you agree to:
 
 - You must be at least 18 years of age or the legal gambling age in your jurisdiction.
 - It is your sole responsibility to ensure participation is legal in your jurisdiction.
 - You are solely responsible for maintaining account confidentiality.
 - Any attempts at cheating or exploiting bugs will result in permanent banishment.
-- All disputes will be handled by the CloutScape Admin Council.
-- CloutScape provides services "as is" with no liability for losses.
+- All disputes will be handled by the Degens¤Den Admin Council.
+- Degens¤Den provides services "as is" with no liability for losses.
 - Participation in Refer-a-Degen program is subject to specific terms.
 
 By proceeding, you acknowledge that you have read and understood these terms.

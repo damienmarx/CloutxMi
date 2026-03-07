@@ -1,13 +1,13 @@
 #!/bin/bash
-# CloutScape Deployment Script for UpCloud
+# Degens¤Den Deployment Script for UpCloud
 # This script is designed to be run on the target UpCloud server.
 
 set -e
 
 # Configuration
-LOG_FILE="/var/log/cloutscape_deploy.log"
-APP_DIR="/var/www/CloutScape"
-DOMAIN="cloutscape.org"
+LOG_FILE="/var/log/degensden_deploy.log"
+APP_DIR="/var/www/Degens¤Den"
+DOMAIN="degensden.org"
 
 # Logging function
 log() {
@@ -34,7 +34,7 @@ handle_error() {
 
 trap handle_error ERR
 
-log "INFO" "Starting CloutScape deployment on UpCloud..."
+log "INFO" "Starting Degens¤Den deployment on UpCloud..."
 
 # 1. System Dependencies
 log "INFO" "Installing system dependencies..."
@@ -55,9 +55,9 @@ sudo npm install -g pnpm pm2 2>&1 | sudo tee -a "$LOG_FILE"
 
 # 4. Database Setup
 log "INFO" "Configuring MySQL database..."
-sudo mysql -e "CREATE DATABASE IF NOT EXISTS cloutscape_production;"
-sudo mysql -e "CREATE USER IF NOT EXISTS 'clout_admin'@'localhost' IDENTIFIED BY 'CloutScape_Secure_2026!';"
-sudo mysql -e "GRANT ALL PRIVILEGES ON cloutscape_production.* TO 'clout_admin'@'localhost';"
+sudo mysql -e "CREATE DATABASE IF NOT EXISTS degensden_production;"
+sudo mysql -e "CREATE USER IF NOT EXISTS 'clout_admin'@'localhost' IDENTIFIED BY 'Degens¤Den_Secure_2026!';"
+sudo mysql -e "GRANT ALL PRIVILEGES ON degensden_production.* TO 'clout_admin'@'localhost';"
 sudo mysql -e "FLUSH PRIVILEGES;"
 
 # 5. Application Build
@@ -68,8 +68,8 @@ pnpm run build 2>&1 | sudo tee -a "$LOG_FILE"
 
 # 6. Process Management
 log "INFO" "Starting application with PM2..."
-pm2 delete cloutscape || true
-NODE_ENV=production pm2 start dist/index.js --name "cloutscape" 2>&1 | sudo tee -a "$LOG_FILE"
+pm2 delete degensden || true
+NODE_ENV=production pm2 start dist/index.js --name "degensden" 2>&1 | sudo tee -a "$LOG_FILE"
 pm2 save
 # Setup PM2 to start on boot
 pm2 startup | grep "sudo env" | bash || true
@@ -82,7 +82,7 @@ server {
     server_name $DOMAIN www.$DOMAIN;
 
     location / {
-        proxy_pass http://cloutscape.org;
+        proxy_pass http://degensden.org;
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection 'upgrade';

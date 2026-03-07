@@ -20,12 +20,12 @@ export default function LegalDisclaimers() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-[var(--foreground)] text-lg leading-relaxed">
-              <strong>IMPORTANT DISCLAIMER:</strong> CloutScape is an independent cryptocurrency casino platform and is <strong>NOT</strong> affiliated with, endorsed by, or connected to Jagex Ltd, the creators of Old School RuneScape (OSRS), in any way.
+              <strong>IMPORTANT DISCLAIMER:</strong> Degens¤Den is an independent cryptocurrency casino platform and is <strong>NOT</strong> affiliated with, endorsed by, or connected to Jagex Ltd, the creators of Old School RuneScape (OSRS), in any way.
             </p>
             
             <div className="glass-card p-4 border border-[var(--neon-red)]">
               <ul className="list-disc list-inside space-y-2 text-[var(--muted-foreground)]">
-                <li>CloutScape is not an official Jagex product or service</li>
+                <li>Degens¤Den is not an official Jagex product or service</li>
                 <li>We are not authorized or licensed by Jagex Ltd</li>
                 <li>OSRS themes and references are for entertainment purposes only</li>
                 <li>All trademarks belong to their respective owners</li>
@@ -86,7 +86,7 @@ export default function LegalDisclaimers() {
                   <li>Verified fraud or security breaches</li>
                 </ul>
                 <p className="mt-2 text-[var(--foreground)] font-semibold">
-                  All refund requests must be submitted to support@cloutscape.org with evidence.
+                  All refund requests must be submitted to support@degensden.org with evidence.
                 </p>
               </div>
             </div>
@@ -109,7 +109,7 @@ export default function LegalDisclaimers() {
             </div>
 
             <div className="space-y-3 text-[var(--foreground)]">
-              <p><strong>By using CloutScape, you confirm:</strong></p>
+              <p><strong>By using Degens¤Den, you confirm:</strong></p>
               <ul className="list-disc list-inside ml-4 space-y-1 text-[var(--muted-foreground)]">
                 <li>You are at least 18 years of age (or legal gambling age in your jurisdiction)</li>
                 <li>Online gambling is legal in your country/state of residence</li>
@@ -129,7 +129,7 @@ export default function LegalDisclaimers() {
           </CardHeader>
           <CardContent className="space-y-4 text-[var(--foreground)]">
             <p>
-              CloutScape is committed to promoting responsible gambling. We provide tools to help you stay in control:
+              Degens¤Den is committed to promoting responsible gambling. We provide tools to help you stay in control:
             </p>
 
             <div className="glass-card p-4">
@@ -164,7 +164,7 @@ export default function LegalDisclaimers() {
           </CardHeader>
           <CardContent className="space-y-4 text-[var(--foreground)]">
             <p>
-              <strong>All games on CloutScape are provably fair.</strong> Every game result can be independently verified using cryptographic hashing.
+              <strong>All games on Degens¤Den are provably fair.</strong> Every game result can be independently verified using cryptographic hashing.
             </p>
 
             <div className="glass-card p-4">
@@ -196,7 +196,7 @@ export default function LegalDisclaimers() {
               These terms are governed by international law. Users are responsible for ensuring compliance with local gambling laws.
             </p>
             <p>
-              CloutScape reserves the right to refuse service to users from prohibited jurisdictions.
+              Degens¤Den reserves the right to refuse service to users from prohibited jurisdictions.
             </p>
           </CardContent>
         </Card>
@@ -213,7 +213,7 @@ export default function LegalDisclaimers() {
               For questions, concerns, or to report issues:
             </p>
             <div className="glass-card p-4">
-              <p className="text-neon-gold font-semibold">📧 Email: support@cloutscape.org</p>
+              <p className="text-neon-gold font-semibold">📧 Email: support@degensden.org</p>
               <p className="text-[var(--muted-foreground)] mt-2">
                 Response time: 24-48 hours
               </p>
@@ -224,7 +224,7 @@ export default function LegalDisclaimers() {
         {/* Agreement */}
         <div className="glass-card p-8 text-center border-2 border-[var(--gold-primary)]">
           <p className="text-xl text-[var(--foreground)] font-semibold mb-4">
-            By using CloutScape, you acknowledge that you have read, understood, and agree to all terms and disclaimers stated above.
+            By using Degens¤Den, you acknowledge that you have read, understood, and agree to all terms and disclaimers stated above.
           </p>
           <p className="text-[var(--muted-foreground)]">
             Last Updated: March 2026

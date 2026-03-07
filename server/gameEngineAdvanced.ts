@@ -1,5 +1,5 @@
 /**
- * CloutScape Game Engine
+ * Degens¤Den Game Engine
  * Implements 7 core games with provably fair RNG
  * Games: Dice, Crash, Slots, Blackjack, Roulette, Keno, Poker
  */

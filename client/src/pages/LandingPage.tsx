@@ -285,7 +285,7 @@ export default function LandingPage() {
         <div className="navbar-content">
           <div className="navbar-brand">
             <div className="navbar-logo">💎</div>
-            <span>CloutScape</span>
+            <span>Degens¤Den</span>
           </div>
           <div className="navbar-nav">
             <a href="#features" className="navbar-nav-item">
@@ -294,7 +294,7 @@ export default function LandingPage() {
             <a href="#about" className="navbar-nav-item">
               About
             </a>
-            <a href="mailto:support@cloutscape.org" className="navbar-nav-item">
+            <a href="mailto:support@degensden.org" className="navbar-nav-item">
               Contact
             </a>
           </div>
@@ -306,15 +306,15 @@ export default function LandingPage() {
         <div className="hero-content">
           {/* Hero Image */}
           <img
-            src="/cloutscape-hero.jpg"
-            alt="CloutScape"
+            src="/degensden-hero.jpg"
+            alt="Degens¤Den"
             className="hero-image"
             onError={(e) => {
               e.currentTarget.style.display = "none";
             }}
           />
 
-          <h1 className="hero-title">CloutScape</h1>
+          <h1 className="hero-title">Degens¤Den</h1>
           <p className="hero-subtitle">Where Legends Are Made</p>
           <p className="hero-description">
             Experience the ultimate gaming platform with provably fair games,
@@ -519,7 +519,7 @@ export default function LandingPage() {
         <div className="container">
           <div className="footer-content">
             <div className="footer-section">
-              <h4 className="footer-title">CloutScape</h4>
+              <h4 className="footer-title">Degens¤Den</h4>
               <p className="footer-text">
                 The ultimate gaming platform with provably fair games and secure crypto integration.
               </p>
@@ -528,7 +528,7 @@ export default function LandingPage() {
               <h4 className="footer-title">Support</h4>
               <ul className="footer-links">
                 <li>
-                  <a href="mailto:support@cloutscape.org">Email Support</a>
+                  <a href="mailto:support@degensden.org">Email Support</a>
                 </li>
                 <li>
                   <a href="/faq">FAQ</a>
@@ -554,8 +554,8 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="footer-bottom">
-            <p>&copy; 2024 CloutScape. All rights reserved.</p>
-            <p>Developed by CloutScape Developer Team</p>
+            <p>&copy; 2024 Degens¤Den. All rights reserved.</p>
+            <p>Developed by Degens¤Den Developer Team</p>
           </div>
         </div>
       </footer>

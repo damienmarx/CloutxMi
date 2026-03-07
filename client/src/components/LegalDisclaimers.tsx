@@ -10,11 +10,11 @@ export const LegalDisclaimers: React.FC = () => {
           <h2 className="text-xl font-bold uppercase tracking-tighter italic">Responsible Gaming</h2>
         </div>
         <p className="mb-4">
-          CloutScape is a high-stakes entertainment platform. Gambling involves significant risk and can be addictive. 
+          Degens¤Den is a high-stakes entertainment platform. Gambling involves significant risk and can be addictive. 
           Please play responsibly. Only wager what you can afford to lose.
         </p>
         <p>
-          Must be 18 years or older to participate. By using cloutscape.org, you confirm you are of legal age 
+          Must be 18 years or older to participate. By using degensden.org, you confirm you are of legal age 
           in your jurisdiction.
         </p>
       </section>
@@ -25,8 +25,8 @@ export const LegalDisclaimers: React.FC = () => {
           <h2 className="text-xl font-bold uppercase tracking-tighter italic">Platform Rights & Terms</h2>
         </div>
         <p className="mb-4">
-          © 2026 CloutScape. All rights reserved. The "CloutScape" brand, software, and OSRS-themed assets 
-          are the property of CloutScape.
+          © 2026 Degens¤Den. All rights reserved. The "Degens¤Den" brand, software, and OSRS-themed assets 
+          are the property of Degens¤Den.
         </p>
         <p>
           We reserve the right to refuse service, terminate accounts, or cancel wagers at our discretion 
@@ -40,7 +40,7 @@ export const LegalDisclaimers: React.FC = () => {
           <h2 className="text-xl font-bold uppercase tracking-tighter italic">Provably Fair & RNG</h2>
         </div>
         <p>
-          All games on cloutscape.org utilize a cryptographically secure Provably Fair system. 
+          All games on degensden.org utilize a cryptographically secure Provably Fair system. 
           Results are generated using a combination of server seeds, client seeds, and nonces, 
           allowing any user to independently verify the fairness of every single wager.
         </p>

@@ -62,7 +62,7 @@ export default function LegalCompliance() {
     <div className="container mx-auto py-12">
       <div className="mb-8 text-center">
         <h1 className="text-4xl font-extrabold gradient-text-gold tracking-tight mb-2">Legal & Compliance</h1>
-        <p className="text-muted-foreground text-lg">Important Information About CloutScape</p>
+        <p className="text-muted-foreground text-lg">Important Information About Degens¤Den</p>
       </div>
 
       {/* Tabs */}
@@ -102,7 +102,7 @@ export default function LegalCompliance() {
                 <div>
                   <h3 className="text-lg font-semibold text-red-300">Important Notice</h3>
                   <p className="text-red-200">
-                    CloutScape is <strong>NOT affiliated with, endorsed by, or associated with Jagex Ltd.</strong> or RuneScape / Old School RuneScape (OSRS).
+                    Degens¤Den is <strong>NOT affiliated with, endorsed by, or associated with Jagex Ltd.</strong> or RuneScape / Old School RuneScape (OSRS).
                   </p>
                 </div>
               </div>
@@ -111,7 +111,7 @@ export default function LegalCompliance() {
                 <section>
                   <h4 className="text-lg font-semibold text-foreground">1. No Official Relationship</h4>
                   <p>
-                    CloutScape is an independent gaming platform created and operated by third parties. We are not affiliated with, endorsed by, or connected to Jagex Ltd., RuneScape, or Old School RuneScape in any official capacity.
+                    Degens¤Den is an independent gaming platform created and operated by third parties. We are not affiliated with, endorsed by, or connected to Jagex Ltd., RuneScape, or Old School RuneScape in any official capacity.
                   </p>
                 </section>
 
@@ -128,12 +128,12 @@ export default function LegalCompliance() {
                 <section>
                   <h4 className="text-lg font-semibold text-foreground">3. OSRS Gold Trading</h4>
                   <p>
-                    CloutScape facilitates the conversion of OSRS gold to fiat currency (USD/CAD) for entertainment purposes. Users acknowledge that:
+                    Degens¤Den facilitates the conversion of OSRS gold to fiat currency (USD/CAD) for entertainment purposes. Users acknowledge that:
                   </p>
                   <ul className="list-disc list-inside ml-4 space-y-1">
                     <li>Trading OSRS gold may violate Jagex's Terms of Service</li>
                     <li>Accounts involved in gold trading may be subject to suspension or permanent ban by Jagex</li>
-                    <li>CloutScape is not responsible for any account actions taken by Jagex</li>
+                    <li>Degens¤Den is not responsible for any account actions taken by Jagex</li>
                     <li>Users assume all risk associated with OSRS gold trading</li>
                   </ul>
                 </section>
@@ -141,7 +141,7 @@ export default function LegalCompliance() {
                 <section>
                   <h4 className="text-lg font-semibold text-foreground">4. No Warranty</h4>
                   <p>
-                    CloutScape provides services "as is" without warranty. We are not responsible for:
+                    Degens¤Den provides services "as is" without warranty. We are not responsible for:
                   </p>
                   <ul className="list-disc list-inside ml-4 space-y-1">
                     <li>Account bans or suspensions from Jagex</li>
@@ -154,13 +154,13 @@ export default function LegalCompliance() {
                 <section>
                   <h4 className="text-lg font-semibold text-foreground">5. User Responsibility</h4>
                   <p>
-                    By using CloutScape, you acknowledge that:
+                    By using Degens¤Den, you acknowledge that:
                   </p>
                   <ul className="list-disc list-inside ml-4 space-y-1">
                     <li>You have read and understand Jagex's Terms of Service</li>
                     <li>You accept all risks associated with OSRS gold trading</li>
                     <li>You are responsible for your account security</li>
-                    <li>You will not hold CloutScape liable for account-related issues</li>
+                    <li>You will not hold Degens¤Den liable for account-related issues</li>
                   </ul>
                 </section>
 
@@ -191,7 +191,7 @@ export default function LegalCompliance() {
                 <div>
                   <h3 className="text-lg font-semibold text-green-300">Your Security is Our Priority</h3>
                   <p className="text-green-200">
-                    CloutScape employs industry-leading security measures to protect your account and funds.
+                    Degens¤Den employs industry-leading security measures to protect your account and funds.
                   </p>
                 </div>
               </div>
@@ -300,7 +300,7 @@ export default function LegalCompliance() {
                 <div>
                   <h3 className="text-lg font-semibold text-red-300">Gaming Should Be Fun</h3>
                   <p className="text-red-200">
-                    CloutScape is committed to promoting responsible gaming practices and player well-being.
+                    Degens¤Den is committed to promoting responsible gaming practices and player well-being.
                   </p>
                 </div>
               </div>
@@ -321,7 +321,7 @@ export default function LegalCompliance() {
 
                 <section>
                   <h3 className="text-lg font-semibold text-foreground">🛠️ Tools for Responsible Gaming</h3>
-                  <p>CloutScape provides several tools to help you manage your gaming habits:</p>
+                  <p>Degens¤Den provides several tools to help you manage your gaming habits:</p>
                   <ul className="list-disc list-inside ml-4 space-y-1">
                     <li><strong>Deposit Limits:</strong> Set daily, weekly, or monthly limits on how much you can deposit.</li>
                     <li><strong>Loss Limits:</strong> Set limits on how much you can lose over a specific period.</li>
@@ -367,7 +367,7 @@ export default function LegalCompliance() {
           <GlassCard accent="blue" className="p-6">
             <h2 className="text-2xl font-bold mb-4">Age Verification</h2>
             <p className="text-muted-foreground mb-6">
-              To comply with regulations, we require all users to verify their age. You must be 18 years or older to use CloutScape.
+              To comply with regulations, we require all users to verify their age. You must be 18 years or older to use Degens¤Den.
             </p>
 
             {user?.isAgeVerified ? (
@@ -375,7 +375,7 @@ export default function LegalCompliance() {
                 <CheckCircle className="w-5 h-5 text-neon-green flex-shrink-0 mt-0.5" />
                 <div>
                   <h3 className="text-lg font-semibold text-green-300">Age Verified</h3>
-                  <p className="text-green-200">Thank you for verifying your age. You have full access to CloutScape.</p>
+                  <p className="text-green-200">Thank you for verifying your age. You have full access to Degens¤Den.</p>
                 </div>
               </div>
             ) : (
@@ -405,7 +405,7 @@ export default function LegalCompliance() {
           <GlassCard accent="red" className="p-6">
             <h2 className="text-2xl font-bold mb-4">Self-Exclusion</h2>
             <p className="text-muted-foreground mb-6">
-              If you wish to take a break from gambling, you can self-exclude yourself from CloutScape for a specified period.
+              If you wish to take a break from gambling, you can self-exclude yourself from Degens¤Den for a specified period.
             </p>
 
             {user?.selfExclusionUntil && new Date(user.selfExclusionUntil) > new Date() ? (

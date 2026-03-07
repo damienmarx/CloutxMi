@@ -354,4 +354,4 @@ const [playWin] = useSound('/sounds/win.mp3');
 
 **STATUS**: Dice page complete, others need implementation following same pattern.
 
-**CloutScape / Degens Den Productions**
+**Degens¤Den / Degens Den Productions**

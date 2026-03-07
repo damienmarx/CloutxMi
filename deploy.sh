@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Master All-in-One Deployment Script for CloutScape on Ubuntu
+# Master All-in-One Deployment Script for Degens¤Den on Ubuntu
 # This script automates the entire setup: Installs free tools (Node.js, PostgreSQL, pnpm, git, cloudflared), sets up a free local PostgreSQL database, clones your repo, configures .env, deploys the app as a systemd service, and exposes it via Cloudflare Tunnel for free public access (HTTPS).
 # Totally free: Uses open-source tools, no paid services required (Cloudflare free tier for Tunnel/DNS).
 # Guided: Prompts for all inputs with clear instructions.
@@ -16,15 +16,15 @@ set -euo pipefail
 LOG_FILE="deploy-master.log"
 MAX_RETRIES=3
 BACKOFF_START=2
-REPO_URL="https://github.com/damienmarx/CloutxMi.git"
-APP_DIR="$HOME/CloutScape"
+REPO_URL="https://github.com/damienmarx/degensden.git"
+APP_DIR="$HOME/Degens¤Den"
 DB_NAME=""
 DB_USER=""
 DB_PASS=""
 DOMAIN=""
 API_SUBDOMAIN="api"
 CLOUDFLARED_CONFIG_DIR="$HOME/.cloudflared"
-TUNNEL_NAME="cloutscape-tunnel"
+TUNNEL_NAME="degensden-tunnel"
 FRONTEND_PORT=3000
 BACKEND_PORT=4000  # Adjust if your app uses different; assumes concurrent in pnpm dev
 NODE_VERSION="22"
@@ -76,10 +76,10 @@ sudo systemctl start postgresql
 sudo systemctl enable postgresql
 
 # Prompt for DB details
-read -p "Enter database name (default: cloutscape_db): " DB_NAME
-DB_NAME=${DB_NAME:-cloutscape_db}
-read -p "Enter database user (default: cloutscape_user): " DB_USER
-DB_USER=${DB_USER:-cloutscape_user}
+read -p "Enter database name (default: degensden_db): " DB_NAME
+DB_NAME=${DB_NAME:-degensden_db}
+read -p "Enter database user (default: degensden_user): " DB_USER
+DB_USER=${DB_USER:-degensden_user}
 read -s -p "Enter database password: " DB_PASS
 echo ""
 
@@ -124,7 +124,7 @@ cloudflared --version || error_exit "cloudflared install failed."
 # Prompt for Cloudflare details
 log "Go to dash.cloudflare.com/profile/api-tokens, create a token with 'Zero Trust: Edit' and 'DNS: Edit'."
 read -p "Enter Cloudflare API Token: " API_TOKEN
-read -p "Enter your domain (e.g., cloutscape.org): " DOMAIN
+read -p "Enter your domain (e.g., degensden.org): " DOMAIN
 read -p "Enter Zone ID (from dashboard Overview): " ZONE_ID
 
 # Authenticate
@@ -171,9 +171,9 @@ log "Tunnel service running."
 
 # Step 7: Deploy App as Systemd Service
 log "Step 7: Deploying app as systemd service..."
-cat > /etc/systemd/system/cloutscape.service << EOF
+cat > /etc/systemd/system/degensden.service << EOF
 [Unit]
-Description=CloutScape App
+Description=Degens¤Den App
 After=network.target postgresql.service
 
 [Service]
@@ -187,8 +187,8 @@ EnvironmentFile=$APP_DIR/.env
 WantedBy=multi-user.target
 EOF
 sudo systemctl daemon-reload
-sudo systemctl start cloutscape
-sudo systemctl enable cloutscape
+sudo systemctl start degensden
+sudo systemctl enable degensden
 log "App deployed."
 
 # Step 8: Health Check
@@ -196,4 +196,4 @@ log "Step 8: Verifying deployment..."
 sleep 30  # Wait for startup/DNS
 curl -sI "https://$DOMAIN" | grep -q "HTTP" || error_exit "Frontend check failed. Check logs."
 curl -sI "https://$API_SUBDOMAIN.$DOMAIN" | grep -q "HTTP" || log "Backend check optional if ports differ."
-log "Deployment complete! Access at https://$DOMAIN. Logs in $LOG_FILE and journalctl -u cloutscape."
+log "Deployment complete! Access at https://$DOMAIN. Logs in $LOG_FILE and journalctl -u degensden."

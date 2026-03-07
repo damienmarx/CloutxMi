@@ -1,9 +1,9 @@
-# 🚀 CloutScape Quick Launch Guide for Ubuntu
+# 🚀 Degens¤Den Quick Launch Guide for Ubuntu
 
 ## One-Command Launch
 
 ```bash
-git clone https://github.com/damienmarx/CloutxMi.git && cd CloutxMi && chmod +x deploy-production.sh && ./deploy-production.sh
+git clone https://github.com/damienmarx/degensden.git && cd degensden && chmod +x deploy-production.sh && ./deploy-production.sh
 ```
 
 That's it! The script will:
@@ -11,7 +11,7 @@ That's it! The script will:
 - ✅ Create and configure database
 - ✅ Build the application
 - ✅ Set up systemd service
-- ✅ Start CloutScape on port 3000
+- ✅ Start Degens¤Den on port 3000
 
 ---
 
@@ -30,7 +30,7 @@ This opens your browser to authenticate.
 ### 2. Create Tunnel
 
 ```bash
-cloudflared tunnel create cloutscape-prod
+cloudflared tunnel create degensden-prod
 ```
 
 Note the tunnel ID shown.
@@ -51,15 +51,15 @@ credentials-file: /root/.cloudflared/<TUNNEL_ID>.json
 ### 4. Route Your Domain
 
 ```bash
-cloudflared tunnel route dns cloutscape-prod cloutscape.org
-cloudflared tunnel route dns cloutscape-prod www.cloutscape.org
+cloudflared tunnel route dns degensden-prod degensden.org
+cloudflared tunnel route dns degensden-prod www.degensden.org
 ```
 
 ### 5. Start Tunnel
 
 **Option A: Run in terminal (testing)**
 ```bash
-cloudflared tunnel run cloutscape-prod
+cloudflared tunnel run degensden-prod
 ```
 
 **Option B: Install as service (production)**
@@ -80,46 +80,46 @@ sudo systemctl enable cloudflared
 
 2. **Check service status**
    ```bash
-   sudo systemctl status cloutscape
+   sudo systemctl status degensden
    ```
 
 3. **View logs**
    ```bash
-   sudo journalctl -u cloutscape -f
+   sudo journalctl -u degensden -f
    ```
 
 4. **Visit your site**
    - Local: http://localhost:3000
-   - Public: https://cloutscape.org (after tunnel setup)
+   - Public: https://degensden.org (after tunnel setup)
 
 ---
 
-## Managing CloutScape
+## Managing Degens¤Den
 
 ### Service Commands
 
 ```bash
 # Start
-sudo systemctl start cloutscape
+sudo systemctl start degensden
 
 # Stop
-sudo systemctl stop cloutscape
+sudo systemctl stop degensden
 
 # Restart
-sudo systemctl restart cloutscape
+sudo systemctl restart degensden
 
 # Status
-sudo systemctl status cloutscape
+sudo systemctl status degensden
 
 # Logs
-sudo journalctl -u cloutscape -f
+sudo journalctl -u degensden -f
 ```
 
 ### Database Access
 
 ```bash
-mysql -u cloutscape_user -p cloutscape_db
-# Password: CloutScape2026Secure!
+mysql -u degensden_user -p degensden_db
+# Password: Degens¤Den2026Secure!
 ```
 
 ### Update Application
@@ -129,7 +129,7 @@ cd /app
 git pull
 pnpm install
 pnpm build
-sudo systemctl restart cloutscape
+sudo systemctl restart degensden
 ```
 
 ---
@@ -209,7 +209,7 @@ This will automatically create all channels and roles!
 
 ```bash
 # Check logs
-sudo journalctl -u cloutscape -n 100
+sudo journalctl -u degensden -n 100
 
 # Check if port is in use
 lsof -i :3000
@@ -220,18 +220,18 @@ sudo systemctl restart mysql
 # Rebuild
 cd /app
 pnpm build
-sudo systemctl restart cloutscape
+sudo systemctl restart degensden
 ```
 
 ### Database Connection Failed
 
 ```bash
 # Test connection
-mysql -u cloutscape_user -p cloutscape_db
+mysql -u degensden_user -p degensden_db
 
 # Reset password
 sudo mysql
-ALTER USER 'cloutscape_user'@'localhost' IDENTIFIED BY 'CloutScape2026Secure!';
+ALTER USER 'degensden_user'@'localhost' IDENTIFIED BY 'Degens¤Den2026Secure!';
 FLUSH PRIVILEGES;
 EXIT;
 ```
@@ -240,7 +240,7 @@ EXIT;
 
 ```bash
 # Check tunnel status
-cloudflared tunnel info cloutscape-prod
+cloudflared tunnel info degensden-prod
 
 # View tunnel logs
 sudo journalctl -u cloudflared -f
@@ -309,7 +309,7 @@ sudo systemctl restart mysql
 
 ### 2. Node.js Memory
 
-Edit `/etc/systemd/system/cloutscape.service`:
+Edit `/etc/systemd/system/degensden.service`:
 
 ```ini
 Environment=NODE_OPTIONS=--max-old-space-size=4096
@@ -318,7 +318,7 @@ Environment=NODE_OPTIONS=--max-old-space-size=4096
 Reload and restart:
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl restart cloutscape
+sudo systemctl restart degensden
 ```
 
 ### 3. Enable gzip
@@ -336,7 +336,7 @@ Create `/app/scripts/backup-db.sh`:
 ```bash
 #!/bin/bash
 DATE=$(date +%Y%m%d_%H%M%S)
-mysqldump -u cloutscape_user -pCloutScape2026Secure! cloutscape_db > /app/backups/db_$DATE.sql
+mysqldump -u degensden_user -pDegens¤Den2026Secure! degensden_db > /app/backups/db_$DATE.sql
 # Keep last 7 days
 find /app/backups -name "db_*.sql" -mtime +7 -delete
 ```
@@ -357,10 +357,10 @@ crontab -e
 
 ```bash
 # Application logs
-sudo journalctl -u cloutscape -f
+sudo journalctl -u degensden -f
 
 # MySQL processes
-watch -n 1 'mysqladmin -u cloutscape_user -pCloutScape2026Secure! processlist'
+watch -n 1 'mysqladmin -u degensden_user -pDegens¤Den2026Secure! processlist'
 
 # System resources
 htop
@@ -382,8 +382,8 @@ sudo apt-get install mailutils
 Create alert script `/app/scripts/alert.sh`:
 ```bash
 #!/bin/bash
-if ! systemctl is-active --quiet cloutscape; then
-    echo "CloutScape is down!" | mail -s "ALERT: CloutScape Down" your@email.com
+if ! systemctl is-active --quiet degensden; then
+    echo "Degens¤Den is down!" | mail -s "ALERT: Degens¤Den Down" your@email.com
 fi
 ```
 
@@ -397,9 +397,9 @@ crontab -e
 
 ## Support
 
-- **Email**: support@cloutscape.org
-- **GitHub Issues**: https://github.com/damienmarx/CloutxMi/issues
-- **Logs**: `/app/logs/` and `sudo journalctl -u cloutscape`
+- **Email**: support@degensden.org
+- **GitHub Issues**: https://github.com/damienmarx/degensden/issues
+- **Logs**: `/app/logs/` and `sudo journalctl -u degensden`
 
 ---
 
@@ -407,15 +407,15 @@ crontab -e
 
 | Command | Purpose |
 |---------|---------|
-| `sudo systemctl restart cloutscape` | Restart application |
-| `sudo journalctl -u cloutscape -f` | View live logs |
-| `mysql -u cloutscape_user -p cloutscape_db` | Access database |
-| `cd /app && git pull && pnpm build && sudo systemctl restart cloutscape` | Update app |
-| `cloudflared tunnel run cloutscape-prod` | Start tunnel |
+| `sudo systemctl restart degensden` | Restart application |
+| `sudo journalctl -u degensden -f` | View live logs |
+| `mysql -u degensden_user -p degensden_db` | Access database |
+| `cd /app && git pull && pnpm build && sudo systemctl restart degensden` | Update app |
+| `cloudflared tunnel run degensden-prod` | Start tunnel |
 | `sudo systemctl status cloudflared` | Check tunnel status |
 
 ---
 
-**You're all set! CloutScape is now running on cloutscape.org 🎰💎**
+**You're all set! Degens¤Den is now running on degensden.org 🎰💎**
 
 For advanced features, payment processing, and custom modifications, refer to the main documentation.

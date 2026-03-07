@@ -1,5 +1,5 @@
 /**
- * CloutScape Casino UI Component Library
+ * Degens¤Den Casino UI Component Library
  *
  * Re-exports all casino-specific UI primitives from a single entry point.
  * Import from here in page components:

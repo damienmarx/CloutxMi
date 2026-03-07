@@ -13,10 +13,16 @@ import Dashboard from "./pages/Dashboard";
 import KenoGame from "./pages/KenoGame";
 import SlotsGame from "./pages/SlotsGame";
 import Slots3DGame from "./pages/Slots3DGame";
-import CrashGame from "./pages/CrashGame";
 import BlackjackGame from "./pages/BlackjackGame";
 import RouletteGame from "./pages/RouletteGame";
+// Premium game pages (Degens¤Den)
+import Dice from "./pages/Dice";
+import Crash from "./pages/Crash";
+import Plinko from "./pages/Plinko";
+import ProvablyFairLab from "./pages/ProvablyFairLab";
+// Legacy pages (still accessible)
 import DiceGame from "./pages/DiceGame";
+import CrashGame from "./pages/CrashGame";
 import Visualizers from "./pages/Visualizers";
 import LiveChat from "./pages/LiveChat";
 import LiveCommunity from "./pages/LiveCommunity";
@@ -36,13 +42,21 @@ function Router() {
       <Route path={"/register"} component={Register} />
       <Route path={"/forgot-password"} component={ForgotPassword} />
       <Route path={"/dashboard"} component={Dashboard} />
+
+      {/* Premium Degens¤Den game pages */}
+      <Route path={"/dice"} component={Dice} />
+      <Route path={"/crash"} component={Crash} />
+      <Route path={"/plinko"} component={Plinko} />
+      <Route path={"/verifier"} component={ProvablyFairLab} />
+
+      {/* Existing game pages */}
       <Route path={"/keno"} component={KenoGame} />
       <Route path={"/slots"} component={SlotsGame} />
       <Route path={"/slots-3d"} component={Slots3DGame} />
-      <Route path={"/crash"} component={CrashGame} />
       <Route path={"/blackjack"} component={BlackjackGame} />
       <Route path={"/roulette"} component={RouletteGame} />
-      <Route path={"/dice"} component={DiceGame} />
+
+      {/* Community & features */}
       <Route path={"/visualizers"} component={Visualizers} />
       <Route path={"/live-chat"} component={LiveChat} />
       <Route path={"/live-community"} component={LiveCommunity} />
@@ -54,7 +68,6 @@ function Router() {
       <Route path={"/mfa"} component={MfaManagement} />
       <Route path={"/legal"} component={LegalDisclaimers} />
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );

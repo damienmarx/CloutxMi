@@ -138,7 +138,7 @@ export const referralRouter = router({
         await db.insert(notifications).values({
           userId: referrerId,
           title: "New Referral Joined!",
-          message: `${input.username} just joined CloutScape using your referral code. You've earned a referral bonus!`,
+          message: `${input.username} just joined Degens¤Den using your referral code. You've earned a referral bonus!`,
           type: "referral",
           read: false,
           createdAt: new Date()

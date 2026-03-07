@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# CloutScape Master Deployment Script
+# Degens¤Den Master Deployment Script
 # This script handles environment setup and deployment to UpCloud with Railway fallback.
 
 set -e
@@ -73,7 +73,7 @@ deploy_railway() {
 }
 
 # Main execution
-log "INFO" "Starting CloutScape Master Setup & Deployment"
+log "INFO" "Starting Degens¤Den Master Setup & Deployment"
 
 # 1. Environment Setup
 log "INFO" "Setting up environment..."
@@ -98,4 +98,4 @@ pnpm run build 2>&1 | tee -a "$LOG_FILE"
 # 4. Primary Deployment (UpCloud)
 deploy_upcloud
 
-log "SUCCESS" "CloutScape deployment process completed."
+log "SUCCESS" "Degens¤Den deployment process completed."

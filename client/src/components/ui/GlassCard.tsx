@@ -21,7 +21,7 @@ const accentMap: Record<NonNullable<GlassCardProps["accent"]>, string> = {
  * GlassCard
  *
  * A frosted-glass surface card that forms the primary container primitive
- * across the CloutScape UI.  Drop it in anywhere you would use a plain `<div>`
+ * across the Degens¤Den UI.  Drop it in anywhere you would use a plain `<div>`
  * or shadcn `<Card>` and it will automatically adopt the glassmorphism style
  * defined in index.css.
  *

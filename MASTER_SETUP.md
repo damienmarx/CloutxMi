@@ -1,9 +1,9 @@
-# 🎰 CloutScape Master Setup Guide
+# 🎰 Degens¤Den Master Setup Guide
 
 ## 🚀 Ultra-Quick Launch (Ubuntu)
 
 ```bash
-git clone https://github.com/damienmarx/CloutxMi.git cloutscape && cd cloutscape && chmod +x deploy-production.sh && ./deploy-production.sh
+git clone https://github.com/damienmarx/degensden.git degensden && cd degensden && chmod +x deploy-production.sh && ./deploy-production.sh
 ```
 
 **That's literally it!** The script does EVERYTHING automatically.
@@ -16,7 +16,7 @@ git clone https://github.com/damienmarx/CloutxMi.git cloutscape && cd cloutscape
 ✅ pnpm package manager  
 ✅ MySQL 8.0 database
 ✅ All application dependencies
-✅ CloutScape application (built)
+✅ Degens¤Den application (built)
 ✅ Systemd service
 ✅ Cloudflared tunnel client
 ✅ Log rotation
@@ -24,7 +24,7 @@ git clone https://github.com/damienmarx/CloutxMi.git cloutscape && cd cloutscape
 
 ---
 
-## ☁️ Step 2: Connect to cloutscape.org
+## ☁️ Step 2: Connect to degensden.org
 
 After deployment script completes:
 
@@ -33,11 +33,11 @@ After deployment script completes:
 cloudflared tunnel login
 
 # 2. Create tunnel
-cloudflared tunnel create cloutscape-prod
+cloudflared tunnel create degensden-prod
 
 # 3. Route DNS
-cloudflared tunnel route dns cloutscape-prod cloutscape.org
-cloudflared tunnel route dns cloutscape-prod www.cloutscape.org
+cloudflared tunnel route dns degensden-prod degensden.org
+cloudflared tunnel route dns degensden-prod www.degensden.org
 
 # 4. Install as service
 sudo cloudflared service install
@@ -45,7 +45,7 @@ sudo systemctl start cloudflared
 sudo systemctl enable cloudflared
 ```
 
-**Done!** Visit https://cloutscape.org 🎉
+**Done!** Visit https://degensden.org 🎉
 
 ---
 
@@ -54,7 +54,7 @@ sudo systemctl enable cloudflared
 ### Create Discord Bot
 
 1. Go to https://discord.com/developers/applications
-2. Click "New Application" → Name it "CloutScape Bot"
+2. Click "New Application" → Name it "Degens¤Den Bot"
 3. Go to "Bot" tab → Click "Add Bot"
 4. Under "Privileged Gateway Intents", enable:
    - ✅ Server Members Intent
@@ -100,7 +100,7 @@ The bot will:
 - 👥 Create luxury roles (Diamond VIP, Platinum VIP, etc.)
 - 🔒 Set up permissions
 
-**Your Discord is now CloutScape-themed!**
+**Your Discord is now Degens¤Den-themed!**
 
 ### Bot Commands
 
@@ -196,7 +196,7 @@ VIP_DIAMOND_MIN_WAGER=500000
 
 Restart application:
 ```bash
-sudo systemctl restart cloutscape
+sudo systemctl restart degensden
 ```
 
 ---
@@ -214,13 +214,13 @@ ENCRYPTION_KEY=your_new_32_char_random_string
 SESSION_SECRET=your_new_32_char_random_string
 
 # Database password
-DATABASE_URL=mysql://cloutscape_user:YOUR_NEW_PASSWORD@localhost:3306/cloutscape_db
+DATABASE_URL=mysql://degensden_user:YOUR_NEW_PASSWORD@localhost:3306/degensden_db
 ```
 
 Update MySQL password:
 ```bash
 sudo mysql
-ALTER USER 'cloutscape_user'@'localhost' IDENTIFIED BY 'YOUR_NEW_PASSWORD';
+ALTER USER 'degensden_user'@'localhost' IDENTIFIED BY 'YOUR_NEW_PASSWORD';
 FLUSH PRIVILEGES;
 EXIT;
 ```
@@ -245,7 +245,7 @@ Add:
 ```bash
 #!/bin/bash
 DATE=$(date +%Y%m%d_%H%M%S)
-mysqldump -u cloutscape_user -pYOUR_PASSWORD cloutscape_db > /app/backups/db_$DATE.sql
+mysqldump -u degensden_user -pYOUR_PASSWORD degensden_db > /app/backups/db_$DATE.sql
 find /app/backups -name "db_*.sql" -mtime +7 -delete
 ```
 
@@ -260,11 +260,11 @@ crontab -e
 
 ## 👑 Step 7: Create Admin Account
 
-1. Visit https://cloutscape.org/register
+1. Visit https://degensden.org/register
 2. Register with your email
 3. Access database:
    ```bash
-   mysql -u cloutscape_user -p cloutscape_db
+   mysql -u degensden_user -p degensden_db
    ```
 4. Make yourself admin:
    ```sql
@@ -280,7 +280,7 @@ crontab -e
 
 ```bash
 # Application logs
-sudo journalctl -u cloutscape -f
+sudo journalctl -u degensden -f
 
 # Cloudflare tunnel logs
 sudo journalctl -u cloudflared -f
@@ -293,7 +293,7 @@ sudo tail -f /var/log/mysql/error.log
 
 ```bash
 # Restart app
-sudo systemctl restart cloutscape
+sudo systemctl restart degensden
 
 # Restart tunnel
 sudo systemctl restart cloudflared
@@ -302,14 +302,14 @@ sudo systemctl restart cloudflared
 sudo systemctl restart mysql
 
 # Check status
-sudo systemctl status cloutscape
+sudo systemctl status degensden
 ```
 
 ### Database Management
 
 ```bash
 # Access database
-mysql -u cloutscape_user -p cloutscape_db
+mysql -u degensden_user -p degensden_db
 
 # View recent bets
 SELECT * FROM transactions ORDER BY createdAt DESC LIMIT 10;
@@ -339,7 +339,7 @@ REFERRAL_TIER_3=0.01      # 3rd level: 1%
 
 ### How It Works
 
-1. User gets unique referral link: `https://cloutscape.org?ref=USERNAME`
+1. User gets unique referral link: `https://degensden.org?ref=USERNAME`
 2. New users sign up via link
 3. Referrer earns commission on ALL wagers
 4. Commission paid weekly/monthly (configurable)
@@ -367,13 +367,13 @@ LIMIT 10;
 
 ```bash
 # Check if app is running
-sudo systemctl status cloutscape
+sudo systemctl status degensden
 
 # Check tunnel
 sudo systemctl status cloudflared
 
 # View errors
-sudo journalctl -u cloutscape -n 100
+sudo journalctl -u degensden -n 100
 sudo journalctl -u cloudflared -n 100
 ```
 
@@ -381,7 +381,7 @@ sudo journalctl -u cloudflared -n 100
 
 ```bash
 # Test connection
-mysql -u cloutscape_user -p cloutscape_db
+mysql -u degensden_user -p degensden_db
 
 # Check MySQL status
 sudo systemctl status mysql
@@ -397,7 +397,7 @@ cd /app
 rm -rf node_modules .pnpm-store
 pnpm install
 pnpm build
-sudo systemctl restart cloutscape
+sudo systemctl restart degensden
 ```
 
 ### Discord Bot Not Responding
@@ -407,7 +407,7 @@ sudo systemctl restart cloutscape
 3. Verify bot is in your server
 4. Check bot logs:
    ```bash
-   sudo journalctl -u cloutscape -f | grep Discord
+   sudo journalctl -u degensden -f | grep Discord
    ```
 
 ---
@@ -427,7 +427,7 @@ sudo systemctl restart cloutscape
    ```
 
 2. **Add More Memory to Node**
-   Edit `/etc/systemd/system/cloutscape.service`:
+   Edit `/etc/systemd/system/degensden.service`:
    ```ini
    Environment=NODE_OPTIONS=--max-old-space-size=8192
    ```
@@ -470,9 +470,9 @@ Integrate Twitch/YouTube for:
 
 ## 📞 Support Channels
 
-- **Email**: support@cloutscape.org
+- **Email**: support@degensden.org
 - **Discord**: Your server
-- **GitHub**: https://github.com/damienmarx/CloutxMi/issues
+- **GitHub**: https://github.com/damienmarx/degensden/issues
 
 ---
 
@@ -484,7 +484,7 @@ Before going live:
 - [ ] Database is created and migrated
 - [ ] Service starts automatically
 - [ ] Cloudflare tunnel connected
-- [ ] https://cloutscape.org loads
+- [ ] https://degensden.org loads
 - [ ] Discord bot is online
 - [ ] Discord server is themed
 - [ ] Admin account created
@@ -506,7 +506,7 @@ Before going live:
 ```
         ⭐ CLOUTSCAPE IS RUNNING ⭐
         
-   💎 Domain: https://cloutscape.org
+   💎 Domain: https://degensden.org
    🎮 Games: 7 provably fair games  
    🤖 Discord: Automated & themed
    💰 Payments: Ready for deposits
@@ -520,7 +520,7 @@ Before going live:
 
 **Need help? Check logs first:**
 ```bash
-sudo journalctl -u cloutscape -f
+sudo journalctl -u degensden -f
 ```
 
 **Happy gaming! 🎲💎✨**

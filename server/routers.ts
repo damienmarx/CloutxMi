@@ -25,6 +25,7 @@ import { kenoGames, slotsGames } from "../drizzle/schema";
 import { nanoid } from "nanoid";
 import { getDb } from "./db";
 
+// Keep the original export name for backward compatibility
 export const createAppRouter = (pluginRouters: any[]) => {
   return router({
     system: systemRouter,
@@ -276,3 +277,6 @@ export const createAppRouter = (pluginRouters: any[]) => {
     }),
   });
 };
+
+// Export type for tRPC client — Degens¤Den
+export type AppRouter = ReturnType<typeof createAppRouter>;

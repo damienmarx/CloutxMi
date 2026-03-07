@@ -1,16 +1,16 @@
 #!/bin/bash
-# CloutScape Deployment Script for cloutscape.org
+# Degens¤Den Deployment Script for degensden.org
 # This script automates the setup of Node.js, Nginx, MySQL, and PM2 on an Ubuntu server.
 
 set -e
 
 # Configuration
-DOMAIN="cloutscape.org"
-REPO_URL="https://github.com/No6love9/CloutScape.git"
-APP_DIR="/var/www/CloutScape"
+DOMAIN="degensden.org"
+REPO_URL="https://github.com/No6love9/Degens¤Den.git"
+APP_DIR="/var/www/Degens¤Den"
 NODE_VERSION="20"
 
-echo "--- Starting CloutScape Deployment on $DOMAIN ---"
+echo "--- Starting Degens¤Den Deployment on $DOMAIN ---"
 
 # 1. Update System
 echo "Updating system packages..."
@@ -61,7 +61,7 @@ server {
     server_name $DOMAIN www.$DOMAIN;
 
     location / {
-        proxy_pass http://cloutscape.org;
+        proxy_pass http://degensden.org;
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -82,8 +82,8 @@ sudo systemctl restart nginx
 # 8. Start Application with PM2
 echo "Starting application with PM2..."
 # Note: Ensure .env is configured before this step in a real production environment
-pm2 delete cloutscape || true
-pm2 start pnpm --name "cloutscape" -- run start
+pm2 delete degensden || true
+pm2 start pnpm --name "degensden" -- run start
 pm2 save
 pm2 startup
 

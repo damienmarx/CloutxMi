@@ -6,7 +6,7 @@ import { initializeDatabase } from "./dbInit";
  * Cloudflare-Ready Update Module
  * 
  * This module provides utilities for seamless updates and management
- * of the CloutScape platform through Cloudflare tunnels.
+ * of the Degens¤Den platform through Cloudflare tunnels.
  */
 
 export interface PlatformStatus {
@@ -19,7 +19,7 @@ export interface PlatformStatus {
 
 const PLATFORM_CONFIG = {
   version: "1.1.0",
-  domain: "cloutscape.org",
+  domain: "degensden.org",
   maintenance: false,
 };
 

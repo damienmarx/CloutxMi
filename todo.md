@@ -1,4 +1,4 @@
-# CloutScape Production Launch - Development TODO
+# Degens¤Den Production Launch - Development TODO
 
 ## Phase 1: Repository Restructure & Cleanup
 - [x] Clone repository from GitHub
@@ -7,7 +7,7 @@
 - [x] Create proper directory structure (/plugins, /scripts)
 - [x] Update README with professional content (no Manus branding)
 - [ ] Update package.json with correct metadata
-- [ ] Commit: "CloutScape Production Launch Restructure"
+- [ ] Commit: "Degens¤Den Production Launch Restructure"
 - [ ] Push to GitHub
 
 ## Phase 2: Database Schema & Configuration
@@ -161,7 +161,7 @@
 
 ## Notes
 
-- **Database**: Local PostgreSQL (cloutscape_db)
+- **Database**: Local PostgreSQL (degensden_db)
 - **Server Port**: 3000 (production)
 - **Frontend Port**: 5173 (development)
 - **Theme**: Obsidian (#000000) with Gold (#FFD700) accents

@@ -16,7 +16,7 @@ dotenv.config({ path: path.resolve(process.cwd(), envFile) });
 export const config = {
   // Application
   app: {
-    name: process.env.APP_NAME || "CloutScape",
+    name: process.env.APP_NAME || "Degens¤Den",
     version: process.env.APP_VERSION || "1.0.0",
     environment: process.env.NODE_ENV || "development",
     port: parseInt(process.env.PORT || "3000", 10),
@@ -26,7 +26,7 @@ export const config = {
 
   // Database
   database: {
-    url: process.env.DATABASE_URL || "mysql://root:password@localhost:3306/cloutscape",
+    url: process.env.DATABASE_URL || "mysql://root:password@localhost:3306/degensden",
     maxConnections: parseInt(process.env.DB_MAX_CONNECTIONS || "10", 10),
     connectionTimeout: parseInt(process.env.DB_CONNECTION_TIMEOUT || "10000", 10),
     enableLogging: process.env.DB_ENABLE_LOGGING === "true",
@@ -66,7 +66,7 @@ export const config = {
   email: {
     enabled: process.env.EMAIL_ENABLED === "true",
     provider: process.env.EMAIL_PROVIDER || "smtp",
-    from: process.env.EMAIL_FROM || "noreply@cloutscape.org",
+    from: process.env.EMAIL_FROM || "noreply@degensden.org",
     smtp: {
       host: process.env.SMTP_HOST || "smtp.gmail.com",
       port: parseInt(process.env.SMTP_PORT || "587", 10),

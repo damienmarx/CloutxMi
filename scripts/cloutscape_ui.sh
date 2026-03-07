@@ -1,6 +1,6 @@
 #!/bin/bash
-# CloutScape Guided UI (CloutScape for Dummies)
-# Developed by your Personal CloutScape Agent
+# Degens¤Den Guided UI (Degens¤Den for Dummies)
+# Developed by your Personal Degens¤Den Agent
 
 source "$(dirname "${BASH_SOURCE[0]}")/lib/utils.sh"
 
@@ -9,7 +9,7 @@ if ! check_command whiptail; then
     sudo apt-get install -y whiptail >/dev/null 2>&1
 fi
 
-MENU_TITLE="CloutScape Guided Deployment"
+MENU_TITLE="Degens¤Den Guided Deployment"
 
 while true; do
     CHOICE=$(whiptail --title "$MENU_TITLE" --menu "Choose an action:" 15 60 6 \

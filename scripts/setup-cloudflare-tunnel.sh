@@ -1,20 +1,20 @@
 #!/bin/bash
 
-# Automated Cloudflare Tunnel Setup Script for CloutScape
+# Automated Cloudflare Tunnel Setup Script for Degens¤Den
 # This script automates the installation of cloudflared, tunnel creation, 
 # DNS setup, and service management for production deployment.
 
 set -e
 
 # Configuration
-TUNNEL_NAME="cloutscape-tunnel"
+TUNNEL_NAME="degensden-tunnel"
 CONFIG_DIR="/etc/cloudflared"
 CONFIG_FILE="${CONFIG_DIR}/config.yml"
 CREDENTIALS_FILE="${CONFIG_DIR}/${TUNNEL_NAME}.json"
 LOG_FILE="/var/log/cloudflare-tunnel-setup.log"
 
 # Domains to be tunneled (must match ingress rules in config.yml)
-DOMAINS=("cloutscape.org" "www.cloutscape.org" "api.cloutscape.org" "ws.cloutscape.org")
+DOMAINS=("degensden.org" "www.degensden.org" "api.degensden.org" "ws.degensden.org")
 
 # Logging function
 log() {
@@ -38,7 +38,7 @@ handle_error() {
 
 trap handle_error ERR
 
-log "INFO" "Starting Cloudflare Tunnel setup for CloutScape..."
+log "INFO" "Starting Cloudflare Tunnel setup for Degens¤Den..."
 
 # 1. Install cloudflared
 log "INFO" "Checking for cloudflared installation..."
@@ -104,7 +104,7 @@ done
 log "INFO" "Creating/Updating tunnel configuration file: ${CONFIG_FILE}"
 # The content of this file should match the cloudflare-tunnel.yml created previously
 # Copy the existing cloudflare-tunnel.yml to the cloudflared config directory
-sudo cp /home/ubuntu/CloutScape/config/cloudflare-tunnel.yml "${CONFIG_FILE}"
+sudo cp /home/ubuntu/Degens¤Den/config/cloudflare-tunnel.yml "${CONFIG_FILE}"
 log "INFO" "Tunnel configuration file updated."
 
 # 6. Run the Tunnel as a service

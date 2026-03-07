@@ -1,10 +1,10 @@
 #!/bin/bash
 
-echo "🚀 Setting up Cloudflare Tunnel for cloutscape.org..."
+echo "🚀 Setting up Cloudflare Tunnel for degensden.org..."
 echo ""
 
 # Create tunnel using API (without interactive login)
-echo "Creating tunnel 'cloutscape-prod'..."
+echo "Creating tunnel 'degensden-prod'..."
 
 # Since we need to authenticate interactively, let's create a quick setup script
 cat << 'TUNNELEOF' > /tmp/tunnel-setup.sh
@@ -20,14 +20,14 @@ echo "1️⃣  Login to Cloudflare (opens browser):"
 echo "    cloudflared tunnel login"
 echo ""
 echo "2️⃣  Create the tunnel:"
-echo "    cloudflared tunnel create cloutscape-prod"
+echo "    cloudflared tunnel create degensden-prod"
 echo ""
 echo "3️⃣  Route your domain:"
-echo "    cloudflared tunnel route dns cloutscape-prod cloutscape.org"
-echo "    cloudflared tunnel route dns cloutscape-prod www.cloutscape.org"
+echo "    cloudflared tunnel route dns degensden-prod degensden.org"
+echo "    cloudflared tunnel route dns degensden-prod www.degensden.org"
 echo ""
 echo "4️⃣  Start the tunnel:"
-echo "    cloudflared tunnel --config /root/.cloudflared/config.yml run cloutscape-prod &"
+echo "    cloudflared tunnel --config /root/.cloudflared/config.yml run degensden-prod &"
 echo ""
 echo "5️⃣  Or install as a service:"
 echo "    cloudflared service install"
@@ -36,7 +36,7 @@ echo "    systemctl enable cloudflared"
 echo ""
 echo "══════════════════════════════════════════════════════════"
 echo "  After setup, your site will be live at:"
-echo "  🌐 https://cloutscape.org"
+echo "  🌐 https://degensden.org"
 echo "══════════════════════════════════════════════════════════"
 TUNNELEOF
 
@@ -47,9 +47,9 @@ chmod +x /tmp/tunnel-setup.sh
 if [ -f /root/.cloudflared/*.json ]; then
     echo ""
     echo "Found existing credentials, starting tunnel..."
-    cloudflared tunnel --config /root/.cloudflared/config.yml run cloutscape-prod &
+    cloudflared tunnel --config /root/.cloudflared/config.yml run degensden-prod &
     echo "✅ Tunnel started in background!"
-    echo "🌐 Site should be accessible at https://cloutscape.org"
+    echo "🌐 Site should be accessible at https://degensden.org"
 else
     echo ""
     echo "⚠️  No tunnel credentials found."

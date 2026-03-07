@@ -1,6 +1,6 @@
 #!/bin/bash
-# CloutScape Utility Library - Core Logging and Error Handling
-# Developed by your Personal CloutScape Agent
+# Degens¤Den Utility Library - Core Logging and Error Handling
+# Developed by your Personal Degens¤Den Agent
 
 # Colors for terminal output
 NC='\033[0m'
@@ -12,7 +12,7 @@ CYAN='\033[0;36m'
 MAGENTA='\033[0;35m'
 
 # Logging configuration
-LOG_FILE="${LOG_FILE:-/tmp/cloutscape_deploy.log}"
+LOG_FILE="${LOG_FILE:-/tmp/degensden_deploy.log}"
 
 # Core logging functions
 log() {

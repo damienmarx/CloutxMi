@@ -1,9 +1,9 @@
-# CloutxMi - Go Live on cloutscape.org via Cloudflare Tunnel
+# degensden - Go Live on degensden.org via Cloudflare Tunnel
 
 ## Prerequisites
 
 Before starting, ensure you have:
-1. A Cloudflare account with `cloutscape.org` domain added
+1. A Cloudflare account with `degensden.org` domain added
 2. Access to your Cloudflare dashboard
 3. A server/machine with internet access (Linux/Mac/Windows with WSL)
 4. Git installed
@@ -15,8 +15,8 @@ Before starting, ensure you have:
 ### **Step 1: Clone the Fixed Repository**
 
 ```bash
-git clone https://github.com/No6love9/CloutxMi-Fixed.git
-cd CloutxMi-Fixed
+git clone https://github.com/No6love9/degensden-Fixed.git
+cd degensden-Fixed
 ```
 
 ### **Step 2: Install Cloudflared CLI**
@@ -53,7 +53,7 @@ https://dash.cloudflare.com/argotunnel?callback=...
 
 - Open the link in your browser
 - Log in with your Cloudflare account
-- Select the domain `cloutscape.org`
+- Select the domain `degensden.org`
 - Authorize the tunnel
 - You'll see: "You have successfully authenticated!"
 
@@ -62,12 +62,12 @@ https://dash.cloudflare.com/argotunnel?callback=...
 Create a named tunnel for your application:
 
 ```bash
-cloudflared tunnel create cloutscape-prod
+cloudflared tunnel create degensden-prod
 ```
 
 **Save the Tunnel ID** that appears (you'll need it later). Example output:
 ```
-Tunnel credentials written to ~/.cloudflared/cloutscape-prod.json
+Tunnel credentials written to ~/.cloudflared/degensden-prod.json
 Tunnel ID: 12345678-1234-1234-1234-123456789012
 ```
 
@@ -77,15 +77,15 @@ Create a file named `~/.cloudflared/config.yml`:
 
 ```bash
 cat > ~/.cloudflared/config.yml << 'EOF'
-tunnel: cloutscape-prod
-credentials-file: ~/.cloudflared/cloutscape-prod.json
+tunnel: degensden-prod
+credentials-file: ~/.cloudflared/degensden-prod.json
 
 ingress:
-  - hostname: cloutscape.org
+  - hostname: degensden.org
     service: http://localhost:8080
-  - hostname: www.cloutscape.org
+  - hostname: www.degensden.org
     service: http://localhost:8080
-  - hostname: api.cloutscape.org
+  - hostname: api.degensden.org
     service: http://localhost:8080
   - service: http_status:404
 EOF
@@ -96,9 +96,9 @@ EOF
 Connect your domain to the tunnel:
 
 ```bash
-cloudflared tunnel route dns cloutscape-prod cloutscape.org
-cloudflared tunnel route dns cloutscape-prod www.cloutscape.org
-cloudflared tunnel route dns cloutscape-prod api.cloutscape.org
+cloudflared tunnel route dns degensden-prod degensden.org
+cloudflared tunnel route dns degensden-prod www.degensden.org
+cloudflared tunnel route dns degensden-prod api.degensden.org
 ```
 
 ### **Step 7: Install Project Dependencies**
@@ -135,7 +135,7 @@ Server running on http://localhost:8080/
 In a second terminal, run:
 
 ```bash
-cloudflared tunnel run cloutscape-prod
+cloudflared tunnel run degensden-prod
 ```
 
 You should see output like:
@@ -147,9 +147,9 @@ Registered tunnel connection
 ### **Step 11: Verify Your Site is Live**
 
 Open your browser and visit:
-- `https://cloutscape.org`
-- `https://www.cloutscape.org`
-- `https://api.cloutscape.org`
+- `https://degensden.org`
+- `https://www.degensden.org`
+- `https://api.degensden.org`
 
 Your site should now be live! 🎉
 
@@ -206,18 +206,18 @@ pnpm start
 
 ### **1. Run as a Service (Linux)**
 
-Create a systemd service file `/etc/systemd/system/cloutscape.service`:
+Create a systemd service file `/etc/systemd/system/degensden.service`:
 
 ```bash
-sudo tee /etc/systemd/system/cloutscape.service > /dev/null << 'EOF'
+sudo tee /etc/systemd/system/degensden.service > /dev/null << 'EOF'
 [Unit]
-Description=CloutxMi Application
+Description=degensden Application
 After=network.target
 
 [Service]
 Type=simple
 User=ubuntu
-WorkingDirectory=/home/ubuntu/CloutxMi-Fixed
+WorkingDirectory=/home/ubuntu/degensden-Fixed
 ExecStart=/usr/bin/pnpm start
 Restart=on-failure
 RestartSec=10
@@ -230,8 +230,8 @@ EOF
 Enable and start:
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable cloutscape
-sudo systemctl start cloutscape
+sudo systemctl enable degensden
+sudo systemctl start degensden
 ```
 
 ### **2. Run Tunnel as a Service**
@@ -261,4 +261,4 @@ journalctl -u cloudflared -f
 3. **Set up monitoring** - Use Cloudflare Analytics to monitor traffic
 4. **Enable auto-renewal** - Cloudflare handles certificate renewal automatically
 
-Your site is now live on `cloutscape.org`! 🚀
+Your site is now live on `degensden.org`! 🚀

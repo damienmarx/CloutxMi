@@ -1,5 +1,5 @@
 /**
- * CloutScape / Degens Den - Dual Currency Wallet System
+ * Degens¤Den / Degens Den - Dual Currency Wallet System
  * Supports Crypto (goatgang@trust) and OSRS GP (Goat7Gang)
  */
 

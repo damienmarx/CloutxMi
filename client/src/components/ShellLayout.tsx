@@ -39,14 +39,14 @@ export const ShellLayout: React.FC<ShellLayoutProps> = ({ children, title, curre
             {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
           <div className="topnav-branding">
-            <h1 className="topnav-title">CloutScape</h1>
+            <h1 className="topnav-title">Degens¤Den</h1>
             {title && <span className="topnav-subtitle">{title}</span>}
           </div>
         </div>
 
         <div className="topnav-right">
           <div className="topnav-user">
-            <div className="user-avatar">CS</div>
+            <div className="user-avatar">DD</div>
             <div className="user-info">
               <p className="user-name">Player</p>
               <p className="user-status">Online</p>

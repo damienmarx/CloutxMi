@@ -1,6 +1,6 @@
 #!/bin/bash
-# CloutScape Auto-Git Workflow
-# Developed by your Personal CloutScape Agent
+# Degens¤Den Auto-Git Workflow
+# Developed by your Personal Degens¤Den Agent
 
 source "$(dirname "${BASH_SOURCE[0]}")/lib/utils.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/modular_config_loader.sh"
@@ -29,14 +29,14 @@ case "$ACTION" in
             pnpm run build >> "$LOG_FILE" 2>&1
             
             info "Restarting backend..."
-            pm2 restart cloutscape-backend >> "$LOG_FILE" 2>&1
-            success "CloutScape updated to latest version!"
+            pm2 restart degensden-backend >> "$LOG_FILE" 2>&1
+            success "Degens¤Den updated to latest version!"
         else
-            success "CloutScape is already up to date."
+            success "Degens¤Den is already up to date."
         fi
         ;;
     "commit")
-        MESSAGE="${2:-Auto-update from CloutScape Agent}"
+        MESSAGE="${2:-Auto-update from Degens¤Den Agent}"
         info "Staging and committing changes..."
         git add . >> "$LOG_FILE" 2>&1
         git commit -m "$MESSAGE" >> "$LOG_FILE" 2>&1

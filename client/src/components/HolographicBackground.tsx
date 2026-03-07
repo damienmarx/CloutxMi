@@ -9,7 +9,7 @@ interface HolographicBackgroundProps {
 /**
  * Holographic Background Component
  * Renders a neon-glowing, semi-transparent holographic background
- * with the CloutScape imagery visible through an obsidian overlay
+ * with the Degens¤Den imagery visible through an obsidian overlay
  */
 export const HolographicBackground: React.FC<HolographicBackgroundProps> = ({
   children,
@@ -20,8 +20,8 @@ export const HolographicBackground: React.FC<HolographicBackgroundProps> = ({
       {/* Base holographic image layer */}
       <div className="holographic-image-layer">
         <img
-          src="/images/cloutscape-holographic-bg.jpg"
-          alt="CloutScape Holographic Background"
+          src="/images/degensden-holographic-bg.jpg"
+          alt="Degens¤Den Holographic Background"
           className="holographic-image"
         />
       </div>

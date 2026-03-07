@@ -17,7 +17,7 @@ interface OnboardingStep {
 const ONBOARDING_STEPS: OnboardingStep[] = [
   {
     id: 1,
-    title: "Welcome to CloutScape",
+    title: "Welcome to Degens¤Den",
     description: "You've entered the Den. Prepare yourself for the chaos, the gains, and the Clout.",
     icon: "🎰"
   },
@@ -85,7 +85,7 @@ export default function OnboardingFlow() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="text-6xl mb-4">♧</div>
-          <h1 className="text-4xl font-bold text-white mb-2">Welcome to CloutScape</h1>
+          <h1 className="text-4xl font-bold text-white mb-2">Welcome to Degens¤Den</h1>
           <p className="text-zinc-400">Your Journey to Degenerate Glory Starts Here</p>
         </div>
 

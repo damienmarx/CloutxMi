@@ -1,5 +1,5 @@
 /**
- * CloutScape DEGEN BOX System
+ * Degens¤Den DEGEN BOX System
  * Fund locking and self-exclusion for responsible gambling
  */
 
