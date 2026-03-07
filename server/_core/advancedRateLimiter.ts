@@ -58,7 +58,7 @@ export class InMemoryRateLimitStore implements RateLimitStore {
   // Cleanup old entries periodically
   cleanup(): void {
     const now = Date.now();
-    for (const [key, entry] of this.store.entries()) {
+    for (const [key, entry] of Array.from(this.store.entries())) {
       if (now > entry.resetTime) {
         this.store.delete(key);
       }
@@ -332,7 +332,7 @@ export class DuplicateRequestDetector {
     this.requestHashes.set(key, { hash, timestamp: now });
 
     // Cleanup old entries
-    for (const [k, v] of this.requestHashes.entries()) {
+    for (const [k, v] of Array.from(this.requestHashes.entries())) {
       if (now - v.timestamp > this.hashWindow) {
         this.requestHashes.delete(k);
       }

@@ -74,16 +74,19 @@ interface ChatPanelProps {
   onClose: () => void;
 }
 
-let socketInstance: Socket | null = null;
-function getSocket(): Socket {
-  if (!socketInstance) {
-    socketInstance = io(window.location.origin, {
-      transports: ["websocket", "polling"],
-      reconnectionDelay: 1000,
-      reconnectionAttempts: 10,
-    });
-  }
-  return socketInstance;
+/**
+ * Create a Socket.IO connection with proper auth passed in handshake.
+ * The server's auth middleware reads socket.handshake.auth at connection time.
+ * We do NOT use a module-level singleton so each ChatPanel mount gets a fresh
+ * authenticated connection tied to the current user session.
+ */
+function createSocket(auth: { userId?: number; username?: string }): Socket {
+  return io(window.location.origin, {
+    auth,
+    transports: ["websocket", "polling"],
+    reconnectionDelay: 1000,
+    reconnectionAttempts: 10,
+  });
 }
 
 export default function ChatPanel({ isOpen, onClose }: ChatPanelProps) {
@@ -104,16 +107,17 @@ export default function ChatPanel({ isOpen, onClose }: ChatPanelProps) {
 
   // ── Socket connection ────────────────────────────────────────────────────────
   useEffect(() => {
-    const socket = getSocket();
+    // Create socket with auth embedded in handshake (server reads handshake.auth)
+    const socket = createSocket(
+      isAuthenticated && user
+        ? { userId: user.id, username: user.username }
+        : {}
+    );
     socketRef.current = socket;
 
     // Authenticate on connect
     const handleConnect = () => {
       setConnected(true);
-      if (isAuthenticated && user) {
-        socket.auth = { userId: user.id, username: user.username };
-        socket.emit("auth", { userId: user.id, username: user.username });
-      }
     };
     const handleDisconnect = () => setConnected(false);
 
@@ -151,8 +155,9 @@ export default function ChatPanel({ isOpen, onClose }: ChatPanelProps) {
       socket.off("chat:message", handleMessage);
       socket.off("chat:online", handleOnline);
       socket.off("chat:error", handleError);
+      socket.disconnect();
     };
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user?.id]);
 
   // ── Auto-scroll ──────────────────────────────────────────────────────────────
   useEffect(() => {

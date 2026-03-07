@@ -14,7 +14,7 @@ import type {
   GetUserInfoResponse,
   GetUserInfoWithJwtRequest,
   GetUserInfoWithJwtResponse,
-} from "./types/Degens¤DenTypes";
+} from "./types/manusTypes";
 // Utility function
 const isNonEmptyString = (value: unknown): value is string =>
   typeof value === "string" && value.length > 0;

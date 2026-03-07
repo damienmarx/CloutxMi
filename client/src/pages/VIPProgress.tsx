@@ -74,16 +74,17 @@ export default function VIPProgress() {
   const [progressPercent, setProgressPercent] = useState(0);
 
   // Query VIP progress
-  const { data: vipProgress } = trpc.vipProgress.getProgress.useQuery(undefined, {
+  const { data: vipProgress } = trpc.vipProgress.getUserProgress.useQuery(undefined, {
     enabled: !!user,
   });
 
   useEffect(() => {
-    if (vipProgress?.success && vipProgress.data) {
-      setVipData(vipProgress.data);
+    if (vipProgress?.success && "progress" in vipProgress && vipProgress.progress) {
+      const data = vipProgress.progress as any;
+      setVipData(data);
 
       // Find current tier
-      const tier = VIP_TIERS.find((t) => t.level === vipProgress.data.currentTier) || VIP_TIERS[0];
+      const tier = VIP_TIERS.find((t) => t.level === data.currentTier) || VIP_TIERS[0];
       setCurrentTier(tier);
 
       // Find next tier
@@ -91,7 +92,7 @@ export default function VIPProgress() {
       setNextTier(VIP_TIERS[nextTierIdx]);
 
       // Calculate progress
-      const currentTierWagered = vipProgress.data.totalWagered - (tier.minWagered || 0);
+      const currentTierWagered = data.totalWagered - (tier.minWagered || 0);
       const nextTierRequired = nextTier.minWagered - (tier.minWagered || 0);
       const progress = Math.min((currentTierWagered / nextTierRequired) * 100, 100);
       setProgressPercent(progress);

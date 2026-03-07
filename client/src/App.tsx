@@ -41,6 +41,7 @@ import LiveCommunity from "./pages/LiveCommunity";
 import RainSystem from "./pages/RainSystem";
 
 // Pages — Account
+import Profile from "./pages/Profile";
 import OsrsDeposit from "./pages/OsrsDeposit";
 import OsrsWithdraw from "./pages/OsrsWithdraw";
 import MfaManagement from "./pages/MfaManagement";
@@ -86,6 +87,7 @@ function Router() {
       <Route path="/visualizers" component={Visualizers} />
 
       {/* Account */}
+      <Route path="/profile" component={Profile} />
       <Route path="/osrs-deposit" component={OsrsDeposit} />
       <Route path="/osrs-withdraw" component={OsrsWithdraw} />
       <Route path="/mfa" component={MfaManagement} />

@@ -28,7 +28,7 @@ export default function ForgotPassword() {
       if (result.success) {
         setSuccess("If an account exists with this email, you will receive a reset link shortly.");
       } else {
-        setError(result.error || "Failed to process request");
+        setError("Failed to process request");
       }
     } catch {
       setError("An unexpected error occurred. Please try again.");

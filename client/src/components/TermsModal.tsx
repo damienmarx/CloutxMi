@@ -84,7 +84,7 @@ By proceeding, you acknowledge that you have read and understood these terms.
         {/* Content */}
         <div className="terms-modal-content" onScroll={handleScroll}>
           <div className="prose prose-invert max-w-none">
-            {defaultContent.split("\n").map((line, idx) => {
+            {(defaultContent ?? "").split("\n").map((line, idx) => {
               if (line.startsWith("# ")) {
                 return (
                   <h1 key={idx} className="text-2xl font-bold text-red-400 mt-4 mb-2">

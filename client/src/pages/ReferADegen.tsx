@@ -1,248 +1,98 @@
-import React, { useState, useEffect } from "react";
+/**
+ * Degens¤Den — Refer a Degen
+ * Referral program coming soon
+ */
+import { ArrowLeft, Gift, Users, Copy } from "lucide-react";
 import { useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { Copy, Gift, Users, TrendingUp, ArrowLeft, Share2 } from "lucide-react";
-import { toast } from "sonner";
-import ShellLayout from "@/components/ShellLayout";
+import { motion } from "framer-motion";
+
+const GLASS = {
+  background: "rgba(14,14,22,0.75)",
+  backdropFilter: "blur(20px)",
+  border: "1px solid rgba(255,215,0,0.15)",
+  borderRadius: "16px",
+};
 
 export default function ReferADegen() {
   const [, setLocation] = useLocation();
-  const { user, loading } = useAuth();
-  const [copied, setCopied] = useState(false);
+  const { user } = useAuth();
 
-  // Queries
-  const { data: referralCode, refetch: refetchCode } = trpc.referral.generateReferralCode.useQuery(undefined, {
-    enabled: !!user
-  });
-
-  const { data: stats } = trpc.referral.getReferralStats.useQuery(undefined, {
-    enabled: !!user
-  });
-
-  const { data: rewards } = trpc.referral.getReferralRewards.useQuery(undefined, {
-    enabled: !!user
-  });
-
-  // Mutations
-  const claimRewardsMutation = trpc.referral.claimReferralRewards.useMutation();
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
-        <p className="text-white">Loading...</p>
-      </div>
-    );
-  }
-
-  if (!user) {
-    setLocation("/login");
-    return null;
-  }
-
-  const handleCopyCode = () => {
-    if (referralCode?.code) {
-      navigator.clipboard.writeText(referralCode.code);
-      setCopied(true);
-      toast.success("Referral code copied!");
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
-  const handleShareLink = () => {
-    const shareUrl = `${window.location.origin}/register?ref=${referralCode?.code}`;
-    navigator.clipboard.writeText(shareUrl);
-    toast.success("Share link copied!");
-  };
-
-  const handleClaimRewards = async () => {
-    try {
-      const result = await claimRewardsMutation.mutateAsync();
-      if (result.success) {
-        toast.success(result.message);
-      }
-    } catch (error) {
-      toast.error("Failed to claim rewards");
-    }
-  };
+  const referralLink = user
+    ? `https://cloutscape.org/register?ref=${user.username}`
+    : "https://cloutscape.org/register";
 
   return (
-    <ShellLayout>
-      <div className="refer-a-degen-page space-y-8 max-w-6xl mx-auto">
-        {/* Header */}
+    <div className="min-h-screen text-white px-4 py-8" style={{ background: "#080808" }}>
+      <div className="max-w-2xl mx-auto">
         <div className="flex items-center gap-4 mb-8">
-          <Button
-            onClick={() => setLocation("/dashboard")}
-            variant="ghost"
-            size="icon"
-            className="text-zinc-400 hover:text-white"
-          >
-            <ArrowLeft size={20} />
-          </Button>
+          <button onClick={() => setLocation("/")} className="text-gray-500 hover:text-amber-400 transition-colors">
+            <ArrowLeft className="w-5 h-5" />
+          </button>
           <div>
-            <h1 className="text-4xl font-bold text-white">REFER-A-DEGEN</h1>
-            <p className="text-zinc-400">Bring Your Crew, Get the Clout</p>
+            <h1 className="text-4xl font-black text-amber-400" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              Refer a Degen
+            </h1>
+            <p className="text-gray-500 text-sm">Degens¤Den · Earn rewards for every player you bring</p>
           </div>
         </div>
 
-        {/* Main Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Your Referral Code */}
-          <Card className="bg-gradient-to-br from-red-900/30 to-red-950/30 border-red-500/50 p-6 col-span-1 md:col-span-2">
-            <h2 className="text-xl font-bold text-red-400 mb-4">Your Referral Code</h2>
-            <div className="space-y-4">
-              <div className="bg-slate-950/50 border border-red-500/30 rounded-lg p-4 flex items-center justify-between">
-                <code className="text-2xl font-mono font-bold text-red-400">
-                  {referralCode?.code || "LOADING..."}
-                </code>
-                <Button
-                  onClick={handleCopyCode}
-                  variant="outline"
-                  className="border-red-500/50 text-red-400 hover:bg-red-500/10"
-                >
-                  <Copy size={16} className="mr-2" />
-                  {copied ? "Copied!" : "Copy"}
-                </Button>
-              </div>
-              <Button
-                onClick={handleShareLink}
-                className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold"
+        <div className="space-y-6">
+          <div className="p-8 text-center" style={GLASS}>
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
+              style={{ background: "rgba(255,215,0,0.1)", border: "1px solid rgba(255,215,0,0.2)" }}>
+              <Gift className="w-8 h-8 text-amber-400" />
+            </div>
+            <h2 className="text-2xl font-black text-white mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              Referral Program
+            </h2>
+            <p className="text-gray-500 mb-6">
+              Earn 10% of your referred players' rake for life. The more degens you bring, the more you earn.
+            </p>
+            <div
+              className="flex items-center gap-3 p-3 rounded-xl mb-4"
+              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+            >
+              <span className="flex-1 text-sm text-gray-400 font-mono truncate">{referralLink}</span>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(referralLink);
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-black"
+                style={{ background: "linear-gradient(135deg,#FFD700,#B8860B)" }}
+                data-testid="copy-referral-link"
               >
-                <Share2 size={16} className="mr-2" />
-                Share Referral Link
-              </Button>
+                <Copy className="w-3.5 h-3.5" />Copy
+              </button>
             </div>
-          </Card>
+            <div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold"
+              style={{ background: "rgba(255,215,0,0.1)", border: "1px solid rgba(255,215,0,0.2)", color: "#FFD700" }}
+            >
+              Full referral dashboard launching soon
+            </div>
+          </div>
 
-          {/* Quick Stats */}
-          <Card className="bg-gradient-to-br from-cyan-900/30 to-cyan-950/30 border-cyan-500/50 p-6">
-            <h3 className="text-cyan-400 font-bold mb-4">Quick Stats</h3>
-            <div className="space-y-3">
-              <div>
-                <p className="text-zinc-400 text-sm">Total Referred</p>
-                <p className="text-3xl font-bold text-cyan-400">{stats?.totalReferred || 0}</p>
-              </div>
-              <div>
-                <p className="text-zinc-400 text-sm">Total Rewards</p>
-                <p className="text-2xl font-bold text-green-400">${(rewards?.totalRewards || 0).toFixed(2)}</p>
-              </div>
-            </div>
-          </Card>
+          <div className="grid grid-cols-3 gap-4">
+            {[
+              { icon: Users, label: "Referred Players", value: "—" },
+              { icon: Gift, label: "Total Earned", value: "$—" },
+              { icon: Copy, label: "Pending Rewards", value: "$—" },
+            ].map(({ icon: Icon, label, value }) => (
+              <motion.div
+                key={label}
+                className="p-4 text-center"
+                style={GLASS}
+                whileHover={{ scale: 1.02 }}
+              >
+                <Icon className="w-5 h-5 text-amber-400 mx-auto mb-2" />
+                <div className="text-xl font-black text-white mb-1">{value}</div>
+                <div className="text-xs text-gray-500">{label}</div>
+              </motion.div>
+            ))}
+          </div>
         </div>
-
-        {/* Rewards Breakdown */}
-        <Card className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 border-cyan-500/30 p-6">
-          <h2 className="text-xl font-bold text-white mb-6">Rewards Breakdown</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-slate-950/50 rounded-lg p-4 border border-slate-700">
-              <div className="flex items-center gap-2 mb-2">
-                <Gift className="text-green-500" size={20} />
-                <p className="text-zinc-400 text-sm">Signup Bonus</p>
-              </div>
-              <p className="text-2xl font-bold text-green-400">
-                ${(rewards?.rewardBreakdown?.signupBonus || 0).toFixed(2)}
-              </p>
-              <p className="text-xs text-zinc-500 mt-2">$10 per signup</p>
-            </div>
-            <div className="bg-slate-950/50 rounded-lg p-4 border border-slate-700">
-              <div className="flex items-center gap-2 mb-2">
-                <TrendingUp className="text-blue-500" size={20} />
-                <p className="text-zinc-400 text-sm">Wager Bonus</p>
-              </div>
-              <p className="text-2xl font-bold text-blue-400">
-                ${(rewards?.rewardBreakdown?.wagerBonus || 0).toFixed(2)}
-              </p>
-              <p className="text-xs text-zinc-500 mt-2">From referred wagers</p>
-            </div>
-            <div className="bg-slate-950/50 rounded-lg p-4 border border-slate-700">
-              <div className="flex items-center gap-2 mb-2">
-                <Users className="text-purple-500" size={20} />
-                <p className="text-zinc-400 text-sm">Rain Bonus</p>
-              </div>
-              <p className="text-2xl font-bold text-purple-400">
-                ${(rewards?.rewardBreakdown?.rainBonus || 0).toFixed(2)}
-              </p>
-              <p className="text-xs text-zinc-500 mt-2">From rain events</p>
-            </div>
-          </div>
-        </Card>
-
-        {/* Claim Rewards */}
-        {(rewards?.totalRewards || 0) > 0 && (
-          <Card className="bg-gradient-to-br from-green-900/30 to-green-950/30 border-green-500/50 p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-xl font-bold text-green-400 mb-2">Claim Your Rewards</h3>
-                <p className="text-zinc-400">You have ${(rewards?.totalRewards || 0).toFixed(2)} available to claim</p>
-              </div>
-              <Button
-                onClick={handleClaimRewards}
-                disabled={claimRewardsMutation.isPending}
-                className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold px-8"
-              >
-                {claimRewardsMutation.isPending ? "Claiming..." : "Claim Rewards"}
-              </Button>
-            </div>
-          </Card>
-        )}
-
-        {/* Referred Users */}
-        <Card className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 border-cyan-500/30 p-6">
-          <h2 className="text-xl font-bold text-white mb-4">Your Referred Degens</h2>
-          {stats?.referredUsers && stats.referredUsers.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead>
-                  <tr className="bg-slate-950/50 text-zinc-400 text-xs uppercase">
-                    <th className="px-4 py-3">Username</th>
-                    <th className="px-4 py-3">Email</th>
-                    <th className="px-4 py-3">Joined</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-700">
-                  {stats.referredUsers.map((u: any) => (
-                    <tr key={u.id} className="hover:bg-slate-800/30 transition-colors">
-                      <td className="px-4 py-3 font-medium text-white">{u.username}</td>
-                      <td className="px-4 py-3 text-zinc-400">{u.email}</td>
-                      <td className="px-4 py-3 text-zinc-500">
-                        {new Date(u.createdAt).toLocaleDateString()}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p className="text-center text-zinc-500 py-8">No referrals yet. Start spreading the Clout!</p>
-          )}
-        </Card>
-
-        {/* How It Works */}
-        <Card className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 border-cyan-500/20 p-6">
-          <h3 className="text-cyan-400 font-bold mb-4">How It Works</h3>
-          <div className="space-y-3 text-sm text-zinc-300">
-            <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center font-bold">1</div>
-              <p>Share your unique referral code with your crew.</p>
-            </div>
-            <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center font-bold">2</div>
-              <p>They sign up using your code and get a welcome bonus.</p>
-            </div>
-            <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center font-bold">3</div>
-              <p>You earn $10 for each signup + bonuses from their activity.</p>
-            </div>
-            <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center font-bold">4</div>
-              <p>Claim your rewards anytime and stack that Clout.</p>
-            </div>
-          </div>
-        </Card>
       </div>
-    </ShellLayout>
+    </div>
   );
 }

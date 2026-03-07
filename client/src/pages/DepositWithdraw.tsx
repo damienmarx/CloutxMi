@@ -19,16 +19,15 @@ export default function DepositWithdraw() {
   const [walletAddress, setWalletAddress] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Queries
+  // Queries — only use existing wallet procedures
   const { data: balance } = trpc.wallet.getBalance.useQuery();
-  const { data: rates } = trpc.wallet.getExchangeRates.useQuery();
-  const { data: depositInstructions } = trpc.wallet.getDepositInstructions.useQuery();
 
-  // Mutations
-  const depositFiatMutation = trpc.wallet.depositFiat.useMutation();
-  const withdrawFiatMutation = trpc.wallet.withdrawFiat.useMutation();
-  const depositOSRSMutation = trpc.wallet.depositOSRSGP.useMutation();
-  const withdrawOSRSMutation = trpc.wallet.withdrawOSRSGP.useMutation();
+  // Hardcoded exchange rate hints (actual processing via wallet.deposit)
+  const rates = { USD_to_CAD: 1.36, USD_to_OSRS_GP: 1_000_000, OSRS_GP_to_USD: 0.000001 };
+
+  // Mutations — use the existing deposit/withdraw procedures
+  const depositMutation = trpc.wallet.deposit.useMutation();
+  const withdrawMutation = trpc.wallet.withdraw.useMutation();
 
   if (!user) return null;
 
@@ -41,120 +40,49 @@ export default function DepositWithdraw() {
   const convertedToUSD = numOsrsAmount > 0 ? numOsrsAmount * (rates?.OSRS_GP_to_USD || 0.000001) : 0;
 
   const handleFiatDeposit = async () => {
-    if (!amount || parseFloat(amount) <= 0) {
-      alert("Please enter a valid amount");
-      return;
-    }
-
+    if (!amount || parseFloat(amount) <= 0) { alert("Please enter a valid amount"); return; }
     setLoading(true);
     try {
-      const result = await depositFiatMutation.mutateAsync({
+      const result = await depositMutation.mutateAsync({
         amount: parseFloat(amount),
-        currency,
-        paymentMethod: "credit_card",
+        paymentMethod: "bank_transfer",
+        currency: currency as "USD",
       });
-
       if (result.success) {
-        alert(`Deposit successful! ${result.amountDeposited} ${currency} has been added to your account.`);
+        alert(`Deposit successful! $${parseFloat(amount).toFixed(2)} ${currency} added.`);
         setAmount("");
-      } else {
-        alert(`Deposit failed: ${result.error}`);
       }
-    } catch (error) {
-      alert("An error occurred during deposit");
-    } finally {
-      setLoading(false);
-    }
+    } catch (error: any) {
+      alert(error?.message || "Deposit failed");
+    } finally { setLoading(false); }
   };
 
   const handleFiatWithdraw = async () => {
-    if (!amount || parseFloat(amount) <= 0) {
-      alert("Please enter a valid amount");
-      return;
-    }
-
+    if (!amount || parseFloat(amount) <= 0) { alert("Please enter a valid amount"); return; }
     setLoading(true);
     try {
-      const result = await withdrawFiatMutation.mutateAsync({
+      const result = await withdrawMutation.mutateAsync({
         amount: parseFloat(amount),
-        currency,
+        withdrawalMethod: "bank_transfer",
+        destination: walletAddress || "bank",
       });
-
       if (result.success) {
-        alert(`Withdrawal initiated! ${result.amountWithdrawn} ${currency} will be transferred to your account.`);
+        alert(`Withdrawal initiated! $${parseFloat(amount).toFixed(2)} ${currency} will be sent.`);
         setAmount("");
-      } else {
-        alert(`Withdrawal failed: ${result.error}`);
       }
-    } catch (error) {
-      alert("An error occurred during withdrawal");
-    } finally {
-      setLoading(false);
-    }
+    } catch (error: any) {
+      alert(error?.message || "Withdrawal failed");
+    } finally { setLoading(false); }
   };
 
   const handleOSRSDeposit = async () => {
-    if (!osrsAmount || parseFloat(osrsAmount) <= 0) {
-      alert("Please enter a valid amount");
-      return;
-    }
-
-    if (!walletAddress) {
-      alert("Please enter your wallet address");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const result = await depositOSRSMutation.mutateAsync({
-        amountGP: parseFloat(osrsAmount),
-        trustWalletAddress: walletAddress,
-      });
-
-      if (result.success) {
-        alert(`OSRS deposit initiated! Your account will be credited shortly.`);
-        setOsrsAmount("");
-        setWalletAddress("");
-      } else {
-        alert(`Deposit failed: ${result.error}`);
-      }
-    } catch (error) {
-      alert("An error occurred during OSRS deposit");
-    } finally {
-      setLoading(false);
-    }
+    if (!osrsAmount || parseFloat(osrsAmount) <= 0) { alert("Please enter a valid amount"); return; }
+    if (!walletAddress) { alert("Please enter your wallet address"); return; }
+    alert("OSRS GP deposit: Please contact support on Discord with your username and amount.");
   };
 
   const handleOSRSWithdraw = async () => {
-    if (!osrsAmount || parseFloat(osrsAmount) <= 0) {
-      alert("Please enter a valid amount");
-      return;
-    }
-
-    if (!walletAddress) {
-      alert("Please enter your wallet address");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const result = await withdrawOSRSMutation.mutateAsync({
-        amountGP: parseFloat(osrsAmount),
-        trustWalletAddress: walletAddress,
-      });
-
-      if (result.success) {
-        alert(`OSRS withdrawal initiated! Please allow 24-48 hours for processing.`);
-        setOsrsAmount("");
-        setWalletAddress("");
-      } else {
-        alert(`Withdrawal failed: ${result.error}`);
-      }
-    } catch (error) {
-      alert("An error occurred during OSRS withdrawal");
-    } finally {
-      setLoading(false);
-    }
+    alert("OSRS GP withdrawal: Please contact support on Discord with your RSN and amount.");
   };
 
   return (
@@ -310,7 +238,7 @@ export default function DepositWithdraw() {
                 <AlertCircle className="icon" />
                 <div>
                   <h4>{activeTab === "deposit" ? "Deposit Instructions" : "Withdrawal Instructions"}</h4>
-                  <p>{depositInstructions?.osrsInstructions || "Loading instructions..."}</p>
+                  <p>{"Contact support on Discord for OSRS GP processing."}</p>
                 </div>
               </div>
 

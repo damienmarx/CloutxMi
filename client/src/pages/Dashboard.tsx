@@ -26,7 +26,6 @@ export default function Dashboard() {
 
   const depositMutation = trpc.wallet.deposit.useMutation();
   const withdrawMutation = trpc.wallet.withdraw.useMutation();
-  const tipMutation = trpc.wallet.tip.useMutation();
   const logoutMutation = trpc.auth.logout.useMutation();
 
   if (loading) {
@@ -47,7 +46,11 @@ export default function Dashboard() {
   const handleDeposit = async () => {
     if (!depositAmount) return;
     try {
-      const result = await depositMutation.mutateAsync({ amount: parseFloat(depositAmount) });
+      const result = await depositMutation.mutateAsync({
+        amount: parseFloat(depositAmount),
+        paymentMethod: "crypto",
+        currency: "USD",
+      });
       if (result.success) {
         setDepositAmount("");
         refetchBalance();
@@ -61,7 +64,11 @@ export default function Dashboard() {
   const handleWithdraw = async () => {
     if (!withdrawAmount) return;
     try {
-      const result = await withdrawMutation.mutateAsync({ amount: parseFloat(withdrawAmount) });
+      const result = await withdrawMutation.mutateAsync({
+        amount: parseFloat(withdrawAmount),
+        withdrawalMethod: "crypto",
+        destination: "wallet",
+      });
       if (result.success) {
         setWithdrawAmount("");
         refetchBalance();
@@ -73,21 +80,8 @@ export default function Dashboard() {
   };
 
   const handleTip = async () => {
-    if (!tipUsername || !tipAmount) return;
-    try {
-      const result = await tipMutation.mutateAsync({
-        toUsername: tipUsername,
-        amount: parseFloat(tipAmount),
-      });
-      if (result.success) {
-        setTipUsername("");
-        setTipAmount("");
-        refetchBalance();
-        toast.success(`Tipped ${tipUsername} $${parseFloat(tipAmount).toFixed(2)}`);
-      }
-    } catch (error) {
-      toast.error("Tip failed");
-    }
+    // Tip functionality coming soon
+    toast.info("Tip feature coming soon!");
   };
 
   const handleLogout = async () => {
@@ -295,10 +289,10 @@ export default function Dashboard() {
                   />
                   <Button
                     onClick={handleTip}
-                    disabled={!tipUsername || !tipAmount || tipMutation.isPending}
+                    disabled={!tipUsername || !tipAmount}
                     className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold"
                   >
-                    {tipMutation.isPending ? "Sending..." : "Send Tip"}
+                    Send Tip (Coming Soon)
                   </Button>
                 </div>
               </div>

@@ -97,9 +97,13 @@ export default function Home() {
           <div className="flex items-center gap-3">
             {isAuthenticated ? (
               <>
-                <span className="text-sm text-gray-400 hidden md:inline">
+                <button
+                  data-testid="profile-btn"
+                  onClick={() => setLocation("/profile")}
+                  className="text-sm text-gray-400 hover:text-amber-400 transition-colors hidden md:inline font-medium"
+                >
                   {user?.username}
-                </span>
+                </button>
                 <button
                   data-testid="dashboard-btn"
                   onClick={() => setLocation("/dashboard")}

@@ -48,21 +48,15 @@ export default function Slots3DGame() {
     try {
       const result = await play3DSlotsMutation.mutateAsync({
         betAmount: parseFloat(betAmount),
-        clientSeed,
-        nonce,
       });
 
-      if (result.success) {
-        // Delay result for animation feel
-        await new Promise(r => setTimeout(r, 1500));
-        setGameResult(result.result);
-        setNonce(prev => prev + 1);
-        refetchBalance();
-        if (result.result.winAmount > 0) {
-          toast.success(`🎉 BIG WIN: $${result.result.winAmount.toFixed(2)}!`);
-        }
-      } else {
-        toast.error(result.error || "Game failed");
+      // Delay result for animation feel
+      await new Promise(r => setTimeout(r, 1500));
+      setGameResult(result.result);
+      setNonce(prev => prev + 1);
+      refetchBalance();
+      if (result.winAmount > 0) {
+        toast.success(`BIG WIN: $${result.winAmount.toFixed(2)}!`);
       }
     } catch (error) {
       console.error("[3D Slots] Error:", error);

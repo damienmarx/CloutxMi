@@ -1,76 +1,90 @@
-import { sql } from "drizzle-orm";
+/**
+ * Degens¤Den — Security Middleware
+ * Rate limiting, helmet headers, CORS, input sanitization
+ */
+
 import { Request, Response, NextFunction } from "express";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import cors from "cors";
 
-/**
- * Security Middleware Configuration
- */
-
-// 1. Rate Limiting: Prevent DDoS and brute force attacks
+// 1. Rate Limiting
 export const globalRateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
-  message: {
-    success: false,
-    error: "Too many requests from this IP, please try again after 15 minutes",
-  },
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: { success: false, error: "Too many requests, please try again in 15 minutes" },
   standardHeaders: true,
   legacyHeaders: false,
 });
 
 export const authRateLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 5, // Limit each IP to 5 failed login attempts per hour
-  message: {
-    success: false,
-    error: "Too many login attempts, please try again after an hour",
-  },
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  message: { success: false, error: "Too many login attempts, please try again in 1 hour" },
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 
-// 2. Helmet: Secure Express apps by setting various HTTP headers
+export const gameRateLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 60,
+  message: { success: false, error: "Too many game requests, please slow down" },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// 2. Security Headers via Helmet
 export const securityHeaders = helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://checkout.stripe.com", "https://fonts.bunny.net", "https://fonts.googleapis.com"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://fonts.bunny.net"],
-      imgSrc: ["'self'", "data:", "blob:", "https://*.stripe.com", "https://images.unsplash.com"],
+      scriptSrc: [
+        "'self'", "'unsafe-inline'",
+        "https://checkout.stripe.com",
+        "https://fonts.bunny.net",
+        "https://fonts.googleapis.com",
+      ],
+      styleSrc: [
+        "'self'", "'unsafe-inline'",
+        "https://fonts.googleapis.com",
+        "https://fonts.bunny.net",
+      ],
+      imgSrc: ["'self'", "data:", "blob:", "https://*.stripe.com"],
       connectSrc: [
         "'self'",
         "wss://cloutscape.org", "ws://cloutscape.org",
         "wss://www.cloutscape.org", "ws://www.cloutscape.org",
         "ws://localhost:*", "wss://localhost:*",
-        "https://api.stripe.com", "https://api.coinbase.com",
-        "https://fonts.bunny.net", "https://fonts.googleapis.com",
+        "https://api.stripe.com",
+        "https://fonts.bunny.net",
+        "https://fonts.googleapis.com",
       ],
-      fontSrc: ["'self'", "https://fonts.bunny.net", "https://fonts.googleapis.com", "https://fonts.gstatic.com", "data:"],
+      fontSrc: [
+        "'self'",
+        "https://fonts.bunny.net",
+        "https://fonts.googleapis.com",
+        "https://fonts.gstatic.com",
+        "data:",
+      ],
       frameSrc: ["'self'", "https://checkout.stripe.com"],
       mediaSrc: ["'self'"],
-    },
-  },
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
     },
   },
-  crossOriginEmbedderPolicy: true,
+  crossOriginEmbedderPolicy: false, // needed for Socket.IO in some browsers
   crossOriginOpenerPolicy: true,
   crossOriginResourcePolicy: { policy: "cross-origin" },
   dnsPrefetchControl: true,
   frameguard: { action: "deny" },
   hidePoweredBy: true,
-  hsts: true,
+  hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
   ieNoOpen: true,
   noSniff: true,
-  originAgentCluster: true,
-  permittedCrossDomainPolicies: true,
   referrerPolicy: { policy: "no-referrer" },
-  xssFilter: true,
 });
 
-// 3. CORS: Cross-Origin Resource Sharing
+// 3. CORS
 export const corsOptions = cors({
   origin: [
     "https://cloutscape.org",
@@ -86,33 +100,24 @@ export const corsOptions = cors({
   maxAge: 86400,
 });
 
-// 4. Custom Security Middlewares
-
-/**
- * Sanitize inputs to prevent XSS and SQL Injection
- */
-export const sanitizeInput = (req: Request, res: Response, next: NextFunction) => {
-  // Simple sanitization for body, query, and params
-  const sanitize = (obj: any) => {
+// 4. Input Sanitization — strip HTML tags from body/query/params
+export const sanitizeInput = (req: Request, _res: Response, next: NextFunction) => {
+  const clean = (obj: Record<string, unknown>) => {
     for (const key in obj) {
       if (typeof obj[key] === "string") {
-        obj[key] = obj[key].replace(/[<>]/g, ""); // Remove < and >
-      } else if (typeof obj[key] === "object" && obj[key] !== null) {
-        sanitize(obj[key]);
+        obj[key] = (obj[key] as string).replace(/[<>]/g, "");
+      } else if (obj[key] && typeof obj[key] === "object") {
+        clean(obj[key] as Record<string, unknown>);
       }
     }
   };
-
-  if (req.body) sanitize(req.body);
-  if (req.query) sanitize(req.query);
-  if (req.params) sanitize(req.params);
-
+  if (req.body) clean(req.body);
+  if (req.query) clean(req.query as Record<string, unknown>);
+  if (req.params) clean(req.params);
   next();
 };
 
-/**
- * Ensure HTTPS in production
- */
+// 5. Force HTTPS in production
 export const forceHttps = (req: Request, res: Response, next: NextFunction) => {
   if (process.env.NODE_ENV === "production" && req.headers["x-forwarded-proto"] !== "https") {
     return res.redirect(`https://${req.headers.host}${req.url}`);
@@ -120,55 +125,28 @@ export const forceHttps = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-/**
- * Request logging for security auditing
- */
-export const securityLogger = (req: Request, res: Response, next: NextFunction) => {
-  const timestamp = new Date().toISOString();
+// 6. Security Logger
+export const securityLogger = (req: Request, _res: Response, next: NextFunction) => {
   const ip = req.ip || req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-  console.log(`[${timestamp}] ${req.method} ${req.url} - IP: ${ip}`);
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} — IP: ${ip}`);
   next();
 };
 
-/**
- * Developer Authorization Middleware
- * Ensures only users with a valid GITHUB_TOKEN or designated DEV_TOKEN
- * can access code implementation or dev status routes.
- */
+// 7. Dev Route Auth Guard
 export const devAuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers["authorization"] || req.headers["x-dev-token"];
-  const devToken = process.env.DEV_TOKEN || process.env.GITHUB_TOKEN;
+  const devToken = process.env.DEV_TOKEN;
 
-  // If no token is configured, allow for now but log a warning
-  if (!devToken) {
-    console.warn("[SECURITY] No DEV_TOKEN or GITHUB_TOKEN configured in environment variables.");
-    return next();
-  }
+  if (!devToken) return next(); // No token configured — allow (with warning)
 
-  // Extract token from "Bearer <token>" or direct header
-  const providedToken = typeof authHeader === "string" 
-    ? authHeader.replace("Bearer ", "").trim() 
+  const provided = typeof authHeader === "string"
+    ? authHeader.replace("Bearer ", "").trim()
     : "";
 
-  if (providedToken === devToken) {
-    return next();
-  }
+  if (provided === devToken) return next();
 
-  console.warn(`[SECURITY] Unauthorized dev access attempt from IP: ${req.ip}`);
   return res.status(403).json({
     success: false,
-    error: "Unauthorized: Developer status or token required for this action.",
-    message: "Code writing, file implementation, and dev status are restricted to authorized users."
+    error: "Unauthorized: Developer access required",
   });
 };
-
-export const gameRateLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 20, // Limit each IP to 20 game actions per minute
-  message: {
-    success: false,
-    error: "Too many game requests, please try again after a minute",
-  },
-  standardHeaders: true,
-  legacyHeaders: false,
-});

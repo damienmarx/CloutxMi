@@ -60,15 +60,10 @@ export default function SlotsGame() {
     try {
       const result = await playSlotsMutation.mutateAsync({
         betAmount: parseFloat(betAmount),
-        paylines,
       });
 
-      if (result.success) {
-        setGameResult(result.result);
-        refetchBalance();
-      } else {
-        alert(result.error || "Game failed");
-      }
+      setGameResult(result.result);
+      refetchBalance();
     } catch (error) {
       console.error("[Slots] Error:", error);
       alert("An error occurred");

@@ -23,14 +23,25 @@ export default function UserStatsDashboard() {
   const { user, loading } = useAuth();
   const [stats, setStats] = useState<UserStats | null>(null);
 
-  // Query user stats
-  const { data: userStats } = trpc.userStats.getStats.useQuery(undefined, {
+  // Query user stats — endpoint is getUserStats, result field is stats
+  const { data: userStats } = trpc.userStats.getUserStats.useQuery(undefined, {
     enabled: !!user,
   });
 
   useEffect(() => {
-    if (userStats?.success && userStats.data) {
-      setStats(userStats.data);
+    if (userStats?.success && "stats" in userStats && userStats.stats) {
+      const s = userStats.stats as any;
+      setStats({
+        totalGamesPlayed: s.gamesPlayed ?? 0,
+        totalWagered: s.totalWagered ?? 0,
+        totalWon: s.totalWon ?? 0,
+        totalLost: s.totalLost ?? 0,
+        netProfit: s.netProfit ?? 0,
+        winRate: s.winRate ?? 0,
+        roi: s.roi ?? 0,
+        favoriteGame: "N/A",
+        totalPlayTime: 0,
+      });
     }
   }, [userStats]);
 
