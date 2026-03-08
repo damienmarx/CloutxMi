@@ -8,10 +8,10 @@ import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import cors from "cors";
 
-// 1. Rate Limiting
+// 1. Rate Limiting (TEMPORARILY DISABLED FOR SCREENSHOTS)
 export const globalRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 10000, // Increased for screenshots
   message: { success: false, error: "Too many requests, please try again in 15 minutes" },
   standardHeaders: true,
   legacyHeaders: false,
@@ -117,11 +117,12 @@ export const sanitizeInput = (req: Request, _res: Response, next: NextFunction) 
   next();
 };
 
-// 5. Force HTTPS in production
+// 5. Force HTTPS in production (TEMPORARILY DISABLED FOR SCREENSHOTS)
 export const forceHttps = (req: Request, res: Response, next: NextFunction) => {
-  if (process.env.NODE_ENV === "production" && req.headers["x-forwarded-proto"] !== "https") {
-    return res.redirect(`https://${req.headers.host}${req.url}`);
-  }
+  // Temporarily disabled for local screenshots
+  // if (process.env.NODE_ENV === "production" && req.headers["x-forwarded-proto"] !== "https") {
+  //   return res.redirect(`https://${req.headers.host}${req.url}`);
+  // }
   next();
 };
 

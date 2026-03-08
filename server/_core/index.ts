@@ -59,7 +59,7 @@ async function startServer() {
   // Configure security middlewares
   app.use(securityHeaders);
   app.use(corsOptions);
-  app.use(globalRateLimiter);
+  // app.use(globalRateLimiter); // TEMPORARILY DISABLED FOR SCREENSHOTS
   app.use(securityLogger);
   app.use(forceHttps);
   app.use(sanitizeInput);
