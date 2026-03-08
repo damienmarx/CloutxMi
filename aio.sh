@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
 ###############################################################################
-#  Degens¤Den — All-In-One Setup & Deploy (aio.sh)
+#  Degens¤Den — All-In-One Setup & Deploy (aio.sh) — ENHANCED VERSION
 #  Fully automated Ubuntu installer, builder, and deployer
 #  Target: cloutscape.org via Cloudflare Tunnel
+#  
+#  IMPROVEMENTS:
+#  - Auto-kills old services before deployment
+#  - Validates each step with health checks
+#  - Clean build process (no stale artifacts)
+#  - Discord.js auto-installation
+#  - Comprehensive error logging
+#  
 #  Usage: sudo bash aio.sh
 ###############################################################################
 set -euo pipefail
