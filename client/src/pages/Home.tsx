@@ -1,5 +1,7 @@
-import { useAuth } from "@/_core/hooks/useAuth";
+import { DailyBonusModal, DailyBonusBadge } from "../components/DailyBonusModal";
+import { useState } from "react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { motion } from "framer-motion";
 import {
   Dices, TrendingUp, LayoutGrid, Triangle, Rows3, Spade, Circle,
@@ -43,6 +45,7 @@ const recentWins = [
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
+  const [showDailyBonus, setShowDailyBonus] = useState(false);
 
   const navigate = (path: string) => {
     if (isAuthenticated) setLocation(path);
@@ -95,6 +98,7 @@ export default function Home() {
           </nav>
 
           <div className="flex items-center gap-3">
+            {isAuthenticated && <DailyBonusBadge onClick={() => setShowDailyBonus(true)} />}
             {isAuthenticated ? (
               <>
                 <button
@@ -445,6 +449,9 @@ export default function Home() {
           to { transform: translateX(-50%); }
         }
       `}</style>
+
+      {/* Daily Bonus Modal */}
+      <DailyBonusModal isOpen={showDailyBonus} onClose={() => setShowDailyBonus(false)} />
     </div>
   );
 }

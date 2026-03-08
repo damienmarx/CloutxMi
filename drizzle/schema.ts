@@ -519,8 +519,23 @@ export type RainParticipant = typeof rainParticipants.$inferSelect;
 export type InsertRainParticipant = typeof rainParticipants.$inferInsert;
 
 /**
- * Relations for chat and rain
+ * Daily bonus claim tracking
  */
+export const dailyBonusClaims = mysqlTable("dailyBonusClaims", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  claimedAt: timestamp("claimedAt").defaultNow().notNull(),
+  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  segment: int("segment").notNull(),
+  streak: int("streak").default(1).notNull(),
+});
+
+export type DailyBonusClaim = typeof dailyBonusClaims.$inferSelect;
+export type InsertDailyBonusClaim = typeof dailyBonusClaims.$inferInsert;
+
+export const dailyBonusClaimsRelations = relations(dailyBonusClaims, ({ one }) => ({
+  user: one(users, { fields: [dailyBonusClaims.userId], references: [users.id] }),
+}));
 export const chatMessagesRelations = relations(chatMessages, ({ one }) => ({
   user: one(users, {
     fields: [chatMessages.userId],

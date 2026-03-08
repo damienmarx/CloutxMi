@@ -15,8 +15,8 @@ import Decimal from "decimal.js";
 import { TRPCError } from "@trpc/server";
 import { broadcastGameResult } from "./_core/socket";
 import { getDb } from "./db";
-import { wallets, transactions, users } from "../drizzle/schema";
-import { eq, sql } from "drizzle-orm";
+import { wallets, transactions, users, dailyBonusClaims } from "../drizzle/schema";
+import { eq, sql, desc } from "drizzle-orm";
 import WalletService from "./walletSystem";
 
 // ─── Decimal Config ────────────────────────────────────────────────────────────
@@ -105,6 +105,69 @@ async function getBalanceDecimal(userId: number): Promise<Decimal> {
 // ─── Wallet Router ─────────────────────────────────────────────────────────────
 
 export const walletRouter = router({
+  // ── Daily Bonus Wheel ─────────────────────────────────────────────────────
+  getDailyBonusStatus: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { canClaim: false, nextClaimAt: null, streak: 0, lastAmount: 0 };
+
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const [lastClaim] = await db.select().from(dailyBonusClaims)
+      .where(eq(dailyBonusClaims.userId, ctx.user.id))
+      .orderBy(desc(dailyBonusClaims.claimedAt)).limit(1);
+
+    const canClaim = !lastClaim || lastClaim.claimedAt < today;
+    const nextClaimAt = new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString();
+
+    return {
+      canClaim,
+      nextClaimAt: canClaim ? null : nextClaimAt,
+      streak: lastClaim?.streak ?? 0,
+      lastAmount: lastClaim ? parseFloat(lastClaim.amount) : 0,
+    };
+  }),
+
+  claimDailyBonus: protectedProcedure.mutation(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "DB unavailable" });
+
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const [lastClaim] = await db.select().from(dailyBonusClaims)
+      .where(eq(dailyBonusClaims.userId, ctx.user.id))
+      .orderBy(desc(dailyBonusClaims.claimedAt)).limit(1);
+
+    if (lastClaim && lastClaim.claimedAt >= today) {
+      throw new TRPCError({ code: "BAD_REQUEST", message: "Already claimed today!" });
+    }
+
+    const BONUS_SEGMENTS = [0.10, 0.25, 0.10, 0.50, 0.10, 1.00, 0.25, 2.50, 0.10, 0.50, 0.25, 5.00];
+    const { serverSeed, clientSeed, nonce, serverSeedHash } = genSeeds();
+    const segment = genRoll(serverSeed, clientSeed, nonce, 0, BONUS_SEGMENTS.length - 1);
+
+    const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
+    const previousStreak = lastClaim && lastClaim.claimedAt >= yesterday ? lastClaim.streak : 0;
+    const newStreak = previousStreak + 1;
+    let amount = new Decimal(BONUS_SEGMENTS[segment]);
+    if (newStreak >= 7) amount = amount.times("1.5").toDecimalPlaces(2); // 7-day streak bonus
+
+    await db.transaction(async (tx) => {
+      await tx.execute(
+        sql`UPDATE wallets SET balance = ROUND(balance + ${amount.toFixed(8)}, 8) WHERE userId = ${ctx.user.id}`
+      );
+      await tx.insert(dailyBonusClaims).values({
+        userId: ctx.user.id, claimedAt: new Date(),
+        amount: amount.toFixed(2), segment, streak: newStreak,
+      });
+    });
+
+    const newBalance = (await getBalanceDecimal(ctx.user.id)).toNumber();
+    const nextClaimAt = new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString();
+
+    return {
+      segment, amount: amount.toNumber(), streak: newStreak, streakBonus: newStreak >= 7,
+      serverSeed, serverSeedHash, clientSeed, nonce, newBalance, nextClaimAt,
+    };
+  }),
+
   getBalance: protectedProcedure.query(async ({ ctx }) => {
     try {
       return await WalletService.getBalance(ctx.user.id);
