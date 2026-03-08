@@ -55,6 +55,18 @@ scripts/    Deployment + Docker + Cloudflare Tunnel
 
 ## Quick Start
 
+### 🚀 One-Command Deployment (Recommended)
+
+```bash
+git clone https://github.com/damienmarx/CloutxMi.git
+cd CloutxMi
+git checkout degens-den-complete
+chmod +x quick-deploy.sh
+./quick-deploy.sh
+```
+
+This automatically installs everything and starts all services!
+
 ### Development
 
 ```bash
@@ -63,7 +75,7 @@ pnpm install
 
 # 2. Copy environment config
 cp .env.example .env
-# Edit .env with your MySQL credentials
+# Edit .env with your MySQL credentials and Discord bot token
 
 # 3. Run database migrations
 pnpm db:push
@@ -75,14 +87,20 @@ pnpm dev
 Frontend: `http://localhost:5173`
 Backend API: `http://localhost:3000/api`
 
-### Production (One-Click)
+### Production (Manual)
 
 ```bash
-# Requires Docker + docker-compose
-./deploy-one-click.sh
+# Automated setup with health checks
+sudo bash aio.sh
 
 # Or with Cloudflare Tunnel
 ./pull-and-deploy.sh
+```
+
+### Check Status
+
+```bash
+bash check-status.sh
 ```
 
 ---
